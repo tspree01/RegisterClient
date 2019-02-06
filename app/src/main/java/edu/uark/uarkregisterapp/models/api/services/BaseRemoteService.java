@@ -269,4 +269,5 @@ abstract class BaseRemoteService {
 	private static final String CONTENT_TYPE_REQUEST_PROPERTY = "Content-Type";
 	private static final String BASE_URL = "https://ftmnt-nick.herokuapp.com/api/test/product	";
 //	private static final String BASE_URL = "https://uarkregservnodejsapi.herokuapp.com/api/";
+    //comment
 }
