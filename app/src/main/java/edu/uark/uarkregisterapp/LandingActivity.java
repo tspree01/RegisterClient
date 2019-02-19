@@ -30,3 +30,4 @@ public class LandingActivity extends AppCompatActivity {
 		this.startActivity(intent);
 	}
 }
+//adding commit
