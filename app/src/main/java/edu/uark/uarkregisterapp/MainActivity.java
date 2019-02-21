@@ -2,25 +2,25 @@ package edu.uark.uarkregisterapp;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.*;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.microsoft.identity.client.*;
-import com.microsoft.identity.client.exception.*;
-
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.microsoft.identity.client.*;
+import com.microsoft.identity.client.exception.*;
+import com.microsoft.identity.client.internal.authorities.Authority;
+
+import edu.uark.uarkregisterapp.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -212,6 +212,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.welcome).setVisibility(View.VISIBLE);
         ((TextView) findViewById(R.id.welcome)).setText("Welcome, " +
                 authResult.getAccount().getUsername());
+        setContentView(R.layout.activity_landing);
+        this.startActivity(new Intent(getApplicationContext(), ProductsListingActivity.class));
         findViewById(R.id.graphData).setVisibility(View.VISIBLE);
     }
 
