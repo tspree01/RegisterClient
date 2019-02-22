@@ -209,11 +209,11 @@ public class MainActivity extends AppCompatActivity {
     private void updateSuccessUI() {
         callApiButton.setVisibility(View.INVISIBLE);
         signOutButton.setVisibility(View.VISIBLE);
-        findViewById(R.id.welcome).setVisibility(View.VISIBLE);
+        //findViewById(R.id.welcome).setVisibility(View.VISIBLE);
         ((TextView) findViewById(R.id.welcome)).setText("Welcome, " +
                 authResult.getAccount().getUsername());
-        setContentView(R.layout.activity_landing);
-        this.startActivity(new Intent(getApplicationContext(), ProductsListingActivity.class));
+        //setContentView(R.layout.activity_landing);
+        //this.startActivity(new Intent(getApplicationContext(), LandingActivity.class));
         findViewById(R.id.graphData).setVisibility(View.VISIBLE);
     }
 
