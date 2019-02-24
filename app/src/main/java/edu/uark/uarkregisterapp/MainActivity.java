@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     /* Azure AD v2 Configs */
     final static String SCOPES [] = {"https://uarkregisterapp.onmicrosoft.com/api/read"};
-    final static String API_URL = "https://uarkregisterapp.azurewebsites.net/hello";
+    final static String API_URL = "https://uarkregisterapps.herokuapp.com/api/test/product";
 
     /* UI & Debugging Variables */
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.welcome)).setText("Welcome, " +
                 authResult.getAccount().getUsername());
         //setContentView(R.layout.activity_landing);
-        //this.startActivity(new Intent(getApplicationContext(), LandingActivity.class));
+        this.startActivity(new Intent(getApplicationContext(), LandingActivity.class));
         findViewById(R.id.graphData).setVisibility(View.VISIBLE);
     }
 
