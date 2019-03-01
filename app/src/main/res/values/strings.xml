@@ -7,9 +7,10 @@
     <string name="button_save">Save</string>
     <string name="button_delete">Delete</string>
     <string name="button_dismiss">Dismiss</string>
-    <string name="button_all_products">Show All Products</string>
-    <string name="button_create_product">Create Product</string>
-    <string name="text_view_landing_welcome">UARK Register App</string>
+    <string name="button_transaction">Start transaction</string>
+    <string name="button_create_employee">Create employee</string>
+    <string name="button_sales_report">Product report</string>
+    <string name="text_view_landing_welcome">Welcome {name}! What would you like to do next?</string>
     <string name="text_view_products_lookup_code">LookupCode</string>
     <string name="text_view_products_count">0</string>
     <string name="text_view_products_created_on">01/01/1970</string>
