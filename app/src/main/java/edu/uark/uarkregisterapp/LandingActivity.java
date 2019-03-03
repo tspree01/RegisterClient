@@ -15,11 +15,15 @@ public class LandingActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_landing);
 	}
 
-	public void displayAllProductsButtonOnClick(View view) {
+	public void displayTransactionButtonOnClick(View view) {
 		this.startActivity(new Intent(getApplicationContext(), ProductsListingActivity.class));
 	}
 
-	public void createProductButtonOnClick(View view) {
+	public void displayCreateEmployeeButtonOnClick(View view) {
+		this.startActivity(new Intent(getApplicationContext(), ProductsListingActivity.class));
+	}
+
+	public void SalesReportButtonOnClick(View view) {
 		Intent intent = new Intent(getApplicationContext(), ProductViewActivity.class);
 
 		intent.putExtra(

@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     /* Azure AD v2 Configs */
     final static String SCOPES [] = {"https://uarkregisterapp.onmicrosoft.com/api/read"};
-    final static String API_URL = "https://uarkregisterapps.herokuapp.com/api/test/product";
+    final static String API_URL = "https://uarkregisterapp.azurewebsites.net/hello";
 
     /* UI & Debugging Variables */
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         sampleApp = null;
         if (sampleApp == null) {
             sampleApp = new PublicClientApplication(
-                    this.getApplicationContext(), "e2266648-f2aa-444a-9767-a0a40ae3105a", "https://uarkregisterapp.b2clogin.com/tfp/uarkregisterapp.onmicrosoft.com/B2C_1_uarkregisterapp_signup_signin");
+                    this.getApplicationContext(), "e2266648-f2aa-444a-9767-a0a40ae3105a", "https://uarkregisterapp.b2clogin.com/tfp/uarkregisterapp.onmicrosoft.com/B2C_1_uarkregisterapp_SignIn");
         }
 
 
@@ -201,8 +201,8 @@ public class MainActivity extends AppCompatActivity {
 
     /* Sets the graph response */
     private void updateGraphUI(JSONObject graphResponse) {
-        TextView graphText = (TextView) findViewById(R.id.graphData);
-        graphText.setText(graphResponse.toString());
+        //TextView graphText = (TextView) findViewById(R.id.graphData);
+        //graphText.setText(graphResponse.toString());
     }
 
     /* Set the UI for successful token acquisition data */
@@ -210,20 +210,20 @@ public class MainActivity extends AppCompatActivity {
         callApiButton.setVisibility(View.INVISIBLE);
         signOutButton.setVisibility(View.VISIBLE);
         //findViewById(R.id.welcome).setVisibility(View.VISIBLE);
-        ((TextView) findViewById(R.id.welcome)).setText("Welcome, " +
-                authResult.getAccount().getUsername());
-        //setContentView(R.layout.activity_landing);
+//        ((TextView) findViewById(R.id.welcome)).setText("Welcome, " +
+//                authResult.getAccount().getUsername());
+        setContentView(R.layout.activity_landing);
         this.startActivity(new Intent(getApplicationContext(), LandingActivity.class));
-        findViewById(R.id.graphData).setVisibility(View.VISIBLE);
+//        findViewById(R.id.graphData).setVisibility(View.VISIBLE);
     }
 
     /* Set the UI for signed out account */
     private void updateSignedOutUI() {
         callApiButton.setVisibility(View.VISIBLE);
         signOutButton.setVisibility(View.INVISIBLE);
-        findViewById(R.id.welcome).setVisibility(View.INVISIBLE);
-        findViewById(R.id.graphData).setVisibility(View.INVISIBLE);
-        ((TextView) findViewById(R.id.graphData)).setText("No Data");
+        //findViewById(R.id.welcome).setVisibility(View.INVISIBLE);
+        //findViewById(R.id.graphData).setVisibility(View.INVISIBLE);
+       // ((TextView) findViewById(R.id.graphData)).setText("No Data");
     }
 
     //

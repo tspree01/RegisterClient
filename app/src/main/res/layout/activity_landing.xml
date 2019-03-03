@@ -16,27 +16,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:textSize="30sp"
+        android:textSize="15sp"
         android:text="@string/text_view_landing_welcome"/>
 
     <Button
-        android:id="@+id/button_list_products"
+        android:id="@+id/button_transaction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/text_view_welcome"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:text="@string/button_all_products"
-        android:onClick="displayAllProductsButtonOnClick"/>
+        android:text="@string/button_transaction"
+        android:onClick="displayTransactionButtonOnClick"/>
 
     <Button
-        android:id="@+id/button_create_product"
+        android:id="@+id/button_create_employee"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/button_list_products"
+        android:layout_below="@+id/button_transaction"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:text="@string/button_create_product"
-        android:onClick="createProductButtonOnClick"/>
+        android:text="@string/button_create_employee"
+        android:onClick="displayCreateEmployeeButtonOnClick"/>
+
+    <Button
+        android:id="@+id/button_sales_report"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_create_employee"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="@string/button_sales_report"
+        android:onClick="SalesReportButtonOnClick"/>
 
 </RelativeLayout>
