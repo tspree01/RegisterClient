@@ -9,7 +9,7 @@
     <string name="button_dismiss">Dismiss</string>
     <string name="button_transaction">Start transaction</string>
     <string name="button_create_employee">Create employee</string>
-    <string name="button_sales_report">Product report</string>
+    <string name="button_sales_report">Sales report</string>
     <string name="text_view_landing_welcome">Welcome {name}! What would you like to do next?</string>
     <string name="text_view_products_lookup_code">LookupCode</string>
     <string name="text_view_products_count">0</string>
