@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:orientation="vertical"
-    tools:context="edu.uark.uarkregisterapp.MainActivity">
+    tools:context="edu.uark.uarkregisterapp.LoginActivity">
 
     <TextView
         android:text="@string/welcome"
@@ -20,8 +20,8 @@
         android:visibility="invisible"/>
 
     <Button
-        android:id="@+id/callGraph"
-        android:text="@string/call_microsoft_graph"
+        android:id="@+id/Login"
+        android:text="@string/login"
         android:textColor="#FFFFFF"
         android:background="#00a1f1"
         android:layout_width="match_parent"
@@ -30,7 +30,7 @@
         android:textAllCaps="false" />
 
     <TextView
-        android:text="@string/getting_graph_data"
+        android:text="@string/logging_in"
         android:textColor="#3f3f3f"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

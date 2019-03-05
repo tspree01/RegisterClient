@@ -49,4 +49,16 @@
         android:text="@string/button_sales_report"
         android:onClick="SalesReportButtonOnClick"/>
 
+    <Button
+        android:text="@string/sign_out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_below="@+id/button_create_product"
+        android:textColor="#FFFFFF"
+        android:background="#00a1f1"
+        android:textAllCaps="false"
+        android:id="@+id/clearCache"
+        android:visibility="visible" />
+
 </RelativeLayout>

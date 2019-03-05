@@ -7,30 +7,27 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
-import com.android.volley.*;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+
 import org.json.JSONObject;
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
+
+import com.auth0.android.jwt.Claim;
+import com.auth0.android.jwt.JWT;
 import com.microsoft.identity.client.*;
 import com.microsoft.identity.client.exception.*;
-import com.microsoft.identity.client.internal.authorities.Authority;
 
-import edu.uark.uarkregisterapp.R;
-
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     /* Azure AD v2 Configs */
     final static String SCOPES [] = {"https://uarkregisterapp.onmicrosoft.com/api/read"};
     final static String API_URL = "https://uarkregisterapp.azurewebsites.net/hello";
 
     /* UI & Debugging Variables */
-    private static final String TAG = MainActivity.class.getSimpleName();
-    Button callApiButton;
+    private static final String TAG = LoginActivity.class.getSimpleName();
+    Button loginButton;
     Button signOutButton;
 
     /* Azure AD Variables */
@@ -42,12 +39,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        callApiButton = (Button) findViewById(R.id.callGraph);
+
+        loginButton = (Button) findViewById(R.id.Login);
         signOutButton = (Button) findViewById(R.id.clearCache);
 
-        callApiButton.setOnClickListener(new View.OnClickListener() {
+        loginButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                onCallGraphClicked();
+                onLoginClicked();
             }
         });
 
@@ -90,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
     // Core Identity methods used by MSAL
     // ==================================
     // onActivityResult() - handles redirect from System browser
-    // onCallGraphClicked() - attempts to get tokens for graph, if it succeeds calls graph & updates UI
+    // onLoginClicked() - attempts to get tokens for graph, if it succeeds calls graph & updates UI
     // onSignOutClicked() - Signs account out of the app & updates UI
     // callWebAPI() - called on successful token acquisition which makes an HTTP request to graph
     //
@@ -104,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
     /* Use MSAL to acquireToken for the end-user
      * Callback will call Graph api w/ access token & update UI
      */
-    private void onCallGraphClicked() {
+    private void onLoginClicked() {
         sampleApp.acquireToken(getActivity(), SCOPES, getAuthInteractiveCallback());
     }
 
@@ -144,11 +142,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /* Use Volley to make an HTTP request to the /me endpoint from MS Graph using an access token */
+/*    *//* Use Volley to make an HTTP request to the /me endpoint from MS Graph using an access token *//*
     private void callWebAPI() {
         Log.d(TAG, "Starting volley request to graph");
 
-        /* Make sure we have a token to send to graph */
+        *//* Make sure we have a token to send to graph *//*
         if (authResult.getAccessToken() == null) {return;}
 
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -163,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
                 parameters,new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                /* Successfully called graph, process data and send to UI */
+                *//* Successfully called graph, process data and send to UI *//*
                 Log.d(TAG, "Response: " + response.toString());
 
                 updateGraphUI(response);
@@ -189,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(request);
-    }
+    }*/
 
     //
     // Helper methods manage UI updates
@@ -207,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
 
     /* Set the UI for successful token acquisition data */
     private void updateSuccessUI() {
-        callApiButton.setVisibility(View.INVISIBLE);
+        loginButton.setVisibility(View.INVISIBLE);
         signOutButton.setVisibility(View.VISIBLE);
         //findViewById(R.id.welcome).setVisibility(View.VISIBLE);
         ((TextView) findViewById(R.id.welcome)).setText("Welcome, " +
@@ -219,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
 
     /* Set the UI for signed out account */
     private void updateSignedOutUI() {
-        callApiButton.setVisibility(View.VISIBLE);
+        loginButton.setVisibility(View.VISIBLE);
         signOutButton.setVisibility(View.INVISIBLE);
         //findViewById(R.id.welcome).setVisibility(View.INVISIBLE);
         //findViewById(R.id.graphData).setVisibility(View.INVISIBLE);
@@ -253,7 +251,7 @@ public class MainActivity extends AppCompatActivity {
                 authResult = authenticationResult;
 
                 /* call graph */
-                callWebAPI();
+                //callWebAPI();
 
                 /* update the UI to post call graph state */
                 updateSuccessUI();
@@ -294,9 +292,12 @@ public class MainActivity extends AppCompatActivity {
 
                 /* Store the auth result */
                 authResult = authenticationResult;
+                JWT ID_token = new JWT(authResult.getIdToken());
+
+                Map<String, Claim> allClaims = ID_token.getClaims();
 
                 /* call graph */
-                callWebAPI();
+                //callWebAPI();
 
                 /* update the UI to post call graph state */
                 updateSuccessUI();
