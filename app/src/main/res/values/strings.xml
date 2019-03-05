@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">UARKRegisterApp</string>
     <string name="title_activity_products_listing">Products</string>
+    <string name="title_activity_sign_up">Sign up page</string>
     <string name="title_activity_product_view">ProductViewActivity</string>
     <string name="button_ok">OK</string>
     <string name="button_cancel">Cancel</string>
@@ -30,7 +31,7 @@
     <string name="validation_product_count">Product count must be a number and may not be negative.</string>
     <string name="intent_extra_product">intent_extra_product</string>
     <string name="welcome">Welcome,</string>
-    <string name="call_microsoft_graph">Call Microsoft Graph</string>
-    <string name="getting_graph_data">Getting Graph Data...</string>
+    <string name="login">Login</string>
+    <string name="logging_in">Logging You In…</string>
     <string name="sign_out">Sign Out</string>
 </resources>
