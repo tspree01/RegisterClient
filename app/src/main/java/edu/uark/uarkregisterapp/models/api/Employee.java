@@ -42,16 +42,58 @@ public class Employee implements ConvertToJsonInterface, LoadFromJsonInterface<E
 		this.createdOn = createdOn;
 		return this;
 	}
-
+	private String first_name;
+	public String getFirst_Name(){return this.first_name;}
+	public Employee setFirst_Name(String first_name){
+		this.first_name = first_name;
+		return this;
+	}
+	private String last_name;
+	public String getLast_Name(){return this.last_name;}
+	public Employee setLast_Name(String last_name){
+		this.last_name = last_name;
+		return this;
+	}
+	private boolean active;
+	public boolean getActive(){return this.active;}
+	public Employee setActive(Boolean active){
+		this.active = active;
+		return this;
+	}
+	private String role;
+	public String getRole(){return this.role;}
+	public Employee setRole(String role){
+		this.role = role;
+		return this;
+	}
+	private UUID managerID;
+	public UUID getManagerID(){return this.managerID;}
+	public Employee setManagerID(UUID managerID){
+		this.managerID = managerID;
+		return this;
+	}
+	private String password;
+	public String getPassword(){return this.password;}
+	public Employee setPassword(String password){
+		this.password = password;
+		return this;
+	}
 	@Override
 	public Employee loadFromJson(JSONObject rawJsonObject) {
 		String value = rawJsonObject.optString(EmployeeFieldName.EmployeeID.getFieldName());
 		if (!StringUtils.isBlank(value)) {
 			this.id = UUID.fromString(value);
 		}
-
+		value = rawJsonObject.optString(EmployeeFieldName.Manager.getFieldName());
+		if (!StringUtils.isBlank(value)) {
+			this.managerID = UUID.fromString(value);
+		}
+		this.role = rawJsonObject.optString(EmployeeFieldName.Role.getFieldName());
+		this.first_name = rawJsonObject.optString(EmployeeFieldName.First_Name.getFieldName());
+		this.last_name = rawJsonObject.optString(EmployeeFieldName.Last_Name.getFieldName());
+		this.password = rawJsonObject.optString(EmployeeFieldName.Password.getFieldName());
 		this.recordID = rawJsonObject.optString(EmployeeFieldName.RecordID.getFieldName());
-
+		this.active = rawJsonObject.optBoolean(EmployeeFieldName.Role.getFieldName());
 		value = rawJsonObject.optString(EmployeeFieldName.CREATED_ON.getFieldName());
 		if (!StringUtils.isBlank(value)) {
 			try {
@@ -69,7 +111,13 @@ public class Employee implements ConvertToJsonInterface, LoadFromJsonInterface<E
 		JSONObject jsonObject = new JSONObject();
 
 		try {
+			jsonObject.put(EmployeeFieldName.Password.getFieldName(),this.password);
+			jsonObject.put(EmployeeFieldName.First_Name.getFieldName(),this.first_name);
+			jsonObject.put(EmployeeFieldName.Last_Name.getFieldName(),this.last_name);
+			jsonObject.put(EmployeeFieldName.Role.getFieldName(),this.role);
+			jsonObject.put(EmployeeFieldName.Active.getFieldName(),this.active);
 			jsonObject.put(EmployeeFieldName.EmployeeID.getFieldName(), this.id.toString());
+			jsonObject.put(EmployeeFieldName.Manager.getFieldName(), this.managerID.toString());
 			jsonObject.put(EmployeeFieldName.RecordID.getFieldName(), this.recordID);
 			jsonObject.put(EmployeeFieldName.CREATED_ON.getFieldName(), (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.US)).format(this.createdOn));
 		} catch (JSONException e) {
@@ -83,11 +131,23 @@ public class Employee implements ConvertToJsonInterface, LoadFromJsonInterface<E
 		this.recordID = "";
 		this.id= new UUID(0, 0);
 		this.createdOn = new Date();
+		this.managerID = new UUID(0,0);
+		this.password = " ";
+		this.first_name = " ";
+		this.last_name = " ";
+		this.active = false;
+		this.role = " ";
 	}
 
 	public Employee(EmployeeTransition employeeTransition) {
 		this.id = employeeTransition.getId();
 		this.createdOn = employeeTransition.getCreatedOn();
 		this.recordID = employeeTransition.getRecordID();
+		this.managerID = employeeTransition.getManagerID();
+		this.password = employeeTransition.getPassword();
+		this.first_name = employeeTransition.getFirst_Name();
+		this.last_name = employeeTransition.getLast_Name();
+		this.active = employeeTransition.getActive();
+		this.role = employeeTransition.getRole();
 	}
 }

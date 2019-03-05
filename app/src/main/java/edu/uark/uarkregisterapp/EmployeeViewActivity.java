@@ -99,7 +99,9 @@ public class EmployeeViewActivity extends AppCompatActivity {
 	private EditText getEmployeeRecordIDEditText() {
 		return (EditText) this.findViewById(R.id.edit_text_employee_recordID);
 	}
-
+	private EditText getEmployeeFirst_nameText(){
+		return (EditText) this.findViewById(R.id.edit_text_employee_first_name);
+	}
 
 	private EditText getEmployeeCreatedOnEditText() {
 		return (EditText) this.findViewById(R.id.edit_text_employee_created_on);

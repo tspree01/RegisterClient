@@ -24,7 +24,6 @@ public class EmployeeService extends BaseRemoteService {
 			)
 		);
 	}
-
 	public ApiResponse<Employee> getEmployeeByRecordID(String RecordID) {
 		return this.readEmployeeDetailsFromResponse(
 			this.<Employee>performGetRequest(
