@@ -1,7 +1,10 @@
 package edu.uark.uarkregisterapp;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,11 +16,18 @@ import org.json.JSONObject;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
 import com.microsoft.identity.client.*;
 import com.microsoft.identity.client.exception.*;
+
+import edu.uark.uarkregisterapp.models.api.ApiResponse;
+import edu.uark.uarkregisterapp.models.api.Employee;
+import edu.uark.uarkregisterapp.models.api.services.EmployeeService;
+import edu.uark.uarkregisterapp.models.transition.EmployeeTransition;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -37,10 +47,11 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_landing);
+        setContentView(R.layout.activity_main);
 
 
         loginButton = (Button) findViewById(R.id.Login);
+
         signOutButton = (Button) findViewById(R.id.clearCache);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                 onSignOutClicked();
             }
         });
+
 
         /* Configure your sample app and save state for this activity */
         sampleApp = null;
@@ -281,7 +293,70 @@ public class LoginActivity extends AppCompatActivity {
 
     /* Callback used for interactive request.  If succeeds we use the access
      * token to call the Microsoft Graph. Does not check cache
-     */
+     */	/*public class SaveEmployeeTask extends AsyncTask<Void, Void, Boolean> {
+        @Override
+        protected void onPreExecute() {
+            this.savingEmployeeAlert.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+*//*            Employee employee = (new Employee()).
+                    setId(employeeTransition.getId()).
+                    setRecordID("1")
+                    .setFirst_Name(employeeTransition.getFirst_Name())
+                    .setLast_Name(employeeTransition.getLast_Name())
+                    .setRole(employeeTransition.getRole())
+                    .setPassword(null);*//*
+
+            ApiResponse<Employee> apiResponse = (
+                    (employee.getManagerID().equals(new UUID(0, 0)))
+                            ? (new EmployeeService()).createEmployee(employee)
+                            : (new EmployeeService()).updateEmployee(employee)
+            );
+
+            if (apiResponse.isValidResponse()) {
+                employeeTransition.setRecordID(apiResponse.getData().getRecordID());
+            }
+
+            return apiResponse.isValidResponse();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean successfulSave) {
+            String message;
+
+            savingEmployeeAlert.dismiss();
+
+            if (successfulSave) {
+                message = getString(R.string.alert_dialog_employee_save_success);
+            } else {
+                message = getString(R.string.alert_dialog_employee_save_failure);
+            }
+
+            new AlertDialog.Builder(LoginActivity.this).
+                    setMessage(message).
+                    setPositiveButton(
+                            R.string.button_dismiss,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.dismiss();
+                                }
+                            }
+                    ).
+                    create().
+                    show();
+        }
+
+        private AlertDialog savingEmployeeAlert;
+
+        SaveEmployeeTask() {
+            this.savingEmployeeAlert = new AlertDialog.Builder(LoginActivity.this).
+                    setMessage(R.string.alert_dialog_employee_save).
+                    create();
+        }
+    }*/
+    public static Employee employee = new Employee();
     private AuthenticationCallback getAuthInteractiveCallback() {
         return new AuthenticationCallback() {
             @Override
@@ -295,6 +370,20 @@ public class LoginActivity extends AppCompatActivity {
                 JWT ID_token = new JWT(authResult.getIdToken());
 
                 Map<String, Claim> allClaims = ID_token.getClaims();
+                Claim first_Name_Claim = ID_token.getClaim("given_name");
+                Claim last_Name_Claim = ID_token.getClaim("family_name");
+                Claim job_Title_Claim = ID_token.getClaim("jobTitle");
+                Claim object_ID_Claim = ID_token.getClaim("oid");
+                UUID object_ID = UUID.fromString(object_ID_Claim.asString());
+                employee.setId(object_ID);
+                employee.setFirst_Name(first_Name_Claim.asString());
+                employee.setLast_Name(last_Name_Claim.asString());
+                employee.setRole(job_Title_Claim.asString());
+                employee.setPassword(null);
+                employee.setRecordID(1);
+                //(new EmployeeViewActivity.SaveEmployeeTask()).execute();
+
+
 
                 /* call graph */
                 //callWebAPI();
@@ -302,6 +391,8 @@ public class LoginActivity extends AppCompatActivity {
                 /* update the UI to post call graph state */
                 updateSuccessUI();
             }
+
+
 
             @Override
             public void onError(MsalException exception) {

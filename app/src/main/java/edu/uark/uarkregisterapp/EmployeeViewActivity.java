@@ -36,6 +36,7 @@ public class EmployeeViewActivity extends AppCompatActivity {
 		}
 
 		this.employeeTransition = this.getIntent().getParcelableExtra(this.getString(R.string.intent_extra_employee));
+
 	}
 
 	@Override
@@ -53,13 +54,18 @@ public class EmployeeViewActivity extends AppCompatActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		int recordID = 1;
 
 		if (!this.employeeTransition.getId().equals(new UUID(0, 0))) {
 			this.getDeleteImageButton().setVisibility(View.VISIBLE);
 		} else {
 			this.getDeleteImageButton().setVisibility(View.INVISIBLE);
 		}
-		this.getEmployeeRecordIDEditText().setText(this.employeeTransition.getRecordID());
+		this.getEmployeeRecordIDEditText().setText(recordID++);
+		this.getEmployeeFirstNameEditText().setText(SignUpActivity.employeeTransition.getFirst_Name());
+		this.getEmployeeLastNameEditText().setText(SignUpActivity.employeeTransition.getLast_Name());
+		this.getEmployeeIDEditText().setText(SignUpActivity.employeeTransition.getId().toString());
+		this.getEmployeeRoleEditText().setText(SignUpActivity.employeeTransition.getRole());
 		this.getEmployeeCreatedOnEditText().setText(
 			(new SimpleDateFormat("MM/dd/yyyy", Locale.US)).format(this.employeeTransition.getCreatedOn())
 		);
@@ -99,8 +105,17 @@ public class EmployeeViewActivity extends AppCompatActivity {
 	private EditText getEmployeeRecordIDEditText() {
 		return (EditText) this.findViewById(R.id.edit_text_employee_recordID);
 	}
-	private EditText getEmployeeFirst_nameText(){
+	private EditText getEmployeeFirstNameEditText(){
 		return (EditText) this.findViewById(R.id.edit_text_employee_first_name);
+	}
+	private EditText getEmployeeLastNameEditText(){
+		return (EditText) this.findViewById(R.id.edit_text_employee_last_name);
+	}
+	private EditText getEmployeeIDEditText(){
+		return (EditText) this.findViewById(R.id.edit_text_employee_employee_ID);
+	}
+	private EditText getEmployeeRoleEditText(){
+		return (EditText) this.findViewById(R.id.edit_text_employee_role);
 	}
 
 	private EditText getEmployeeCreatedOnEditText() {
@@ -139,6 +154,7 @@ public class EmployeeViewActivity extends AppCompatActivity {
 	}
 
 	private class SaveEmployeeTask extends AsyncTask<Void, Void, Boolean> {
+		private int RecordID = 1;
 		@Override
 		protected void onPreExecute() {
 			this.savingEmployeeAlert.show();
@@ -147,11 +163,14 @@ public class EmployeeViewActivity extends AppCompatActivity {
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			Employee employee = (new Employee()).
-				setId(employeeTransition.getId()).
-				setRecordID(getEmployeeRecordIDEditText().getText().toString());
+					setRecordID(getEmployeeRecordIDEditText().getId())
+					.setFirst_Name(getEmployeeFirstNameEditText().getText().toString())
+					.setLast_Name(getEmployeeRecordIDEditText().getText().toString())
+					.setId(UUID.fromString(getEmployeeIDEditText().getText().toString()))
+					.setRole(getEmployeeRoleEditText().getText().toString());
 
 			ApiResponse<Employee> apiResponse = (
-				(employee.getId().equals(new UUID(0, 0)))
+					(employee.getManagerID().equals(new UUID(0, 0)))
 					? (new EmployeeService()).createEmployee(employee)
 					: (new EmployeeService()).updateEmployee(employee)
 			);
@@ -191,7 +210,7 @@ public class EmployeeViewActivity extends AppCompatActivity {
 
 		private AlertDialog savingEmployeeAlert;
 
-		private SaveEmployeeTask() {
+		SaveEmployeeTask() {
 			this.savingEmployeeAlert = new AlertDialog.Builder(EmployeeViewActivity.this).
 				setMessage(R.string.alert_dialog_employee_save).
 				create();

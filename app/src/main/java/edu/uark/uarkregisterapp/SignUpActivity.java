@@ -1,8 +1,11 @@
 package edu.uark.uarkregisterapp;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
 import com.microsoft.identity.client.AuthenticationCallback;
 import com.microsoft.identity.client.AuthenticationResult;
@@ -32,6 +36,12 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
+import edu.uark.uarkregisterapp.models.api.ApiResponse;
+import edu.uark.uarkregisterapp.models.api.Employee;
+import edu.uark.uarkregisterapp.models.api.services.EmployeeService;
+import edu.uark.uarkregisterapp.models.transition.EmployeeTransition;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -51,11 +61,12 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
 
+
         /* Configure your sample app and save state for this activity */
         sampleApp = null;
         if (sampleApp == null) {
             sampleApp = new PublicClientApplication(
-                    this.getApplicationContext(), "e2266648-f2aa-444a-9767-a0a40ae3105a", "https://uarkregisterapp.b2clogin.com/tfp/uarkregisterapp.onmicrosoft.com/B2C_1_uarkregisterapp_SignIn");
+                    this.getApplicationContext(), "e2266648-f2aa-444a-9767-a0a40ae3105a", "https://uarkregisterapp.b2clogin.com/tfp/uarkregisterapp.onmicrosoft.com/B2C_1_uarkregisterapp_signup");
         }
 
         sampleApp.acquireToken(getActivity(), SCOPES, getAuthInteractiveCallback());
@@ -82,7 +93,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     /* Set the UI for successful token acquisition data */
     private void updateSuccessUI() {
-        this.startActivity(new Intent(getApplicationContext(), LandingActivity.class));
+        this.startActivity(new Intent(getApplicationContext(), EmployeeViewActivity.class));
     }
 
     //
@@ -142,6 +153,7 @@ public class SignUpActivity extends AppCompatActivity {
      * token to call the Microsoft Graph. Does not check cache
      */
     private AuthenticationCallback getAuthInteractiveCallback() {
+
         return new AuthenticationCallback() {
             @Override
             public void onSuccess(AuthenticationResult authenticationResult) {
@@ -152,6 +164,17 @@ public class SignUpActivity extends AppCompatActivity {
                 /* Store the auth result */
                 authResult = authenticationResult;
                 JWT ID_token = new JWT(authResult.getIdToken());
+                Claim first_Name_Claim = ID_token.getClaim("given_name");
+                Claim last_Name_Claim = ID_token.getClaim("family_name");
+                Claim job_Title_Claim = ID_token.getClaim("jobTitle");
+                Claim object_ID_Claim = ID_token.getClaim("oid");
+                UUID object_ID = UUID.fromString(object_ID_Claim.asString());
+                employeeTransition.setId(object_ID);
+                employeeTransition.setFirst_Name(first_Name_Claim.asString());
+                employeeTransition.setLast_Name(last_Name_Claim.asString());
+                employeeTransition.setRole(job_Title_Claim.asString());
+
+
 
                 /* update the UI to post call graph state */
                 updateSuccessUI();
@@ -176,4 +199,5 @@ public class SignUpActivity extends AppCompatActivity {
             }
         };
     }
+    public static EmployeeTransition employeeTransition;
 }

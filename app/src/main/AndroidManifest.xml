@@ -38,9 +38,25 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.uark.uarkregisterapp.LandingActivity"/>
         </activity>
+
+        <activity
+            android:name=".EmployeesListingActivity"
+            android:label="@string/title_activity_employee_listing"
+            android:parentActivityName=".LandingActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.uark.uarkregisterapp.LandingActivity"/>
+        </activity>
+
         <activity
             android:name=".ProductViewActivity"
             android:label="@string/title_activity_product_view"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".EmployeeViewActivity"
+            android:label="@string/title_activity_employee_view"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 

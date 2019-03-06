@@ -25,11 +25,11 @@ public class Employee implements ConvertToJsonInterface, LoadFromJsonInterface<E
 		return this;
 	}
 
-	private String recordID;
-	public String getRecordID() {
+	private int recordID;
+	public int getRecordID() {
 		return this.recordID;
 	}
-	public Employee setRecordID(String RecordID) {
+	public Employee setRecordID(int RecordID) {
 		this.recordID = RecordID;
 		return this;
 	}
@@ -92,7 +92,7 @@ public class Employee implements ConvertToJsonInterface, LoadFromJsonInterface<E
 		this.first_name = rawJsonObject.optString(EmployeeFieldName.First_Name.getFieldName());
 		this.last_name = rawJsonObject.optString(EmployeeFieldName.Last_Name.getFieldName());
 		this.password = rawJsonObject.optString(EmployeeFieldName.Password.getFieldName());
-		this.recordID = rawJsonObject.optString(EmployeeFieldName.RecordID.getFieldName());
+		this.recordID = rawJsonObject.optInt(EmployeeFieldName.RecordID.getFieldName());
 		this.active = rawJsonObject.optBoolean(EmployeeFieldName.Role.getFieldName());
 		value = rawJsonObject.optString(EmployeeFieldName.CREATED_ON.getFieldName());
 		if (!StringUtils.isBlank(value)) {
@@ -111,14 +111,14 @@ public class Employee implements ConvertToJsonInterface, LoadFromJsonInterface<E
 		JSONObject jsonObject = new JSONObject();
 
 		try {
-			jsonObject.put(EmployeeFieldName.Password.getFieldName(),this.password);
+			jsonObject.put(EmployeeFieldName.RecordID.getFieldName(), this.recordID);
 			jsonObject.put(EmployeeFieldName.First_Name.getFieldName(),this.first_name);
 			jsonObject.put(EmployeeFieldName.Last_Name.getFieldName(),this.last_name);
-			jsonObject.put(EmployeeFieldName.Role.getFieldName(),this.role);
-			jsonObject.put(EmployeeFieldName.Active.getFieldName(),this.active);
 			jsonObject.put(EmployeeFieldName.EmployeeID.getFieldName(), this.id.toString());
+			jsonObject.put(EmployeeFieldName.Active.getFieldName(),this.active);
+			jsonObject.put(EmployeeFieldName.Role.getFieldName(),this.role);
 			jsonObject.put(EmployeeFieldName.Manager.getFieldName(), this.managerID.toString());
-			jsonObject.put(EmployeeFieldName.RecordID.getFieldName(), this.recordID);
+			jsonObject.put(EmployeeFieldName.Password.getFieldName(),this.password);
 			jsonObject.put(EmployeeFieldName.CREATED_ON.getFieldName(), (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.US)).format(this.createdOn));
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -128,7 +128,7 @@ public class Employee implements ConvertToJsonInterface, LoadFromJsonInterface<E
 	}
 
 	public Employee() {
-		this.recordID = "";
+		this.recordID = 1;
 		this.id= new UUID(0, 0);
 		this.createdOn = new Date();
 		this.managerID = new UUID(0,0);

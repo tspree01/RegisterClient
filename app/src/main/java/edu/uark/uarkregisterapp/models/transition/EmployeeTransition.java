@@ -25,12 +25,12 @@ public class EmployeeTransition implements Parcelable {
 		return this;
 	}
 
-	private String recordID;
-	public String getRecordID() {
+	private int recordID;
+	public int getRecordID() {
 		return this.recordID;
 	}
-	public EmployeeTransition setRecordID(String lookupCode) {
-		this.recordID = lookupCode;
+	public EmployeeTransition setRecordID(int recordID) {
+		this.recordID = recordID;
 		return this;
 	}
 
@@ -83,7 +83,7 @@ public class EmployeeTransition implements Parcelable {
 	@Override
 	public void writeToParcel(Parcel destination, int flags) {
 		destination.writeByteArray((new UUIDToByteConverterCommand()).setValueToConvert(this.id).execute());
-		destination.writeString(this.recordID);
+		destination.writeInt(this.recordID);
 		destination.writeLong(this.createdOn.getTime());
 		destination.writeString(this.first_name);
 		destination.writeString(this.last_name);
@@ -111,7 +111,7 @@ public class EmployeeTransition implements Parcelable {
 	public EmployeeTransition() {
 		this.id = new UUID(0, 0);
 		this.createdOn = new Date();
-		this.recordID = StringUtils.EMPTY;
+		this.recordID = 0;
 		this.first_name = StringUtils.EMPTY;
 		this.last_name = StringUtils.EMPTY;
 		this.password = StringUtils.EMPTY;
@@ -134,7 +134,7 @@ public class EmployeeTransition implements Parcelable {
 
 	private EmployeeTransition(Parcel employeeTransitionParcel) {
 		this.id = (new ByteToUUIDConverterCommand()).setValueToConvert(employeeTransitionParcel.createByteArray()).execute();
-		this.recordID = employeeTransitionParcel.readString();
+		this.recordID = employeeTransitionParcel.readInt();
 		this.createdOn = new Date();
 		this.createdOn.setTime(employeeTransitionParcel.readLong());
 	}
