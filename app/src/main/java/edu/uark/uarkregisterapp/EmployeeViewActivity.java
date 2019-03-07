@@ -54,21 +54,19 @@ public class EmployeeViewActivity extends AppCompatActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		int recordID = 1;
 
 		if (!this.employeeTransition.getId().equals(new UUID(0, 0))) {
 			this.getDeleteImageButton().setVisibility(View.VISIBLE);
 		} else {
 			this.getDeleteImageButton().setVisibility(View.INVISIBLE);
 		}
-		this.getEmployeeRecordIDEditText().setText("1");
 		this.getEmployeeFirstNameEditText().setText(SignUpActivity.employeeTransition.getFirst_Name());
 		this.getEmployeeLastNameEditText().setText(SignUpActivity.employeeTransition.getLast_Name());
 		this.getEmployeeIDEditText().setText(SignUpActivity.employeeTransition.getId().toString());
 		this.getEmployeeRoleEditText().setText(SignUpActivity.employeeTransition.getRole());
-		this.getEmployeeCreatedOnEditText().setText(
+/*		this.getEmployeeCreatedOnEditText().setText(
 			(new SimpleDateFormat("MM/dd/yyyy", Locale.US)).format(this.employeeTransition.getCreatedOn())
-		);
+		);*/
 	}
 
 	public void saveButtonOnClick(View view) {
@@ -162,8 +160,7 @@ public class EmployeeViewActivity extends AppCompatActivity {
 
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			Employee employee = (new Employee()).
-					setRecordID(getEmployeeRecordIDEditText().getId())
+			Employee employee = (new Employee())
 					.setFirst_Name(getEmployeeFirstNameEditText().getText().toString())
 					.setLast_Name(getEmployeeLastNameEditText().getText().toString())
 					.setId(UUID.fromString(getEmployeeIDEditText().getText().toString()))
@@ -175,9 +172,9 @@ public class EmployeeViewActivity extends AppCompatActivity {
 					: (new EmployeeService()).updateEmployee(employee)
 			);
 
-			if (apiResponse.isValidResponse()) {
+/*			if (apiResponse.isValidResponse()) {
 				employeeTransition.setRecordID(apiResponse.getData().getRecordID());
-			}
+			}*/
 
 			return apiResponse.isValidResponse();
 		}

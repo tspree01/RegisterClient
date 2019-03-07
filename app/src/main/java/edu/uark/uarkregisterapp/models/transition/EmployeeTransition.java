@@ -25,23 +25,23 @@ public class EmployeeTransition implements Parcelable {
 		return this;
 	}
 
-	private int recordID;
+/*	private int recordID;
 	public int getRecordID() {
 		return this.recordID;
 	}
 	public EmployeeTransition setRecordID(int recordID) {
 		this.recordID = recordID;
 		return this;
-	}
+	}*/
 
-	private Date createdOn;
+/*	private Date createdOn;
 	public Date getCreatedOn() {
 		return this.createdOn;
 	}
 	public EmployeeTransition setCreatedOn(Date createdOn) {
 		this.createdOn = createdOn;
 		return this;
-	}
+	}*/
 	private String first_name;
 	public String getFirst_Name() {
 		return this.first_name;
@@ -74,22 +74,22 @@ public class EmployeeTransition implements Parcelable {
 		this.managerID = managerID;
 		return this;
 	}
-	public String password;
+/*	public String password;
 	public String getPassword() {return this.password;}
 	public EmployeeTransition setPassword(String password){
 		this.password = password;
 		return this;
-	}
+	}*/
 	@Override
 	public void writeToParcel(Parcel destination, int flags) {
 		destination.writeByteArray((new UUIDToByteConverterCommand()).setValueToConvert(this.id).execute());
-		destination.writeInt(this.recordID);
-		destination.writeLong(this.createdOn.getTime());
+		//destination.writeInt(this.recordID);
+		//destination.writeLong(this.createdOn.getTime());
 		destination.writeString(this.first_name);
 		destination.writeString(this.last_name);
 		destination.writeBooleanArray(new boolean[]{this.active});
 		destination.writeByteArray((new UUIDToByteConverterCommand()).setValueToConvert(this.managerID).execute());
-		destination.writeString(this.password);
+		//destination.writeString(this.password);
 
 	}
 
@@ -110,11 +110,11 @@ public class EmployeeTransition implements Parcelable {
 
 	public EmployeeTransition() {
 		this.id = new UUID(0, 0);
-		this.createdOn = new Date();
-		this.recordID = 0;
+		//this.createdOn = new Date();
+		//this.recordID = 0;
 		this.first_name = StringUtils.EMPTY;
 		this.last_name = StringUtils.EMPTY;
-		this.password = StringUtils.EMPTY;
+		//this.password = StringUtils.EMPTY;
 		this.managerID = new UUID(0,0);
 		this.active = false;
 		this.role = StringUtils.EMPTY;
@@ -122,20 +122,20 @@ public class EmployeeTransition implements Parcelable {
 
 	public EmployeeTransition(Employee employee) {
 		this.id = employee.getId();
-		this.createdOn = employee.getCreatedOn();
-		this.recordID = employee.getRecordID();
+		//this.createdOn = employee.getCreatedOn();
+		//this.recordID = employee.getRecordID();
 		this.managerID = employee.getManagerID();
 		this.first_name = employee.getFirst_Name();
 		this.last_name = employee.getLast_Name();
-		this.password = employee.getPassword();
+		//this.password = employee.getPassword();
 		this.active = employee.getActive();
 		this.role = employee.getRole();
 	}
 
 	private EmployeeTransition(Parcel employeeTransitionParcel) {
 		this.id = (new ByteToUUIDConverterCommand()).setValueToConvert(employeeTransitionParcel.createByteArray()).execute();
-		this.recordID = employeeTransitionParcel.readInt();
-		this.createdOn = new Date();
-		this.createdOn.setTime(employeeTransitionParcel.readLong());
+		//this.recordID = employeeTransitionParcel.readInt();
+		//this.createdOn = new Date();
+		//this.createdOn.setTime(employeeTransitionParcel.readLong());
 	}
 }

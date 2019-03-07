@@ -379,8 +379,6 @@ public class LoginActivity extends AppCompatActivity {
                 employee.setFirst_Name(first_Name_Claim.asString());
                 employee.setLast_Name(last_Name_Claim.asString());
                 employee.setRole(job_Title_Claim.asString());
-                employee.setPassword(null);
-                employee.setRecordID(1);
                 //(new EmployeeViewActivity.SaveEmployeeTask()).execute();
 
 

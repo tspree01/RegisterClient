@@ -24,12 +24,12 @@ public class EmployeeListAdapter extends ArrayAdapter<Employee> {
 		}
 
 		Employee employee = this.getItem(position);
-		if (employee != null) {
+/*		if (employee != null) {
 			TextView EmployeeIDTextView = (TextView) view.findViewById(R.id.list_view_item_employee_id);
 			if (EmployeeIDTextView != null) {
 				EmployeeIDTextView.setText(employee.getRecordID());
 			}
-		}
+		}*/
 
 		return view;
 	}
