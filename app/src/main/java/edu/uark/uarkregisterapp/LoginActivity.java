@@ -60,11 +60,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        signOutButton.setOnClickListener(new View.OnClickListener() {
+/*        signOutButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 onSignOutClicked();
             }
-        });
+        });*/
 
 
         /* Configure your sample app and save state for this activity */
@@ -78,21 +78,21 @@ public class LoginActivity extends AppCompatActivity {
         /* Attempt to get a user and acquireTokenSilent
          * If this fails we do an interactive request
          */
-        List<IAccount> accounts = null;
+/*        List<IAccount> accounts = null;
 
         try {
             accounts = sampleApp.getAccounts();
 
             if (accounts != null && accounts.size() == 1) {
-                /* We have 1 account */
+                *//* We have 1 account *//*
 
                 sampleApp.acquireTokenSilentAsync(SCOPES, accounts.get(0), getAuthSilentCallback());
             } else {
-                /* We have no account or >1 account */
+                *//* We have no account or >1 account *//*
             }
         } catch (IndexOutOfBoundsException e) {
             Log.d(TAG, "Account at this position does not exist: " + e.toString());
-        }
+        }*/
 
     }
 
@@ -121,26 +121,26 @@ public class LoginActivity extends AppCompatActivity {
     /* Clears an account's tokens from the cache.
      * Logically similar to "sign out" but only signs out of this app.
      */
-    private void onSignOutClicked() {
+/*    private void onSignOutClicked() {
 
-        /* Attempt to get a account and remove their cookies from cache */
+        *//* Attempt to get a account and remove their cookies from cache *//*
         List<IAccount> accounts = null;
 
         try {
             accounts = sampleApp.getAccounts();
 
             if (accounts == null) {
-                /* We have no accounts */
+                *//* We have no accounts *//*
 
             } else if (accounts.size() == 1) {
-                /* We have 1 account */
-                /* Remove from token cache */
+                *//* We have 1 account *//*
+                *//* Remove from token cache *//*
                 sampleApp.removeAccount(accounts.get(0));
                 updateSignedOutUI();
 
             }
             else {
-                /* We have multiple accounts */
+                *//* We have multiple accounts *//*
                 for (int i = 0; i < accounts.size(); i++) {
                     sampleApp.removeAccount(accounts.get(i));
                 }
@@ -152,54 +152,8 @@ public class LoginActivity extends AppCompatActivity {
         } catch (IndexOutOfBoundsException e) {
             Log.d(TAG, "User at this position does not exist: " + e.toString());
         }
-    }
-
-/*    *//* Use Volley to make an HTTP request to the /me endpoint from MS Graph using an access token *//*
-    private void callWebAPI() {
-        Log.d(TAG, "Starting volley request to graph");
-
-        *//* Make sure we have a token to send to graph *//*
-        if (authResult.getAccessToken() == null) {return;}
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-        JSONObject parameters = new JSONObject();
-
-        try {
-            parameters.put("key", "value");
-        } catch (Exception e) {
-            Log.d(TAG, "Failed to put parameters: " + e.toString());
-        }
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, API_URL,
-                parameters,new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                *//* Successfully called graph, process data and send to UI *//*
-                Log.d(TAG, "Response: " + response.toString());
-
-                updateGraphUI(response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "Error: " + error.toString());
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + authResult.getAccessToken());
-                return headers;
-            }
-        };
-
-        Log.d(TAG, "Adding HTTP GET to Queue, Request: " + request.toString());
-
-        request.setRetryPolicy(new DefaultRetryPolicy(
-                3000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        queue.add(request);
     }*/
+
 
     //
     // Helper methods manage UI updates
@@ -209,32 +163,26 @@ public class LoginActivity extends AppCompatActivity {
     // updateSignedOutUI() - Updates UI when app sign out succeeds
     //
 
-    /* Sets the graph response */
-    private void updateGraphUI(JSONObject graphResponse) {
-        //TextView graphText = (TextView) findViewById(R.id.graphData);
-        //graphText.setText(graphResponse.toString());
-    }
-
     /* Set the UI for successful token acquisition data */
     private void updateSuccessUI() {
-        loginButton.setVisibility(View.INVISIBLE);
-        signOutButton.setVisibility(View.VISIBLE);
+/*        loginButton.setVisibility(View.INVISIBLE);
+        signOutButton.setVisibility(View.VISIBLE);*/
         //findViewById(R.id.welcome).setVisibility(View.VISIBLE);
 //        ((TextView) findViewById(R.id.welcome)).setText("Welcome, " +
 //                authResult.getAccount().getUsername());
-        setContentView(R.layout.activity_landing);
+        //setContentView(R.layout.activity_landing);
         this.startActivity(new Intent(getApplicationContext(), LandingActivity.class));
 //        findViewById(R.id.graphData).setVisibility(View.VISIBLE);
     }
 
     /* Set the UI for signed out account */
-    private void updateSignedOutUI() {
+/*    private void updateSignedOutUI() {
         loginButton.setVisibility(View.VISIBLE);
         signOutButton.setVisibility(View.INVISIBLE);
         //findViewById(R.id.welcome).setVisibility(View.INVISIBLE);
         //findViewById(R.id.graphData).setVisibility(View.INVISIBLE);
        // ((TextView) findViewById(R.id.graphData)).setText("No Data");
-    }
+    }*/
 
     //
     // App callbacks for MSAL
@@ -356,7 +304,7 @@ public class LoginActivity extends AppCompatActivity {
                     create();
         }
     }*/
-    public static Employee employee = new Employee();
+    //public static Employee employee = new Employee();
     private AuthenticationCallback getAuthInteractiveCallback() {
         return new AuthenticationCallback() {
             @Override
@@ -370,7 +318,7 @@ public class LoginActivity extends AppCompatActivity {
                 JWT ID_token = new JWT(authResult.getIdToken());
 
                 Map<String, Claim> allClaims = ID_token.getClaims();
-                Claim first_Name_Claim = ID_token.getClaim("given_name");
+/*                Claim first_Name_Claim = ID_token.getClaim("given_name");
                 Claim last_Name_Claim = ID_token.getClaim("family_name");
                 Claim job_Title_Claim = ID_token.getClaim("jobTitle");
                 Claim object_ID_Claim = ID_token.getClaim("oid");
@@ -378,7 +326,7 @@ public class LoginActivity extends AppCompatActivity {
                 employee.setId(object_ID);
                 employee.setFirst_Name(first_Name_Claim.asString());
                 employee.setLast_Name(last_Name_Claim.asString());
-                employee.setRole(job_Title_Claim.asString());
+                employee.setRole(job_Title_Claim.asString());*/
                 //(new EmployeeViewActivity.SaveEmployeeTask()).execute();
 
 
