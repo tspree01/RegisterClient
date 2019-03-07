@@ -61,7 +61,7 @@ public class EmployeeViewActivity extends AppCompatActivity {
 		} else {
 			this.getDeleteImageButton().setVisibility(View.INVISIBLE);
 		}
-		this.getEmployeeRecordIDEditText().setText(recordID++);
+		this.getEmployeeRecordIDEditText().setText("1");
 		this.getEmployeeFirstNameEditText().setText(SignUpActivity.employeeTransition.getFirst_Name());
 		this.getEmployeeLastNameEditText().setText(SignUpActivity.employeeTransition.getLast_Name());
 		this.getEmployeeIDEditText().setText(SignUpActivity.employeeTransition.getId().toString());
@@ -165,7 +165,7 @@ public class EmployeeViewActivity extends AppCompatActivity {
 			Employee employee = (new Employee()).
 					setRecordID(getEmployeeRecordIDEditText().getId())
 					.setFirst_Name(getEmployeeFirstNameEditText().getText().toString())
-					.setLast_Name(getEmployeeRecordIDEditText().getText().toString())
+					.setLast_Name(getEmployeeLastNameEditText().getText().toString())
 					.setId(UUID.fromString(getEmployeeIDEditText().getText().toString()))
 					.setRole(getEmployeeRoleEditText().getText().toString());
 

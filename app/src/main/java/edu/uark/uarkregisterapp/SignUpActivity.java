@@ -93,7 +93,14 @@ public class SignUpActivity extends AppCompatActivity {
 
     /* Set the UI for successful token acquisition data */
     private void updateSuccessUI() {
-        this.startActivity(new Intent(getApplicationContext(), EmployeeViewActivity.class));
+        Intent intent = new Intent(getApplicationContext(), EmployeeViewActivity.class);
+
+        intent.putExtra(
+                getString(R.string.intent_extra_employee),
+                new EmployeeTransition()
+        );
+
+        this.startActivity(intent);
     }
 
     //
@@ -199,5 +206,5 @@ public class SignUpActivity extends AppCompatActivity {
             }
         };
     }
-    public static EmployeeTransition employeeTransition;
+    public static EmployeeTransition employeeTransition = new EmployeeTransition();
 }
