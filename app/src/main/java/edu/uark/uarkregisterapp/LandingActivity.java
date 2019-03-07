@@ -14,7 +14,7 @@ public class LandingActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (test == 0) {
+		if (test == 1) {
             setContentView(R.layout.activity_landing);
         }
         else{
@@ -27,7 +27,6 @@ public class LandingActivity extends AppCompatActivity {
 	}
 
 	public void displayCreateEmployeeButtonOnClick(View view) {
-            this.startActivity(new Intent(getApplicationContext(), ProductsListingActivity.class));
 		this.startActivity(new Intent(getApplicationContext(), SignUpActivity.class));
 	}
 
