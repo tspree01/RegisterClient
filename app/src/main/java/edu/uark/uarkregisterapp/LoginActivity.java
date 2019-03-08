@@ -1,31 +1,27 @@
 package edu.uark.uarkregisterapp;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import org.json.JSONObject;
-
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
 import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
-import com.microsoft.identity.client.*;
-import com.microsoft.identity.client.exception.*;
+import com.microsoft.identity.client.AuthenticationCallback;
+import com.microsoft.identity.client.AuthenticationResult;
+import com.microsoft.identity.client.IAccount;
+import com.microsoft.identity.client.PublicClientApplication;
+import com.microsoft.identity.client.exception.MsalClientException;
+import com.microsoft.identity.client.exception.MsalException;
+import com.microsoft.identity.client.exception.MsalServiceException;
+import com.microsoft.identity.client.exception.MsalUiRequiredException;
 
-import edu.uark.uarkregisterapp.models.api.ApiResponse;
-import edu.uark.uarkregisterapp.models.api.Employee;
-import edu.uark.uarkregisterapp.models.api.services.EmployeeService;
+import java.util.List;
+
 import edu.uark.uarkregisterapp.models.transition.EmployeeTransition;
 
 
@@ -59,11 +55,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-/*        signOutButton.setOnClickListener(new View.OnClickListener() {
+        signOutButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 onSignOutClicked();
             }
-        });*/
+        });
 
 
         /* Configure your sample app and save state for this activity */
@@ -120,26 +116,26 @@ public class LoginActivity extends AppCompatActivity {
     /* Clears an account's tokens from the cache.
      * Logically similar to "sign out" but only signs out of this app.
      */
-/*    private void onSignOutClicked() {
+    public void onSignOutClicked() {
 
-        *//* Attempt to get a account and remove their cookies from cache *//*
+        //* Attempt to get a account and remove their cookies from cache *//*
         List<IAccount> accounts = null;
 
         try {
             accounts = sampleApp.getAccounts();
 
             if (accounts == null) {
-                *//* We have no accounts *//*
+                //* We have no accounts *//*
 
             } else if (accounts.size() == 1) {
-                *//* We have 1 account *//*
-                *//* Remove from token cache *//*
+                //* We have 1 account *//*
+                //* Remove from token cache *//*
                 sampleApp.removeAccount(accounts.get(0));
                 updateSignedOutUI();
 
             }
             else {
-                *//* We have multiple accounts *//*
+                //* We have multiple accounts *//*
                 for (int i = 0; i < accounts.size(); i++) {
                     sampleApp.removeAccount(accounts.get(i));
                 }
@@ -151,7 +147,7 @@ public class LoginActivity extends AppCompatActivity {
         } catch (IndexOutOfBoundsException e) {
             Log.d(TAG, "User at this position does not exist: " + e.toString());
         }
-    }*/
+    }
 
 
     //
@@ -175,13 +171,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /* Set the UI for signed out account */
-/*    private void updateSignedOutUI() {
+    private void updateSignedOutUI() {
         loginButton.setVisibility(View.VISIBLE);
         signOutButton.setVisibility(View.INVISIBLE);
         //findViewById(R.id.welcome).setVisibility(View.INVISIBLE);
         //findViewById(R.id.graphData).setVisibility(View.INVISIBLE);
        // ((TextView) findViewById(R.id.graphData)).setText("No Data");
-    }*/
+    }
 
     //
     // App callbacks for MSAL
@@ -253,7 +249,9 @@ public class LoginActivity extends AppCompatActivity {
                 authResult = authenticationResult;
                 JWT ID_token = new JWT(authResult.getIdToken());
                 Claim job_Title_Claim = ID_token.getClaim("jobTitle");
+                Claim first_Name_Claim = ID_token.getClaim("given_name");
                 loginActivityCliams.setRole(job_Title_Claim.asString());
+                loginActivityCliams.setFirst_Name(first_Name_Claim.asString());
 
 
                 /* call graph */

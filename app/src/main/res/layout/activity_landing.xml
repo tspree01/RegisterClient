@@ -60,6 +60,7 @@
         android:textAllCaps="false"
         android:layout_alignParentBottom="true"
         android:id="@+id/clearCache"
-        android:visibility="visible" />
+        android:visibility="visible"
+        android:onClick="SignOut"/>
 
 </RelativeLayout>
