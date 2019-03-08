@@ -73,21 +73,21 @@ public class LoginActivity extends AppCompatActivity {
         /* Attempt to get a user and acquireTokenSilent
          * If this fails we do an interactive request
          */
-/*        List<IAccount> accounts = null;
+        List<IAccount> accounts = null;
 
         try {
             accounts = sampleApp.getAccounts();
 
             if (accounts != null && accounts.size() == 1) {
-                *//* We have 1 account *//*
+                //* We have 1 account *//*
 
                 sampleApp.acquireTokenSilentAsync(SCOPES, accounts.get(0), getAuthSilentCallback());
             } else {
-                *//* We have no account or >1 account *//*
+                //* We have no account or >1 account *//*
             }
         } catch (IndexOutOfBoundsException e) {
             Log.d(TAG, "Account at this position does not exist: " + e.toString());
-        }*/
+        }
 
     }
 

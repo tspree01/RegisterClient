@@ -32,11 +32,7 @@
         <activity
             android:name=".ProductsListingActivity"
             android:label="@string/title_activity_products_listing"
-            android:parentActivityName=".LandingActivity"
             android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.uark.uarkregisterapp.LandingActivity"/>
         </activity>
 
         <activity
@@ -63,11 +59,8 @@
         <activity
             android:name=".SignUpActivity"
             android:label="@string/title_activity_sign_up"
-            android:parentActivityName=".LandingActivity"
             android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.uark.uarkregisterapp.LandingActivity"/>
+
         </activity>
 
         <!--Intent filter to capture System Browser calling back to our app after Sign In-->

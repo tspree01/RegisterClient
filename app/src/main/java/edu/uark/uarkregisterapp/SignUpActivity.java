@@ -59,7 +59,7 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_landing);
+
 
         /* Configure your sample app and save state for this activity */
         sampleApp = null;
@@ -86,20 +86,15 @@ public class SignUpActivity extends AppCompatActivity {
         sampleApp.handleInteractiveRequestRedirect(requestCode, resultCode, data);
     }
 
-    /* Sets the graph response */
-    private void updateGraphUI(JSONObject graphResponse) {
-    }
+/*    @Override
+    protected void onResume() {
+        super.onResume();
+        (new SaveEmployeeTask()).execute();
 
+    }*/
     /* Set the UI for successful token acquisition data */
     private void updateSuccessUI() {
-        Intent intent = new Intent(getApplicationContext(), EmployeeViewActivity.class);
-
-        intent.putExtra(
-                getString(R.string.intent_extra_employee),
-                new EmployeeTransition()
-        );
-
-        this.startActivity(intent);
+        //LandingActivity.logged_In = true;
     }
 
     //
@@ -155,6 +150,69 @@ public class SignUpActivity extends AppCompatActivity {
         };
     }
 
+    private class SaveEmployeeTask extends AsyncTask<Void, Void, Boolean> {
+        @Override
+        protected void onPreExecute() {
+            this.savingEmployeeAlert.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            Employee employee = (new Employee())
+                    .setFirst_Name(employeeTransition.getFirst_Name())
+                    .setLast_Name(employeeTransition.getLast_Name())
+                    .setId(employeeTransition.getId())
+                    .setRole(employeeTransition.getRole());
+
+            ApiResponse<Employee> apiResponse = (
+                    (employee.getManagerID().equals(new UUID(0, 0)))
+                            ? (new EmployeeService()).createEmployee(employee)
+                            : (new EmployeeService()).updateEmployee(employee)
+            );
+
+/*			if (apiResponse.isValidResponse()) {
+				employeeTransition.setRecordID(apiResponse.getData().getRecordID());
+			}*/
+
+            return apiResponse.isValidResponse();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean successfulSave) {
+            String message;
+
+            savingEmployeeAlert.dismiss();
+
+            if (successfulSave) {
+                message = getString(R.string.alert_dialog_employee_save_success);
+            } else {
+                message = getString(R.string.alert_dialog_employee_save_failure);
+            }
+
+            new AlertDialog.Builder(SignUpActivity.this).
+                    setMessage(message).
+                    setPositiveButton(
+                            R.string.button_dismiss,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.dismiss();
+                                }
+                            }
+                    ).
+                    create().
+                    show();
+        }
+
+        private AlertDialog savingEmployeeAlert;
+
+        SaveEmployeeTask() {
+            this.savingEmployeeAlert = new AlertDialog.Builder(SignUpActivity.this).
+                    setMessage(R.string.alert_dialog_employee_save).
+                    create();
+        }
+    }
+
+
     /* Callback used for interactive request.  If succeeds we use the access
      * token to call the Microsoft Graph. Does not check cache
      */
@@ -180,10 +238,10 @@ public class SignUpActivity extends AppCompatActivity {
                 employeeTransition.setLast_Name(last_Name_Claim.asString());
                 employeeTransition.setRole(job_Title_Claim.asString());
 
-
+                (new SaveEmployeeTask()).execute();
 
                 /* update the UI to post call graph state */
-                updateSuccessUI();
+                //updateSuccessUI();
             }
 
             @Override
@@ -205,5 +263,6 @@ public class SignUpActivity extends AppCompatActivity {
             }
         };
     }
-    public static EmployeeTransition employeeTransition = new EmployeeTransition();
+    private EmployeeTransition employeeTransition = new EmployeeTransition();
+
 }
