@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -24,11 +25,14 @@ import edu.uark.uarkregisterapp.models.api.services.EmployeeService;
 import edu.uark.uarkregisterapp.models.transition.EmployeeTransition;
 
 public class EmployeeViewActivity extends AppCompatActivity {
+	private ImageButton submitButton;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_employee_view);
 		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+
+		submitButton = (ImageButton) findViewById(R.id.button_activity_edit_save);
 
 		ActionBar actionBar = this.getSupportActionBar();
 		if (actionBar != null) {
@@ -60,10 +64,10 @@ public class EmployeeViewActivity extends AppCompatActivity {
 		} else {
 			this.getDeleteImageButton().setVisibility(View.INVISIBLE);
 		}
-		this.getEmployeeFirstNameEditText().setText(SignUpActivity.employeeTransition.getFirst_Name());
+/*		this.getEmployeeFirstNameEditText().setText(SignUpActivity.employeeTransition.getFirst_Name());
 		this.getEmployeeLastNameEditText().setText(SignUpActivity.employeeTransition.getLast_Name());
 		this.getEmployeeIDEditText().setText(SignUpActivity.employeeTransition.getId().toString());
-		this.getEmployeeRoleEditText().setText(SignUpActivity.employeeTransition.getRole());
+		this.getEmployeeRoleEditText().setText(SignUpActivity.employeeTransition.getRole());*/
 /*		this.getEmployeeCreatedOnEditText().setText(
 			(new SimpleDateFormat("MM/dd/yyyy", Locale.US)).format(this.employeeTransition.getCreatedOn())
 		);*/
@@ -100,9 +104,6 @@ public class EmployeeViewActivity extends AppCompatActivity {
 			show();
 	}
 
-	private EditText getEmployeeRecordIDEditText() {
-		return (EditText) this.findViewById(R.id.edit_text_employee_recordID);
-	}
 	private EditText getEmployeeFirstNameEditText(){
 		return (EditText) this.findViewById(R.id.edit_text_employee_first_name);
 	}
@@ -128,10 +129,10 @@ public class EmployeeViewActivity extends AppCompatActivity {
 		boolean inputIsValid = true;
 		String validationMessage = StringUtils.EMPTY;
 
-		if (StringUtils.isBlank(this.getEmployeeRecordIDEditText().getText().toString())) {
+/*		if (StringUtils.isBlank(this.getEmployeeRecordIDEditText().getText().toString())) {
 			validationMessage = this.getString(R.string.validation_employee_recordID);
 			inputIsValid = false;
-		}
+		}*/
 
 		if (!inputIsValid) {
 			new AlertDialog.Builder(this).
