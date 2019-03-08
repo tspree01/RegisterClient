@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -136,6 +137,8 @@ abstract class BaseRemoteService {
 			OutputStream outputStream = httpURLConnection.getOutputStream();
 			outputStream.write(serializedRequestObject);
 			outputStream.flush();
+			InputStream inputStream = httpURLConnection.getErrorStream();
+			int status = httpURLConnection.getResponseCode();
 
 			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
 
@@ -267,7 +270,7 @@ abstract class BaseRemoteService {
 	private static final String ACCEPT_REQUEST_PROPERTY = "Accept";
 	private static final String JSON_PAYLOAD_TYPE = "application/json";
 	private static final String CONTENT_TYPE_REQUEST_PROPERTY = "Content-Type";
-	private static final String BASE_URL = "https://uarkregisterapps.herokuapp.com/api";
+	private static final String BASE_URL = "https://uarkregisterapps.herokuapp.com/api/";
 //	private static final String BASE_URL = "https://uarkregservnodejsapi.herokuapp.com/api/";
     //comment
 }
