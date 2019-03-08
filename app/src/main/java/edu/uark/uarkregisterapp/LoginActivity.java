@@ -51,7 +51,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
         loginButton = (Button) findViewById(R.id.Login);
-
         signOutButton = (Button) findViewById(R.id.clearCache);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -165,11 +164,11 @@ public class LoginActivity extends AppCompatActivity {
 
     /* Set the UI for successful token acquisition data */
     private void updateSuccessUI() {
-/*        loginButton.setVisibility(View.INVISIBLE);
-        signOutButton.setVisibility(View.VISIBLE);*/
+        loginButton.setVisibility(View.INVISIBLE);
+        signOutButton.setVisibility(View.VISIBLE);
         //findViewById(R.id.welcome).setVisibility(View.VISIBLE);
-//        ((TextView) findViewById(R.id.welcome)).setText("Welcome, " +
-//                authResult.getAccount().getUsername());
+/*        ((TextView) findViewById(R.id.welcome)).setText("Welcome, " +
+                authResult.getAccount().getUsername());*/
         //setContentView(R.layout.activity_landing);
         this.startActivity(new Intent(getApplicationContext(), LandingActivity.class));
 //        findViewById(R.id.graphData).setVisibility(View.VISIBLE);
@@ -241,70 +240,7 @@ public class LoginActivity extends AppCompatActivity {
 
     /* Callback used for interactive request.  If succeeds we use the access
      * token to call the Microsoft Graph. Does not check cache
-     */	/*public class SaveEmployeeTask extends AsyncTask<Void, Void, Boolean> {
-        @Override
-        protected void onPreExecute() {
-            this.savingEmployeeAlert.show();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-*//*            Employee employee = (new Employee()).
-                    setId(employeeTransition.getId()).
-                    setRecordID("1")
-                    .setFirst_Name(employeeTransition.getFirst_Name())
-                    .setLast_Name(employeeTransition.getLast_Name())
-                    .setRole(employeeTransition.getRole())
-                    .setPassword(null);*//*
-
-            ApiResponse<Employee> apiResponse = (
-                    (employee.getManagerID().equals(new UUID(0, 0)))
-                            ? (new EmployeeService()).createEmployee(employee)
-                            : (new EmployeeService()).updateEmployee(employee)
-            );
-
-            if (apiResponse.isValidResponse()) {
-                employeeTransition.setRecordID(apiResponse.getData().getRecordID());
-            }
-
-            return apiResponse.isValidResponse();
-        }
-
-        @Override
-        protected void onPostExecute(Boolean successfulSave) {
-            String message;
-
-            savingEmployeeAlert.dismiss();
-
-            if (successfulSave) {
-                message = getString(R.string.alert_dialog_employee_save_success);
-            } else {
-                message = getString(R.string.alert_dialog_employee_save_failure);
-            }
-
-            new AlertDialog.Builder(LoginActivity.this).
-                    setMessage(message).
-                    setPositiveButton(
-                            R.string.button_dismiss,
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.dismiss();
-                                }
-                            }
-                    ).
-                    create().
-                    show();
-        }
-
-        private AlertDialog savingEmployeeAlert;
-
-        SaveEmployeeTask() {
-            this.savingEmployeeAlert = new AlertDialog.Builder(LoginActivity.this).
-                    setMessage(R.string.alert_dialog_employee_save).
-                    create();
-        }
-    }*/
-    //public static Employee employee = new Employee();
+     */
     private AuthenticationCallback getAuthInteractiveCallback() {
         return new AuthenticationCallback() {
             @Override
@@ -318,18 +254,6 @@ public class LoginActivity extends AppCompatActivity {
                 JWT ID_token = new JWT(authResult.getIdToken());
 
                 Map<String, Claim> allClaims = ID_token.getClaims();
-/*                Claim first_Name_Claim = ID_token.getClaim("given_name");
-                Claim last_Name_Claim = ID_token.getClaim("family_name");
-                Claim job_Title_Claim = ID_token.getClaim("jobTitle");
-                Claim object_ID_Claim = ID_token.getClaim("oid");
-                UUID object_ID = UUID.fromString(object_ID_Claim.asString());
-                employee.setId(object_ID);
-                employee.setFirst_Name(first_Name_Claim.asString());
-                employee.setLast_Name(last_Name_Claim.asString());
-                employee.setRole(job_Title_Claim.asString());*/
-                //(new EmployeeViewActivity.SaveEmployeeTask()).execute();
-
-
 
                 /* call graph */
                 //callWebAPI();
@@ -337,8 +261,6 @@ public class LoginActivity extends AppCompatActivity {
                 /* update the UI to post call graph state */
                 updateSuccessUI();
             }
-
-
 
             @Override
             public void onError(MsalException exception) {

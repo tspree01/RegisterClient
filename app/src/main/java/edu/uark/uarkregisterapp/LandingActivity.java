@@ -10,10 +10,17 @@ import edu.uark.uarkregisterapp.models.transition.ProductTransition;
 
 public class LandingActivity extends AppCompatActivity {
 
+    int test = 1;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_landing);
+		if (test == 0) {
+            setContentView(R.layout.activity_landing);
+        }
+        else{
+            setContentView(R.layout.employee_landing);
+        }
 	}
 
 	public void displayTransactionButtonOnClick(View view) {
@@ -21,6 +28,7 @@ public class LandingActivity extends AppCompatActivity {
 	}
 
 	public void displayCreateEmployeeButtonOnClick(View view) {
+            this.startActivity(new Intent(getApplicationContext(), ProductsListingActivity.class));
 		this.startActivity(new Intent(getApplicationContext(), SignUpActivity.class));
 	}
 
@@ -35,4 +43,3 @@ public class LandingActivity extends AppCompatActivity {
 		this.startActivity(intent);
 	}
 }
-//adding commit
