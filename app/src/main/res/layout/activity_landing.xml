@@ -53,11 +53,12 @@
         android:text="@string/sign_out"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:layout_below="@+id/button_create_employee"
+        android:layout_marginBottom="30dp"
+        android:layout_gravity="center|bottom"
         android:textColor="#FFFFFF"
         android:background="#00a1f1"
         android:textAllCaps="false"
+        android:layout_alignParentBottom="true"
         android:id="@+id/clearCache"
         android:visibility="visible" />
 
