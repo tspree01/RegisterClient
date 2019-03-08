@@ -10,12 +10,10 @@ import edu.uark.uarkregisterapp.models.transition.ProductTransition;
 
 public class LandingActivity extends AppCompatActivity {
 
-    int test = 1;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (test == 0) {
+		if (LoginActivity.loginActivityCliams.getRole().equals("Manager")) {
             setContentView(R.layout.activity_landing);
         }
         else{
@@ -28,7 +26,6 @@ public class LandingActivity extends AppCompatActivity {
 	}
 
 	public void displayCreateEmployeeButtonOnClick(View view) {
-            this.startActivity(new Intent(getApplicationContext(), ProductsListingActivity.class));
 		this.startActivity(new Intent(getApplicationContext(), SignUpActivity.class));
 	}
 

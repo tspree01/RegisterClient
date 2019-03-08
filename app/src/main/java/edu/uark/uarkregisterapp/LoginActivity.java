@@ -165,7 +165,7 @@ public class LoginActivity extends AppCompatActivity {
     /* Set the UI for successful token acquisition data */
     private void updateSuccessUI() {
         loginButton.setVisibility(View.INVISIBLE);
-        signOutButton.setVisibility(View.VISIBLE);
+        //signOutButton.setVisibility(View.VISIBLE);
         //findViewById(R.id.welcome).setVisibility(View.VISIBLE);
 /*        ((TextView) findViewById(R.id.welcome)).setText("Welcome, " +
                 authResult.getAccount().getUsername());*/
@@ -252,8 +252,9 @@ public class LoginActivity extends AppCompatActivity {
                 /* Store the auth result */
                 authResult = authenticationResult;
                 JWT ID_token = new JWT(authResult.getIdToken());
+                Claim job_Title_Claim = ID_token.getClaim("jobTitle");
+                loginActivityCliams.setRole(job_Title_Claim.asString());
 
-                Map<String, Claim> allClaims = ID_token.getClaims();
 
                 /* call graph */
                 //callWebAPI();
@@ -281,4 +282,5 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
     }
+    public static EmployeeTransition loginActivityCliams = new EmployeeTransition();
 }
