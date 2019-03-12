@@ -65,6 +65,7 @@ public class LandingActivity extends AppCompatActivity {
                 ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do next?", loginTokenClaims.getFirst_Name()));
             }
         }
+        //this.loginTokenClaims = this.getIntent().getParcelableExtra("loginActivityClaim");
 
         loginButton = (Button) findViewById(R.id.Login);
         signOutButton = (Button) findViewById(R.id.clearCache);
@@ -192,12 +193,12 @@ public class LandingActivity extends AppCompatActivity {
 
                 //Store the auth result
                 authResult = authenticationResult;
-                JWT ID_token = new JWT(authResult.getIdToken());
-                Claim first_Name_Claim = ID_token.getClaim("given_name");
-                Claim last_Name_Claim = ID_token.getClaim("family_name");
-                Claim job_Title_Claim = ID_token.getClaim("jobTitle");
-                Claim new_User_Claim = ID_token.getClaim("newUser");
-                Claim object_ID_Claim = ID_token.getClaim("oid");
+                JWT access_Token = new JWT(authResult.getIdToken());
+                Claim first_Name_Claim = access_Token.getClaim("given_name");
+                Claim last_Name_Claim = access_Token.getClaim("family_name");
+                Claim job_Title_Claim = access_Token.getClaim("jobTitle");
+                Claim new_User_Claim = access_Token.getClaim("newUser");
+                Claim object_ID_Claim = access_Token.getClaim("oid");
                 UUID object_ID = UUID.fromString(object_ID_Claim.asString());
                 loginTokenClaims.setId(object_ID);
                 loginTokenClaims.setFirst_Name(first_Name_Claim.asString());
@@ -242,6 +243,7 @@ public class LandingActivity extends AppCompatActivity {
 
     public void displayCreateEmployeeButtonOnClick(View view) {
         /* Configure your sample app and save state for this activity */
+
         sampleApp = new PublicClientApplication(
                 this.getApplicationContext(), "e2266648-f2aa-444a-9767-a0a40ae3105a", "https://uarkregisterapp.b2clogin.com/tfp/uarkregisterapp.onmicrosoft.com/B2C_1_uarkregisterapp_signup");
         sampleApp.acquireToken(getActivity(), SCOPES, getAuthInteractiveCallback());
