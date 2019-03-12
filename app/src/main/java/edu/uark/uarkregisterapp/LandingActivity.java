@@ -33,289 +33,260 @@ import edu.uark.uarkregisterapp.models.transition.EmployeeTransition;
 import edu.uark.uarkregisterapp.models.transition.ProductTransition;
 
 public class LandingActivity extends AppCompatActivity {
-	final static String SCOPES [] = {"https://uarkregisterapp.onmicrosoft.com/api/read"};
-	private static final String TAG = LandingActivity.class.getSimpleName();
-	private Button loginButton;
-	private Button signOutButton;
-	private boolean logged_In = false;
-	private EmployeeTransition employeeTransition = new EmployeeTransition();
-	private EmployeeTransition tokenCliams = new EmployeeTransition();
+    final static String SCOPES[] = {"https://uarkregisterapp.onmicrosoft.com/api/read"};
+    private static final String TAG = LandingActivity.class.getSimpleName();
+    private Button loginButton;
+    private Button signOutButton;
+    private boolean logged_In = false;
+    private EmployeeTransition loginTokenClaims = new EmployeeTransition();
 
 
-	/* Azure AD Variables */
-	private PublicClientApplication sampleApp;
-	private AuthenticationResult authResult;
+    /* Azure AD Variables */
+    private PublicClientApplication sampleApp;
+    private AuthenticationResult authResult;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		/* Configure your sample app and save state for this activity */
-		sampleApp = null;
-		if (sampleApp == null) {
-			sampleApp = new PublicClientApplication(
-					this.getApplicationContext(), "e2266648-f2aa-444a-9767-a0a40ae3105a", "https://uarkregisterapp.b2clogin.com/tfp/uarkregisterapp.onmicrosoft.com/B2C_1_uarkregisterapp_SignIn");
-		}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        /* Configure your sample app and save state for this activity */
+        sampleApp = new PublicClientApplication(
+                this.getApplicationContext(), R.raw.b2c_config);
 
-		if(!logged_In) {
-			setContentView(R.layout.activity_main);
+        if(!logged_In) {
+            setContentView(R.layout.activity_main);
+        }else{
+            if (loginTokenClaims.getRole().equals("Manager")) {
+                setContentView(R.layout.activity_landing);
+                //this.getWelcomeText().setText(String.format("Welcome %s! What would you like to do next?", tokenCliams.getFirst_Name()));
+                ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do next?", loginTokenClaims.getFirst_Name()));
+            } else {
+                setContentView(R.layout.employee_landing);
+                //this.getWelcomeText().setText(String.format("Welcome %s! What would you like to do next?", tokenCliams.getFirst_Name()));
+                ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do next?", loginTokenClaims.getFirst_Name()));
+            }
+        }
 
+        loginButton = (Button) findViewById(R.id.Login);
+        signOutButton = (Button) findViewById(R.id.clearCache);
 
-			loginButton = (Button) findViewById(R.id.Login);
+    }
 
-			loginButton.setOnClickListener(new View.OnClickListener() {
-				public void onClick(View v) {
-					onLoginClicked();
-				}
-			});
-		}
-		else{
-			setContentView(R.layout.activity_landing);
-		}
+    /* Handles the redirect from the System Browser */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        sampleApp.handleInteractiveRequestRedirect(requestCode, resultCode, data);
+    }
 
-	}
+    public void Login(View view) {
+        sampleApp.acquireToken(getActivity(), SCOPES, getAuthInteractiveCallback());
+    }
 
-	/* Handles the redirect from the System Browser */
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		sampleApp.handleInteractiveRequestRedirect(requestCode, resultCode, data);
-	}
+    //
+    // Helper methods manage UI updates
+    // ================================
+    // updateSuccessLoginUI() - Updates UI when token acquisition succeeds
+    // updateSignedOutUI() - Updates UI when app sign out succeeds
+    //
 
-	private void onLoginClicked() {
-		sampleApp.acquireToken(getActivity(), SCOPES, getAuthInteractiveCallback());
-	}
+    /* Set the UI for successful token acquisition data */
+    private void updateSuccessLoginUI() {
+        loginButton.setVisibility(View.INVISIBLE);
+        logged_In = true;
+        if (loginTokenClaims.getRole().equals("Manager")) {
+            setContentView(R.layout.activity_landing);
+            ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do next?", loginTokenClaims.getFirst_Name()));
+        } else {
+            setContentView(R.layout.employee_landing);
+            ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do next?", loginTokenClaims.getFirst_Name()));
+        }
+        //this.startActivity(new Intent(getApplicationContext(), LandingActivity.class));
+    }
 
-	//
-	// Helper methods manage UI updates
-	// ================================
-	// updateSuccessLoginUI() - Updates UI when token acquisition succeeds
-	// updateSignedOutUI() - Updates UI when app sign out succeeds
-	//
+/*    private void updateSuccessSignUpUI() {
+        logged_In = true;
+    }*/
 
-	/* Set the UI for successful token acquisition data */
-	private void updateSuccessLoginUI() {
-		loginButton.setVisibility(View.INVISIBLE);
-		logged_In = true;
-        //((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do next?", tokenCliams.getFirst_Name()));
-		if (tokenCliams.getRole().equals("Manager")) {
-			setContentView(R.layout.activity_landing);
-			//this.getWelcomeText().setText(String.format("Welcome %s! What would you like to do next?", tokenCliams.getFirst_Name()));
-			((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do next?", tokenCliams.getFirst_Name()));
-		}
-		else{
-			setContentView(R.layout.employee_landing);
-			//this.getWelcomeText().setText(String.format("Welcome %s! What would you like to do next?", tokenCliams.getFirst_Name()));
-			((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do next?", tokenCliams.getFirst_Name()));
-		}
-		//this.startActivity(new Intent(getApplicationContext(), LandingActivity.class));
-	}
-	private void updateSuccessSignUpUI() {
-		logged_In = true;
-	}
+    /* Set the UI for signed out account */
+    private void updateSignedOutUI() {
+        logged_In = false;
+        setContentView(R.layout.activity_main);
 
-	/* Set the UI for signed out account */
-	private void updateSignedOutUI() {
-		logged_In = false;
-		this.startActivity(new Intent(getApplicationContext(), LandingActivity.class));
-	}
-	public Activity getActivity() {
-		return this;
-	}
-	private class SaveEmployeeTask extends AsyncTask<Void, Void, Boolean> {
-		@Override
-		protected void onPreExecute() {
-			this.savingEmployeeAlert.show();
-		}
+    }
 
-		@Override
-		protected Boolean doInBackground(Void... params) {
-			Employee employee = (new Employee())
-					.setFirst_Name(employeeTransition.getFirst_Name())
-					.setLast_Name(employeeTransition.getLast_Name())
-					.setId(employeeTransition.getId())
-					.setRole(employeeTransition.getRole());
+    public Activity getActivity() {
+        return this;
+    }
 
-			ApiResponse<Employee> apiResponse = (
-					(employee.getManagerID().equals(new UUID(0, 0)))
-							? (new EmployeeService()).createEmployee(employee)
-							: (new EmployeeService()).updateEmployee(employee)
-			);
+    private class SaveEmployeeTask extends AsyncTask<Void, Void, Boolean> {
+        @Override
+        protected void onPreExecute() {
+            this.savingEmployeeAlert.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            Employee employee = (new Employee())
+                    .setFirst_Name(loginTokenClaims.getFirst_Name())
+                    .setLast_Name(loginTokenClaims.getLast_Name())
+                    .setId(loginTokenClaims.getId())
+                    .setRole(loginTokenClaims.getRole());
+
+            ApiResponse<Employee> apiResponse = (
+                    (employee.getManagerID().equals(new UUID(0, 0)))
+                            ? (new EmployeeService()).createEmployee(employee)
+                            : (new EmployeeService()).updateEmployee(employee)
+            );
 
 /*			if (apiResponse.isValidResponse()) {
-				employeeTransition.setRecordID(apiResponse.getData().getRecordID());
+				//loginTokenClaims.setRecordID(apiResponse.getData().getRecordID());
 			}*/
 
-			return apiResponse.isValidResponse();
-		}
+            return apiResponse.isValidResponse();
+        }
 
-		@Override
-		protected void onPostExecute(Boolean successfulSave) {
-			String message;
+        @Override
+        protected void onPostExecute(Boolean successfulSave) {
+            String message;
 
-			savingEmployeeAlert.dismiss();
+            savingEmployeeAlert.dismiss();
 
-			if (successfulSave) {
-				message = getString(R.string.alert_dialog_employee_save_success);
-			} else {
-				message = getString(R.string.alert_dialog_employee_save_failure);
-			}
+            if (successfulSave) {
+                message = getString(R.string.alert_dialog_employee_save_success);
+            } else {
+                message = getString(R.string.alert_dialog_employee_save_failure);
+            }
 
-			new AlertDialog.Builder(LandingActivity.this).
-					setMessage(message).
-					setPositiveButton(
-							R.string.button_dismiss,
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog, int id) {
-									dialog.dismiss();
-								}
-							}
-					).
-					create().
-					show();
-		}
+            new AlertDialog.Builder(LandingActivity.this).
+                    setMessage(message).
+                    setPositiveButton(
+                            R.string.button_dismiss,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.dismiss();
+                                }
+                            }
+                    ).
+                    create().
+                    show();
+        }
 
-		private AlertDialog savingEmployeeAlert;
+        private AlertDialog savingEmployeeAlert;
 
-		SaveEmployeeTask() {
-			this.savingEmployeeAlert = new AlertDialog.Builder(LandingActivity.this).
-					setMessage(R.string.alert_dialog_employee_save).
-					create();
-		}
-	}
+        SaveEmployeeTask() {
+            this.savingEmployeeAlert = new AlertDialog.Builder(LandingActivity.this).
+                    setMessage(R.string.alert_dialog_employee_save).
+                    create();
+        }
+    }
 
-	/* Callback used for interactive request.  If succeeds we use the access
-	 * token to call the Microsoft Graph. Does not check cache
-	 */
-	private AuthenticationCallback getAuthInteractiveCallback() {
-		return new AuthenticationCallback() {
-			@Override
-			public void onSuccess(AuthenticationResult authenticationResult) {
-				/* Successfully got a token, call graph now */
-				Log.d(TAG, "Successfully authenticated");
-				Log.d(TAG, "ID Token: " + authenticationResult.getIdToken());
+    /* Callback used for interactive request.  If succeeds we use the access
+     * token to call the Microsoft Graph. Does not check cache
+     */
+    private AuthenticationCallback getAuthInteractiveCallback() {
+        return new AuthenticationCallback() {
+            @Override
+            public void onSuccess(AuthenticationResult authenticationResult) {
+                //Successfully got a token, call graph now
+                Log.d(TAG, "Successfully authenticated");
+                Log.d(TAG, "ID Token: " + authenticationResult.getIdToken());
 
-				/* Store the auth result */
-				authResult = authenticationResult;
-				JWT ID_token = new JWT(authResult.getIdToken());
-				if(!logged_In) {
-					Claim first_Name_Claim = ID_token.getClaim("given_name");
-					Claim last_Name_Claim = ID_token.getClaim("family_name");
-					Claim job_Title_Claim = ID_token.getClaim("jobTitle");
-					Claim new_User_Claim = ID_token.getClaim("newUser");
-					Claim object_ID_Claim = ID_token.getClaim("oid");
-					UUID object_ID = UUID.fromString(object_ID_Claim.asString());
-					employeeTransition.setId(object_ID);
-					employeeTransition.setFirst_Name(first_Name_Claim.asString());
-					employeeTransition.setLast_Name(last_Name_Claim.asString());
-					employeeTransition.setRole(job_Title_Claim.asString());
-					tokenCliams.setRole(job_Title_Claim.asString());
-					tokenCliams.setFirst_Name(first_Name_Claim.asString());
-				}else{
-					Claim first_Name_Claim = ID_token.getClaim("given_name");
-					Claim last_Name_Claim = ID_token.getClaim("family_name");
-					Claim job_Title_Claim = ID_token.getClaim("jobTitle");
-					Claim new_User_Claim = ID_token.getClaim("newUser");
-					Claim object_ID_Claim = ID_token.getClaim("oid");
-					UUID object_ID = UUID.fromString(object_ID_Claim.asString());
-					//boolean isNewUser = new_User_Claim.asBoolean();
-					employeeTransition.setId(object_ID);
-					employeeTransition.setFirst_Name(first_Name_Claim.asString());
-					employeeTransition.setLast_Name(last_Name_Claim.asString());
-					employeeTransition.setRole(job_Title_Claim.asString());
-					tokenCliams.setRole(job_Title_Claim.asString());
-					tokenCliams.setFirst_Name(first_Name_Claim.asString());
-						(new SaveEmployeeTask()).execute();
+                //Store the auth result
+                authResult = authenticationResult;
+                JWT ID_token = new JWT(authResult.getIdToken());
+                Claim first_Name_Claim = ID_token.getClaim("given_name");
+                Claim last_Name_Claim = ID_token.getClaim("family_name");
+                Claim job_Title_Claim = ID_token.getClaim("jobTitle");
+                Claim new_User_Claim = ID_token.getClaim("newUser");
+                Claim object_ID_Claim = ID_token.getClaim("oid");
+                UUID object_ID = UUID.fromString(object_ID_Claim.asString());
+                loginTokenClaims.setId(object_ID);
+                loginTokenClaims.setFirst_Name(first_Name_Claim.asString());
+                loginTokenClaims.setLast_Name(last_Name_Claim.asString());
+                loginTokenClaims.setRole(job_Title_Claim.asString());
 
+                if (logged_In) {
+                    (new SaveEmployeeTask()).execute();
+                } else {
+                    updateSuccessLoginUI();
 				}
 
-				/* call graph */
-				//callWebAPI();
-				if(!logged_In) {
-					/* update the UI to post call graph state */
-					updateSuccessLoginUI();
-				}else {
-					updateSuccessSignUpUI();
-				}
 			}
 
-			@Override
-			public void onError(MsalException exception) {
-				/* Failed to acquireToken */
-				Log.d(TAG, "Authentication failed: " + exception.toString());
+            @Override
+            public void onError(MsalException exception) {
+                //Failed to acquireToken
+                Log.d(TAG, "Authentication failed: " + exception.toString());
 
-				if (exception instanceof MsalClientException) {
-					/* Exception inside MSAL, more info inside MsalError.java */
-				} else if (exception instanceof MsalServiceException) {
-					/* Exception when communicating with the STS, likely config issue */
-				}
-			}
+                if (exception instanceof MsalClientException) {
+                    //Exception inside MSAL, more info inside MsalError.java
+                } else if (exception instanceof MsalServiceException) {
+                    //Exception when communicating with the STS, likely config issue
+                }
+            }
 
-			@Override
-			public void onCancel() {
-				/* User canceled the authentication */
-				Log.d(TAG, "User cancelled login.");
-			}
-		};
-	}
-	private TextView getWelcomeText() {
-		return (TextView) this.findViewById(R.id.text_view_welcome);
-	}
+            @Override
+            public void onCancel() {
+                //User canceled the authentication
+                Log.d(TAG, "User cancelled login.");
+            }
+        };
+    }
 
-	public void displayTransactionButtonOnClick(View view) {
-		this.startActivity(new Intent(getApplicationContext(), ProductsListingActivity.class));
-	}
+    private TextView getWelcomeText() {
+        return (TextView) this.findViewById(R.id.text_view_welcome);
+    }
 
-	public void displayCreateEmployeeButtonOnClick(View view) {
-		/* Configure your sample app and save state for this activity */
-		sampleApp = null;
-		if (sampleApp == null) {
-			sampleApp = new PublicClientApplication(
-					this.getApplicationContext(), "e2266648-f2aa-444a-9767-a0a40ae3105a", "https://uarkregisterapp.b2clogin.com/tfp/uarkregisterapp.onmicrosoft.com/B2C_1_uarkregisterapp_signup");
-		}
+    public void displayTransactionButtonOnClick(View view) {
+        this.startActivity(new Intent(getApplicationContext(), ProductsListingActivity.class));
+    }
 
-		sampleApp.acquireToken(getActivity(), SCOPES, getAuthInteractiveCallback());
-	}
+    public void displayCreateEmployeeButtonOnClick(View view) {
+        /* Configure your sample app and save state for this activity */
+        sampleApp = new PublicClientApplication(
+                this.getApplicationContext(), "e2266648-f2aa-444a-9767-a0a40ae3105a", "https://uarkregisterapp.b2clogin.com/tfp/uarkregisterapp.onmicrosoft.com/B2C_1_uarkregisterapp_signup");
+        sampleApp.acquireToken(getActivity(), SCOPES, getAuthInteractiveCallback());
+    }
 
-	public void SalesReportButtonOnClick(View view) {
-		Intent intent = new Intent(getApplicationContext(), ProductViewActivity.class);
+    public void SalesReportButtonOnClick(View view) {
+        Intent intent = new Intent(getApplicationContext(), ProductViewActivity.class);
 
-		intent.putExtra(
-			getString(R.string.intent_extra_product),
-			new ProductTransition()
-		);
+        intent.putExtra(
+                getString(R.string.intent_extra_product),
+                new ProductTransition()
+        );
 
-		this.startActivity(intent);
-	}
+        this.startActivity(intent);
+    }
 
-	public void SignOut(View view) {
-		//* Attempt to get a account and remove their cookies from cache *//*
-		List<IAccount> accounts = null;
+    public void SignOut(View view) {
+        //* Attempt to get a account and remove their cookies from cache *//*
+        List<IAccount> accounts = null;
 
-		try {
-			accounts = sampleApp.getAccounts();
+        try {
+            accounts = sampleApp.getAccounts();
 
-			if (accounts == null) {
-				//* We have no accounts *//*
+            if (accounts == null) {
+                //* We have no accounts *//*
 
-			} else if (accounts.size() == 1) {
-				//* We have 1 account *//*
-				//* Remove from token cache *//*
-				sampleApp.removeAccount(accounts.get(0));
-				updateSignedOutUI();
+            } else if (accounts.size() == 1) {
+                //* We have 1 account *//*
+                //* Remove from token cache *//*
+                sampleApp.removeAccount(accounts.get(0));
+                updateSignedOutUI();
 
-			}
-			else {
-				//* We have multiple accounts *//*
-				for (int i = 0; i < accounts.size(); i++) {
-					sampleApp.removeAccount(accounts.get(i));
-				}
-				updateSignedOutUI();
-			}
+            } else {
+                //* We have multiple accounts *//*
+                for (int i = 0; i < accounts.size(); i++) {
+                    sampleApp.removeAccount(accounts.get(i));
+                }
+                updateSignedOutUI();
+            }
 
-			Toast.makeText(getBaseContext(), "Signed Out!", Toast.LENGTH_SHORT)
-					.show();
+            Toast.makeText(getBaseContext(), "Signed Out!", Toast.LENGTH_SHORT)
+                    .show();
 
-		} catch (IndexOutOfBoundsException e) {
-			Log.d(TAG, "User at this position does not exist: " + e.toString());
-		}
-	}
+        } catch (IndexOutOfBoundsException e) {
+            Log.d(TAG, "User at this position does not exist: " + e.toString());
+        }
+    }
 }

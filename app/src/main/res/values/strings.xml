@@ -62,6 +62,7 @@
     <string name="validation_employee_count">Employee count must be a number and may not be negative.</string>
     <string name="intent_extra_product">intent_extra_product</string>
     <string name="intent_extra_employee">intent_extra_employee</string>
+    <string name="intent_extra_sampleapp">intent_extra_sampleapp</string>
     <string name="welcome">Welcome,</string>
     <string name="login">Login</string>
     <string name="logging_in">Logging You In…</string>

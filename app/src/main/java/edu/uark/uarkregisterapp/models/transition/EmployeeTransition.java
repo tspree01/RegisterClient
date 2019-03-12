@@ -3,12 +3,13 @@ package edu.uark.uarkregisterapp.models.transition;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.microsoft.identity.client.IAccount;
+import com.microsoft.identity.client.PublicClientApplication;
+
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Date;
+import java.util.List;
 import java.util.UUID;
-
-import javax.net.ssl.ManagerFactoryParameters;
 
 import edu.uark.uarkregisterapp.commands.converters.ByteToUUIDConverterCommand;
 import edu.uark.uarkregisterapp.commands.converters.UUIDToByteConverterCommand;
@@ -25,7 +26,25 @@ public class EmployeeTransition implements Parcelable {
 		return this;
 	}
 
-/*	private int recordID;
+	private PublicClientApplication loginApp;
+
+	public PublicClientApplication getLoginApp() {
+		return loginApp;
+	}
+	public EmployeeTransition setLoginApp(PublicClientApplication loginApp) {
+		this.loginApp = loginApp;
+		return this;
+	}
+	private List<IAccount> userAccounts;
+
+	public List<IAccount> getuserAccounts() {
+		return userAccounts;
+	}
+	public EmployeeTransition setuserAccounts(List<IAccount> userAccounts) {
+		this.userAccounts = userAccounts;
+		return this;
+	}
+	/*	private int recordID;
 	public int getRecordID() {
 		return this.recordID;
 	}
@@ -85,6 +104,8 @@ public class EmployeeTransition implements Parcelable {
 		destination.writeByteArray((new UUIDToByteConverterCommand()).setValueToConvert(this.id).execute());
 		//destination.writeInt(this.recordID);
 		//destination.writeLong(this.createdOn.getTime());
+		//destination.writeValue(this.loginApp);
+		destination.writeList(this.userAccounts);
 		destination.writeString(this.first_name);
 		destination.writeString(this.last_name);
 		destination.writeBooleanArray(new boolean[]{this.active});
@@ -119,6 +140,31 @@ public class EmployeeTransition implements Parcelable {
 		this.active = false;
 		this.role = StringUtils.EMPTY;
 	}
+	public EmployeeTransition(PublicClientApplication application) {
+		this.id = new UUID(0, 0);
+		this.loginApp = application;
+		//this.createdOn = new Date();
+		//this.recordID = 0;
+		this.first_name = StringUtils.EMPTY;
+		this.last_name = StringUtils.EMPTY;
+		//this.password = StringUtils.EMPTY;
+		this.managerID = new UUID(0,0);
+		this.active = false;
+		this.role = StringUtils.EMPTY;
+	}
+
+	public EmployeeTransition(List<IAccount> userAccounts) {
+		this.id = new UUID(0, 0);
+		this.userAccounts = userAccounts;
+		//this.createdOn = new Date();
+		//this.recordID = 0;
+		this.first_name = StringUtils.EMPTY;
+		this.last_name = StringUtils.EMPTY;
+		//this.password = StringUtils.EMPTY;
+		this.managerID = new UUID(0,0);
+		this.active = false;
+		this.role = StringUtils.EMPTY;
+	}
 
 	public EmployeeTransition(Employee employee) {
 		this.id = employee.getId();
@@ -134,6 +180,9 @@ public class EmployeeTransition implements Parcelable {
 
 	private EmployeeTransition(Parcel employeeTransitionParcel) {
 		this.id = (new ByteToUUIDConverterCommand()).setValueToConvert(employeeTransitionParcel.createByteArray()).execute();
+		//this.loginApp = (PublicClientApplication) employeeTransitionParcel.readValue(getClass().getClassLoader());
+		this.userAccounts = (List<IAccount>)employeeTransitionParcel.readValue(getClass().getClassLoader());
+
 		//this.recordID = employeeTransitionParcel.readInt();
 		//this.createdOn = new Date();
 		//this.createdOn.setTime(employeeTransitionParcel.readLong());

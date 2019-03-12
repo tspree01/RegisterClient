@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:id="@+id/activity_landing"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_landing"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="edu.uark.uarkregisterapp.LandingActivity">
 
     <TextView
@@ -16,8 +15,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:textSize="15sp"
-        android:text="@string/text_view_landing_welcome"/>
+        android:text="@string/text_view_landing_welcome"
+        android:textSize="15sp" />
 
     <Button
         android:id="@+id/button_transaction"
@@ -26,8 +25,8 @@
         android:layout_below="@+id/text_view_welcome"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:text="@string/button_transaction"
-        android:onClick="displayTransactionButtonOnClick"/>
+        android:onClick="displayTransactionButtonOnClick"
+        android:text="@string/button_transaction" />
 
     <Button
         android:id="@+id/button_create_employee"
@@ -36,8 +35,8 @@
         android:layout_below="@+id/button_transaction"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:text="@string/button_create_employee"
-        android:onClick="displayCreateEmployeeButtonOnClick"/>
+        android:onClick="displayCreateEmployeeButtonOnClick"
+        android:text="@string/button_create_employee" />
 
     <Button
         android:id="@+id/button_sales_report"
@@ -46,21 +45,33 @@
         android:layout_below="@+id/button_create_employee"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:text="@string/button_sales_report"
-        android:onClick="SalesReportButtonOnClick"/>
+        android:onClick="SalesReportButtonOnClick"
+        android:text="@string/button_sales_report" />
 
     <Button
-        android:text="@string/sign_out"
+        android:id="@+id/Login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:layout_gravity="center|bottom"
-        android:textColor="#FFFFFF"
+        android:layout_marginTop="200dp"
+        android:onClick="Login"
         android:background="#00a1f1"
+        android:text="@string/login"
         android:textAllCaps="false"
-        android:layout_alignParentBottom="true"
+        android:textColor="#FFFFFF"
+        android:visibility="invisible"/>
+
+    <Button
         android:id="@+id/clearCache"
-        android:visibility="visible"
-        android:onClick="SignOut"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="30dp"
+        android:background="#00a1f1"
+        android:onClick="SignOut"
+        android:text="@string/sign_out"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:visibility="visible" />
 
 </RelativeLayout>
