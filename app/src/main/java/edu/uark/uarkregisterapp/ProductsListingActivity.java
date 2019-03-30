@@ -35,7 +35,6 @@ public class ProductsListingActivity extends AppCompatActivity {
 		}
 
 
-
 		this.products = new ArrayList<>();
 		this.productListAdapter = new ProductListAdapter(this, this.products);
 

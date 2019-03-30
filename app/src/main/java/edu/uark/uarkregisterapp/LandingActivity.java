@@ -5,10 +5,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -60,7 +63,6 @@ public class LandingActivity extends AppCompatActivity {
         sampleApp = new PublicClientApplication(
                 this.getApplicationContext(), R.raw.b2c_config);
 
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
 
 
@@ -69,6 +71,14 @@ public class LandingActivity extends AppCompatActivity {
         }else{
             if (loginTokenClaims.getRole().equals("Manager")) {
                 setContentView(R.layout.activity_landing);
+                Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+                setSupportActionBar(toolbar);
+
+                ActionBar actionBar = this.getSupportActionBar();
+                if (actionBar != null) {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                }
+
                 //this.getWelcomeText().setText(String.format("Welcome %s! What would you like to do next?", tokenCliams.getFirst_Name()));
                 ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do next?", loginTokenClaims.getFirst_Name()));
             } else {
@@ -78,18 +88,35 @@ public class LandingActivity extends AppCompatActivity {
             }
         }
 
-        //* Enable logging *//*
-       mLogs = new StringBuilder();
-        Logger.getInstance().setLogLevel(Logger.LogLevel.VERBOSE);
-        Logger.getInstance().setEnablePII(true);
-        Logger.getInstance().setEnableLogcatLog(true);
-        Logger.getInstance().setExternalLogger(new ILoggerCallback() {
-            @Override
-            public void log(String tag, Logger.LogLevel logLevel, String message, boolean containsPII) {
-                mLogs.append(message).append('\n');
-            }
-        });
+//        //* Enable logging *//*
+//       mLogs = new StringBuilder();
+//        Logger.getInstance().setLogLevel(Logger.LogLevel.VERBOSE);
+//        Logger.getInstance().setEnablePII(true);
+//        Logger.getInstance().setEnableLogcatLog(true);
+//        Logger.getInstance().setExternalLogger(new ILoggerCallback() {
+//            @Override
+//            public void log(String tag, Logger.LogLevel logLevel, String message, boolean containsPII) {
+//                mLogs.append(message).append('\n');
+//            }
+//        });
 
+    }
+    // create an action bar button
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_action_buttons, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.cart:
+                this.startActivity(new Intent(getApplicationContext(), ProductsListingActivity.class));
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     /* Handles the redirect from the System Browser */
