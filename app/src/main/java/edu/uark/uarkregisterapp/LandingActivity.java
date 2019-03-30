@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,11 +19,15 @@ import com.auth0.android.jwt.JWT;
 import com.microsoft.identity.client.AuthenticationCallback;
 import com.microsoft.identity.client.AuthenticationResult;
 import com.microsoft.identity.client.IAccount;
+import com.microsoft.identity.client.ILoggerCallback;
+import com.microsoft.identity.client.Logger;
+import com.microsoft.identity.common.internal.dto.AccountRecord;
 import com.microsoft.identity.client.PublicClientApplication;
 import com.microsoft.identity.client.exception.MsalClientException;
 import com.microsoft.identity.client.exception.MsalException;
 import com.microsoft.identity.client.exception.MsalServiceException;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,13 +35,15 @@ import edu.uark.uarkregisterapp.models.api.ApiResponse;
 import edu.uark.uarkregisterapp.models.api.Employee;
 import edu.uark.uarkregisterapp.models.api.services.EmployeeService;
 import edu.uark.uarkregisterapp.models.transition.EmployeeTransition;
+import edu.uark.uarkregisterapp.LoginActivity;
 import edu.uark.uarkregisterapp.models.transition.ProductTransition;
 
 public class LandingActivity extends AppCompatActivity {
     final static String SCOPES[] = {"https://uarkregisterapp.onmicrosoft.com/api/read"};
     private static final String TAG = LandingActivity.class.getSimpleName();
-    private Button loginButton;
-    private Button signOutButton;
+  //  private Button loginButton;
+   // private Button signOutButton;
+    private boolean createEmployeeClicked = false;
     private boolean logged_In = false;
     private EmployeeTransition loginTokenClaims = new EmployeeTransition();
 
@@ -44,6 +51,7 @@ public class LandingActivity extends AppCompatActivity {
     /* Azure AD Variables */
     private PublicClientApplication sampleApp;
     private AuthenticationResult authResult;
+    private StringBuilder mLogs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +59,10 @@ public class LandingActivity extends AppCompatActivity {
         /* Configure your sample app and save state for this activity */
         sampleApp = new PublicClientApplication(
                 this.getApplicationContext(), R.raw.b2c_config);
+
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+
+
 
         if(!logged_In) {
             setContentView(R.layout.activity_main);
@@ -65,15 +77,23 @@ public class LandingActivity extends AppCompatActivity {
                 ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do next?", loginTokenClaims.getFirst_Name()));
             }
         }
-        //this.loginTokenClaims = this.getIntent().getParcelableExtra("loginActivityClaim");
 
-        loginButton = (Button) findViewById(R.id.Login);
-        signOutButton = (Button) findViewById(R.id.clearCache);
+        //* Enable logging *//*
+       mLogs = new StringBuilder();
+        Logger.getInstance().setLogLevel(Logger.LogLevel.VERBOSE);
+        Logger.getInstance().setEnablePII(true);
+        Logger.getInstance().setEnableLogcatLog(true);
+        Logger.getInstance().setExternalLogger(new ILoggerCallback() {
+            @Override
+            public void log(String tag, Logger.LogLevel logLevel, String message, boolean containsPII) {
+                mLogs.append(message).append('\n');
+            }
+        });
 
     }
 
     /* Handles the redirect from the System Browser */
-    @Override
+    //@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         sampleApp.handleInteractiveRequestRedirect(requestCode, resultCode, data);
     }
@@ -91,7 +111,6 @@ public class LandingActivity extends AppCompatActivity {
 
     /* Set the UI for successful token acquisition data */
     private void updateSuccessLoginUI() {
-        loginButton.setVisibility(View.INVISIBLE);
         logged_In = true;
         if (loginTokenClaims.getRole().equals("Manager")) {
             setContentView(R.layout.activity_landing);
@@ -111,7 +130,6 @@ public class LandingActivity extends AppCompatActivity {
     private void updateSignedOutUI() {
         logged_In = false;
         setContentView(R.layout.activity_main);
-
     }
 
     public Activity getActivity() {
@@ -138,9 +156,9 @@ public class LandingActivity extends AppCompatActivity {
                             : (new EmployeeService()).updateEmployee(employee)
             );
 
-/*			if (apiResponse.isValidResponse()) {
+			if (apiResponse.isValidResponse()) {
 				//loginTokenClaims.setRecordID(apiResponse.getData().getRecordID());
-			}*/
+			}
 
             return apiResponse.isValidResponse();
         }
@@ -193,7 +211,7 @@ public class LandingActivity extends AppCompatActivity {
 
                 //Store the auth result
                 authResult = authenticationResult;
-                JWT access_Token = new JWT(authResult.getIdToken());
+                JWT access_Token = new JWT(authResult.getAccessToken());
                 Claim first_Name_Claim = access_Token.getClaim("given_name");
                 Claim last_Name_Claim = access_Token.getClaim("family_name");
                 Claim job_Title_Claim = access_Token.getClaim("jobTitle");
@@ -242,9 +260,10 @@ public class LandingActivity extends AppCompatActivity {
     }
 
     public void displayCreateEmployeeButtonOnClick(View view) {
+        //this.startActivity(new Intent(getApplicationContext(), SignUpActivity.class));
         /* Configure your sample app and save state for this activity */
 
-        sampleApp = new PublicClientApplication(
+       sampleApp = new PublicClientApplication(
                 this.getApplicationContext(), "e2266648-f2aa-444a-9767-a0a40ae3105a", "https://uarkregisterapp.b2clogin.com/tfp/uarkregisterapp.onmicrosoft.com/B2C_1_uarkregisterapp_signup");
         sampleApp.acquireToken(getActivity(), SCOPES, getAuthInteractiveCallback());
     }

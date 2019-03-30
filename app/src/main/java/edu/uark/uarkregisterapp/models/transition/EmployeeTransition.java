@@ -35,12 +35,12 @@ public class EmployeeTransition implements Parcelable {
 		this.loginApp = loginApp;
 		return this;
 	}
-	private List<IAccount> userAccounts;
+	private IAccount userAccounts;
 
-	public List<IAccount> getuserAccounts() {
+	public IAccount getuserAccounts() {
 		return userAccounts;
 	}
-	public EmployeeTransition setuserAccounts(List<IAccount> userAccounts) {
+	public EmployeeTransition setuserAccounts(IAccount userAccounts) {
 		this.userAccounts = userAccounts;
 		return this;
 	}
@@ -105,9 +105,11 @@ public class EmployeeTransition implements Parcelable {
 		//destination.writeInt(this.recordID);
 		//destination.writeLong(this.createdOn.getTime());
 		//destination.writeValue(this.loginApp);
-		destination.writeList(this.userAccounts);
+		//destination.writeValue(this.userAccounts);
+		//destination.writeSerializable(this.userAccounts);
 		destination.writeString(this.first_name);
 		destination.writeString(this.last_name);
+		destination.writeString(this.role);
 		destination.writeBooleanArray(new boolean[]{this.active});
 		destination.writeByteArray((new UUIDToByteConverterCommand()).setValueToConvert(this.managerID).execute());
 		//destination.writeString(this.password);
@@ -153,7 +155,7 @@ public class EmployeeTransition implements Parcelable {
 		this.role = StringUtils.EMPTY;
 	}
 
-	public EmployeeTransition(List<IAccount> userAccounts) {
+	public EmployeeTransition(IAccount userAccounts) {
 		this.id = new UUID(0, 0);
 		this.userAccounts = userAccounts;
 		//this.createdOn = new Date();
@@ -180,8 +182,11 @@ public class EmployeeTransition implements Parcelable {
 
 	private EmployeeTransition(Parcel employeeTransitionParcel) {
 		this.id = (new ByteToUUIDConverterCommand()).setValueToConvert(employeeTransitionParcel.createByteArray()).execute();
+		this.first_name = employeeTransitionParcel.readString();
+		this.last_name = employeeTransitionParcel.readString();
+		this.role = employeeTransitionParcel.readString();
 		//this.loginApp = (PublicClientApplication) employeeTransitionParcel.readValue(getClass().getClassLoader());
-		this.userAccounts = (List<IAccount>)employeeTransitionParcel.readValue(getClass().getClassLoader());
+		//this.userAccounts = (IAccount)employeeTransitionParcel.readValue(getClass().getClassLoader());
 
 		//this.recordID = employeeTransitionParcel.readInt();
 		//this.createdOn = new Date();

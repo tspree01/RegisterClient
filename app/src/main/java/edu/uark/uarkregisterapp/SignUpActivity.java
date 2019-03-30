@@ -47,7 +47,6 @@ public class SignUpActivity extends AppCompatActivity {
 
     /* Azure AD v2 Configs */
     final static String SCOPES [] = {"https://uarkregisterapp.onmicrosoft.com/api/read"};
-    final static String API_URL = "https://uarkregisterapp.azurewebsites.net/hello";
 
     /* UI & Debugging Variables */
     private static final String TAG = SignUpActivity.class.getSimpleName();

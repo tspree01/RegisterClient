@@ -25,6 +25,8 @@ import com.microsoft.identity.client.exception.MsalUiRequiredException;
 import java.util.List;
 import java.util.UUID;
 
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import edu.uark.uarkregisterapp.models.transition.EmployeeTransition;
 import edu.uark.uarkregisterapp.models.transition.ProductTransition;
 
@@ -32,17 +34,19 @@ import edu.uark.uarkregisterapp.models.transition.ProductTransition;
 public class LoginActivity extends AppCompatActivity {
 
     /* Azure AD v2 Configs */
-    final static String SCOPES [] = {"https://uarkregisterapp.onmicrosoft.com/api/read"};
+    final static String SCOPES[] = {"https://uarkregisterapp.onmicrosoft.com/api/read"};
 
     /* UI & Debugging Variables */
     private static final String TAG = LoginActivity.class.getSimpleName();
     Button loginButton;
+    Button signOutButton;
 
     /* Azure AD Variables */
-    private PublicClientApplication sampleApp;
+    public PublicClientApplication sampleApp;
     private AuthenticationResult authResult;
     public EmployeeTransition loginActivityCliams = new EmployeeTransition();
     private StringBuilder mLogs;
+    public static List<IAccount> userAccounts;
 
 
     @Override
@@ -50,15 +54,15 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        signOutButton = (Button) findViewById(R.id.clearCache);
 
         loginButton = (Button) findViewById(R.id.Login);
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        signOutButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                onLoginClicked();
+                onSignOutClicked();
             }
         });
-
 
         /* Configure your sample app and save state for this activity */
         sampleApp = null;
@@ -67,8 +71,8 @@ public class LoginActivity extends AppCompatActivity {
                     this.getApplicationContext(), R.raw.b2c_config);
         }
 
-        /* Enable logging */
-        mLogs = new StringBuilder();
+        //Enable logging
+/*        mLogs = new StringBuilder();
         Logger.getInstance().setLogLevel(Logger.LogLevel.VERBOSE);
         Logger.getInstance().setEnablePII(true);
         Logger.getInstance().setEnableLogcatLog(true);
@@ -77,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
             public void log(String tag, Logger.LogLevel logLevel, String message, boolean containsPII) {
                 mLogs.append(message).append('\n');
             }
-        });
+        });*/
 
 
         /* Attempt to get a user and acquireTokenSilent
@@ -120,8 +124,54 @@ public class LoginActivity extends AppCompatActivity {
     /* Use MSAL to acquireToken for the end-user
      * Callback will have a access token & update UI
      */
+    public void Login(View view) {
+        //Navigation.findNavController(view).navigate(R.id.fragment);
+        //NavController navController = Navigation.findNavController(getActivity(), view.getId());
+        sampleApp.acquireToken(getActivity(), SCOPES, getAuthInteractiveCallback());
+/*        findViewById(R.id.welcome).setVisibility(View.INVISIBLE);
+        findViewById(R.id.Login).setVisibility(View.INVISIBLE);
+        findViewById(R.id.clearCache).setVisibility(View.VISIBLE);*/
+
+    }
+
     private void onLoginClicked() {
         sampleApp.acquireToken(getActivity(), SCOPES, getAuthInteractiveCallback());
+    }
+
+    /* Clears an account's tokens from the cache.
+     * Logically similar to "sign out" but only signs out of this app.
+     */
+    public void onSignOutClicked() {
+
+        /* Attempt to get a account and remove their cookies from cache */
+        List<IAccount> accounts = null;
+
+        try {
+            accounts = sampleApp.getAccounts();
+
+            if (accounts == null) {
+                /* We have no accounts */
+
+            } else if (accounts.size() == 1) {
+                /* We have 1 account */
+                /* Remove from token cache */
+                sampleApp.removeAccount(accounts.get(0));
+                updateSignedOutUI();
+
+            }
+            else {
+                /* We have multiple accounts */
+                for (int i = 0; i < accounts.size(); i++) {
+                    sampleApp.removeAccount(accounts.get(i));
+                }
+            }
+
+            Toast.makeText(getBaseContext(), "Signed Out!", Toast.LENGTH_SHORT)
+                    .show();
+
+        } catch (IndexOutOfBoundsException e) {
+            Log.d(TAG, "User at this position does not exist: " + e.toString());
+        }
     }
     //
     // Helper methods manage UI updates
@@ -209,6 +259,7 @@ public class LoginActivity extends AppCompatActivity {
                 /* Store the auth result */
                 authResult = authenticationResult;
                 JWT ID_token = new JWT(authResult.getAccessToken());
+                userAccounts = sampleApp.getAccounts();
                 Claim first_Name_Claim = ID_token.getClaim("given_name");
                 Claim last_Name_Claim = ID_token.getClaim("family_name");
                 Claim job_Title_Claim = ID_token.getClaim("jobTitle");
@@ -218,7 +269,7 @@ public class LoginActivity extends AppCompatActivity {
                 loginActivityCliams.setFirst_Name(first_Name_Claim.asString());
                 loginActivityCliams.setLast_Name(last_Name_Claim.asString());
                 loginActivityCliams.setRole(job_Title_Claim.asString());
-                loginActivityCliams.setuserAccounts(sampleApp.getAccounts());
+                //loginActivityCliams.setuserAccounts(authResult.getAccount());
 
 
                 /* call graph */
@@ -246,5 +297,43 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d(TAG, "User cancelled login.");
             }
         };
+    }
+
+    /* Set the UI for signed out account */
+    private void updateSignedOutUI() {
+        //this.startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        //logged_In = false;
+    }
+
+    public void SignOut(View view) {
+        //* Attempt to get a account and remove their cookies from cache *//*
+        List<IAccount> accounts = null;
+
+        try {
+            accounts = LoginActivity.userAccounts;
+
+            if (accounts == null) {
+                //* We have no accounts *//*
+
+            } else if (accounts.size() == 1) {
+                //* We have 1 account *//*
+                //* Remove from token cache *//*
+                sampleApp.removeAccount(accounts.get(0));
+                updateSignedOutUI();
+
+            } else {
+                //* We have multiple accounts *//*
+                for (int i = 0; i < accounts.size(); i++) {
+                    sampleApp.removeAccount(accounts.get(i));
+                }
+                updateSignedOutUI();
+            }
+
+            Toast.makeText(getBaseContext(), "Signed Out!", Toast.LENGTH_SHORT)
+                    .show();
+
+        } catch (IndexOutOfBoundsException e) {
+            Log.d(TAG, "User at this position does not exist: " + e.toString());
+        }
     }
 }
