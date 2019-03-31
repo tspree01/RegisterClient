@@ -21,17 +21,17 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
 		View view = convertView;
 		if (view == null) {
 			LayoutInflater inflater = LayoutInflater.from(this.getContext());
-			view = inflater.inflate(R.layout.list_view_item_product, parent, false);
+			view = inflater.inflate(R.layout.cart_popup_window, parent, false);
 		}
 
 		Product product = this.getItem(position);
 		if (product != null) {
-			TextView lookupCodeTextView = (TextView) view.findViewById(R.id.list_view_item_product_lookup_code);
+			TextView lookupCodeTextView = (TextView) view.findViewById(R.id.product_title);
 			if (lookupCodeTextView != null) {
 				lookupCodeTextView.setText(product.getLookupCode());
 			}
 
-			TextView countTextView = (TextView) view.findViewById(R.id.list_view_item_product_count);
+			TextView countTextView = (TextView) view.findViewById(R.id.product_price);
 			if (countTextView != null) {
 				countTextView.setText(String.format(Locale.getDefault(), "%d", product.getCount()));
 			}
@@ -41,6 +41,6 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
 	}
 
 	public ProductListAdapter(Context context, List<Product> products) {
-		super(context, R.layout.list_view_item_product, products);
+		super(context, R.layout.cart_popup_window, products);
 	}
 }
