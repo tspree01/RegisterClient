@@ -16,7 +16,7 @@
 
     <ListView
         android:id="@+id/list_view_products"
-        style="@android:style/Widget.Material.Light.ListView.DropDown"
+        style="@android:style/Widget.Material.Light.ListView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
