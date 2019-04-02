@@ -3,6 +3,7 @@ package edu.uark.uarkregisterapp;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -18,6 +19,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +36,7 @@ import com.microsoft.identity.client.PublicClientApplication;
 import com.microsoft.identity.client.exception.MsalClientException;
 import com.microsoft.identity.client.exception.MsalException;
 import com.microsoft.identity.client.exception.MsalServiceException;
+import com.nimbusds.jose.util.Resource;
 
 import java.io.Serializable;
 import java.util.List;
@@ -72,7 +75,8 @@ public class LandingActivity extends AppCompatActivity {
 
 
         if(!logged_In) {
-            setContentView(R.layout.activity_main);
+            //setContentView(R.layout.activity_main);
+            setContentView(R.layout.activity_landing);
         }else{
             if (loginTokenClaims.getRole().equals("Manager")) {
                 setContentView(R.layout.activity_landing);
@@ -125,11 +129,12 @@ public class LandingActivity extends AppCompatActivity {
                 int width = LinearLayout.LayoutParams.MATCH_PARENT;
                 int height = LinearLayout.LayoutParams.WRAP_CONTENT;
                 boolean focusable = true; // lets taps outside the popup also dismiss it
-                final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+                final NumberPicker popupWindow = new NumberPicker(this);
+                popupWindow.setElevation(10);
 
                 // show the popup window
                 // which view you pass in doesn't matter, it is only used for the window tolken
-                popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+ /*               popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
 
                 // dismiss the popup window when touched
                 popupView.setOnClickListener(new View.OnClickListener() {
@@ -138,12 +143,12 @@ public class LandingActivity extends AppCompatActivity {
                         popupWindow.dismiss();
                     }
 
-/*                    @Override
+*//*                    @Override
                     public boolean onTouch(View v, MotionEvent event) {
                         popupWindow.dismiss();
                         return true;
-                    }*/
-                });
+                    }*//*
+                });*/
                 return true;
         }
 

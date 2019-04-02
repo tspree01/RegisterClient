@@ -3,7 +3,10 @@ package edu.uark.uarkregisterapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,8 +17,6 @@ import com.auth0.android.jwt.JWT;
 import com.microsoft.identity.client.AuthenticationCallback;
 import com.microsoft.identity.client.AuthenticationResult;
 import com.microsoft.identity.client.IAccount;
-import com.microsoft.identity.client.ILoggerCallback;
-import com.microsoft.identity.client.Logger;
 import com.microsoft.identity.client.PublicClientApplication;
 import com.microsoft.identity.client.exception.MsalClientException;
 import com.microsoft.identity.client.exception.MsalException;
@@ -25,10 +26,7 @@ import com.microsoft.identity.client.exception.MsalUiRequiredException;
 import java.util.List;
 import java.util.UUID;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import edu.uark.uarkregisterapp.models.transition.EmployeeTransition;
-import edu.uark.uarkregisterapp.models.transition.ProductTransition;
 
 
 public class LoginActivity extends AppCompatActivity {

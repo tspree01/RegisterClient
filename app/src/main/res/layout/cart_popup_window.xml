@@ -1,32 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.MaterialComponents.CardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/Widget.MaterialComponents.CardView"
-    app:cardElevation="1dp"
-    app:cardPreventCornerOverlap="true">
+    app:cardElevation="5dp"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="false"
+    app:contentPadding="5dp">
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/activity_landing"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/product_price"
-            android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!--tools:showIn="@layout/content_cart">-->
+        <android.support.design.button.MaterialButton
+            android:layout_width="25dp"
             android:layout_height="wrap_content"
-            android:text="@string/shopping_chart"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="116dp"
+            android:elevation="5dp"
+            android:textAppearance="@style/TextAppearance.Design.Counter"
+            app:icon="@drawable/baseline_remove_black_24" />
+
 
         <TextView
             android:id="@+id/product_title"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="0dp"
+            android:textAppearance="@android:style/TextAppearance.Material.Body1" />
 
-            android:text="@string/shopping_chart"
+        <TextView
+            android:id="@+id/product_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="0dp"
+            android:textAppearance="@style/TextAppearance.Design.Counter" />
+
+        <android.support.design.button.MaterialButton
+            android:id="@+id/material_icon_button"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="157dp"
+            android:layout_marginTop="0dp"
+            android:background="@color/colorAccent"
+            android:elevation="5dp"
+            android:textAppearance="@style/TextAppearance.Design.Counter"
+            app:icon="@drawable/baseline_add_black_24" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="158dp"
+            android:text="@string/_0"
             android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+            tools:text="0" />
 
-    </LinearLayout>
+    </RelativeLayout>
+
 </android.support.design.card.MaterialCardView>

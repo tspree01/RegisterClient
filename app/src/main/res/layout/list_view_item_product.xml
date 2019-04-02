@@ -7,19 +7,21 @@
 
     <TextView
         android:id="@+id/list_view_item_product_lookup_code"
-        android:text="@string/text_view_products_lookup_code"
         android:layout_width="0dp"
         android:layout_height="fill_parent"
+        android:layout_gravity="start"
         android:layout_weight="3"
-        android:layout_gravity="start"/>
+        android:text="@string/text_view_products_lookup_code"
+        android:textAppearance="@style/TextAppearance.Design.Counter" />
 
     <TextView
         android:id="@+id/list_view_item_product_count"
-        android:text="@string/text_view_products_count"
         android:layout_width="0dp"
         android:layout_height="fill_parent"
+        android:layout_gravity="end"
         android:layout_weight="3"
         android:gravity="end"
-        android:layout_gravity="end"/>
+        android:text="@string/text_view_products_count"
+        android:textAppearance="@style/TextAppearance.Design.Counter" />
 
 </LinearLayout>
