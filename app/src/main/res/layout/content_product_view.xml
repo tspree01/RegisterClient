@@ -46,10 +46,27 @@
         android:inputType="number" />
 
     <TextView
-        android:id="@+id/text_view_product_created_on"
+        android:id="@+id/text_view_product_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/edit_text_product_count"
+        android:layout_marginTop="10dp"
+        android:text="@string/text_view_label_products_price" />
+
+    <EditText
+        android:id="@+id/edit_text_product_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_view_product_price"
+        android:layout_marginTop="5dp"
+        android:hint="@string/text_view_products_count"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/text_view_product_created_on"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_text_product_price"
         android:layout_marginTop="10dp"
         android:text="@string/text_view_label_products_created_on" />
 

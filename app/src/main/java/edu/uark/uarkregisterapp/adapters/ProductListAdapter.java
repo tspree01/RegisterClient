@@ -32,9 +32,9 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
 				lookupCodeTextView.setText(product.getLookupCode());
 			}
 
-			TextView countTextView = (TextView) view.findViewById(R.id.product_price);
-			if (countTextView != null) {
-				countTextView.setText(String.format(Locale.getDefault(), "%d", product.getCount()));
+			TextView priceTextView = (TextView) view.findViewById(R.id.product_price);
+			if (priceTextView != null) {
+				priceTextView.setText(String.format(Locale.getDefault(), "%d", product.getPrice()));
 			}
 		}
 

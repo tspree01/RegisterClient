@@ -105,6 +105,10 @@ public class ProductViewActivity extends AppCompatActivity {
 		return (EditText) this.findViewById(R.id.edit_text_product_count);
 	}
 
+	private EditText getProductPriceEditText() {
+		return (EditText) this.findViewById(R.id.edit_text_product_price);
+	}
+
 	private EditText getProductCreatedOnEditText() {
 		return (EditText) this.findViewById(R.id.edit_text_product_created_on);
 	}
@@ -137,6 +141,16 @@ public class ProductViewActivity extends AppCompatActivity {
 			inputIsValid = false;
 		}
 
+		try {
+			if (Integer.parseInt(this.getProductPriceEditText().getText().toString()) < 0) {
+				validationMessage = this.getString(R.string.validation_product_price);
+				inputIsValid = false;
+			}
+		} catch (NumberFormatException nfe) {
+			validationMessage = this.getString(R.string.validation_product_price);
+			inputIsValid = false;
+		}
+
 		if (!inputIsValid) {
 			new AlertDialog.Builder(this).
 				setMessage(validationMessage).
@@ -166,7 +180,8 @@ public class ProductViewActivity extends AppCompatActivity {
 			Product product = (new Product()).
 				setId(productTransition.getId()).
 				setLookupCode(getProductLookupCodeEditText().getText().toString()).
-				setCount(Integer.parseInt(getProductCountEditText().getText().toString()));
+				setCount(Integer.parseInt(getProductCountEditText().getText().toString())).
+					setPrice(Integer.parseInt(getProductPriceEditText().getText().toString()));
 
 			ApiResponse<Product> apiResponse = (
 				(product.getId().equals(new UUID(0, 0)))
@@ -177,6 +192,7 @@ public class ProductViewActivity extends AppCompatActivity {
 			if (apiResponse.isValidResponse()) {
 				productTransition.setCount(apiResponse.getData().getCount());
 				productTransition.setLookupCode(apiResponse.getData().getLookupCode());
+				productTransition.setPrice(apiResponse.getData().getPrice());
 			}
 
 			return apiResponse.isValidResponse();

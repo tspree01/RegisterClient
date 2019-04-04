@@ -24,6 +24,7 @@
     <string name="text_view_employees_role">role</string>
     <string name="text_view_employees_manager">manager</string>
     <string name="text_view_products_count">0</string>
+    <string name="text_view_products_price">price</string>
     <string name="text_view_employees_count">0</string>
     <string name="text_view_products_created_on">01/01/1970</string>
     <string name="text_view_employees_created_on">01/01/1970</string>
@@ -36,6 +37,7 @@
     <string name="text_view_label_employees_role">Role:</string>
     <string name="text_view_label_employees_manager">Manager:</string>
     <string name="text_view_label_products_count">Count:</string>
+    <string name="text_view_label_products_price">Price:</string>
     <string name="text_view_label_employees_count">Count:</string>
     <string name="text_view_label_products_created_on">Created On:</string>
     <string name="text_view_label_employees_created_on">Created On:</string>
@@ -60,6 +62,7 @@
     <string name="validation_product_lookup_code">Product lookup code may not be empty.</string>
     <string name="validation_employee_recordID">Employee lookup code may not be empty.</string>
     <string name="validation_product_count">Product count must be a number and may not be negative.</string>
+    <string name="validation_product_price">Product price must be a number and may not be negative.</string>
     <string name="validation_employee_count">Employee count must be a number and may not be negative.</string>
     <string name="intent_extra_product">intent_extra_product</string>
     <string name="intent_extra_employee">intent_extra_employee</string>
