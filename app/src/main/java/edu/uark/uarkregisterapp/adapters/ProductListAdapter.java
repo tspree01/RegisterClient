@@ -2,7 +2,6 @@ package edu.uark.uarkregisterapp.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputEditText;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,7 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
 		View view = convertView;
 		if (view == null) {
 			LayoutInflater inflater = LayoutInflater.from(this.getContext());
-			view = inflater.inflate(R.layout.cart_popup_window, parent, false);
+			view = inflater.inflate(R.layout.product_card, parent, false);
 		}
 
 		Product product = this.getItem(position);
@@ -34,7 +33,7 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
 
 			TextView priceTextView = (TextView) view.findViewById(R.id.product_price);
 			if (priceTextView != null) {
-				priceTextView.setText(String.format(Locale.getDefault(), "%d", product.getPrice()));
+				priceTextView.setText(String.format(Locale.getDefault(), "$ %d", product.getPrice()));
 			}
 		}
 
@@ -42,6 +41,6 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
 	}
 
 	public ProductListAdapter(Context context, List<Product> products) {
-		super(context, R.layout.cart_popup_window, products);
+		super(context, R.layout.product_card, products);
 	}
 }

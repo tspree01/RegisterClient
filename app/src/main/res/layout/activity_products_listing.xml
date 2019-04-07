@@ -5,23 +5,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundOfApp"
     android:fitsSystemWindows="true"
     tools:context="edu.uark.uarkregisterapp.ProductsListingActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/Theme.Design">
+        app:theme = "@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/Theme.Design"/>
+            android:background="@color/actionbarColor"
+            android:visibility="visible"
+            app:popupTheme="@color/backgroundOfApp" />
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_products_listing" />
+    <include
+        layout="@layout/content_cart" />
 
 </android.support.design.widget.CoordinatorLayout>

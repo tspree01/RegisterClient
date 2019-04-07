@@ -2,35 +2,38 @@
 <android.support.design.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/material_card"
     style="@style/Widget.MaterialComponents.CardView"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
+    android:layout_height="55dp"
     app:cardElevation="5dp"
     app:cardPreventCornerOverlap="true"
-    app:cardUseCompatPadding="false"
+    app:contentPadding="16dp"
     app:contentPaddingBottom="12dp"
-    app:contentPaddingTop="12dp"
-    app:contentPaddingRight="16dp"
     app:contentPaddingLeft="16dp"
-    app:contentPadding="16dp">
+    app:contentPaddingRight="16dp"
+    app:contentPaddingTop="12dp">
 
     <RelativeLayout
         android:id="@+id/activity_landing"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <!--tools:showIn="@layout/content_cart">-->
+
         <android.support.design.button.MaterialButton
             android:id="@+id/material_icon_button_remove"
             style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
             android:layout_width="25dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="62dp"
+            android:layout_marginStart="203dp"
             android:layout_marginTop="0dp"
-            android:layout_toEndOf="@+id/material_icon_button_add"
+            android:insetLeft="3dp"
             android:paddingLeft="0dp"
+            android:paddingRight="0dp"
             android:textAlignment="viewStart"
             android:textAppearance="@style/TextAppearance.Design.Counter"
-            app:icon="@drawable/baseline_remove_black_24" />
+            app:icon="@drawable/baseline_remove_black_24"
+            app:iconSize="20dp" />
 
 
         <TextView
@@ -41,7 +44,8 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:text="@string/_0"
-            android:textAppearance="@android:style/TextAppearance.Material.Body1" />
+            android:textAppearance="@android:style/TextAppearance.Material.Body1"
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/product_price"
@@ -50,19 +54,33 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:text="@string/_0"
-            android:textAppearance="@android:style/TextAppearance.Material.Body1" />
+            android:textAppearance="@android:style/TextAppearance.Material.Body1"
+            android:textSize="24sp" />
 
         <android.support.design.button.MaterialButton
             android:id="@+id/material_icon_button_add"
             style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
             android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginStart="158dp"
+            android:layout_height="wrap_content"
 
+            android:layout_marginStart="165dp"
             android:layout_marginTop="0dp"
+            android:insetLeft="3dp"
             android:paddingLeft="0dp"
+            android:paddingRight="0dp"
             android:textAppearance="@style/TextAppearance.Design.Counter"
-            app:icon="@drawable/baseline_add_black_24" />
+            app:icon="@drawable/baseline_add_black_24"
+            app:iconSize="20dp" />
+
+        <TextView
+            android:id="@+id/t"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="190dp"
+            android:text="@string/_0"
+            android:textAppearance="@android:style/TextAppearance.Material.Body1"
+            android:textSize="24sp" />
 
     </RelativeLayout>
 

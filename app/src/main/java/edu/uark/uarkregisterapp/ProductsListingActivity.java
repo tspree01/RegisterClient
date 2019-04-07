@@ -1,18 +1,26 @@
 package edu.uark.uarkregisterapp;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -21,6 +29,7 @@ import android.widget.PopupWindow;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.uark.uarkregisterapp.adapters.ProductCardRecyclerViewAdapter;
 import edu.uark.uarkregisterapp.adapters.ProductListAdapter;
 import edu.uark.uarkregisterapp.models.api.ApiResponse;
 import edu.uark.uarkregisterapp.models.api.Product;
@@ -33,17 +42,24 @@ public class ProductsListingActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_products_listing);
 		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+		RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
 		ActionBar actionBar = this.getSupportActionBar();
 		if (actionBar != null) {
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 
-
 		this.products = new ArrayList<>();
-		this.productListAdapter = new ProductListAdapter(this, this.products);
+		layoutManager = new LinearLayoutManager(this);
+		recyclerView.setLayoutManager(layoutManager);
+		productCardAdapter = new ProductCardRecyclerViewAdapter(products);
+		recyclerView.setAdapter(productCardAdapter);
 
-		this.getProductsListView().setAdapter(this.productListAdapter);
+		DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+		dividerItemDecoration.setDrawable(getDrawable(R.drawable.product_list_divider));
+		recyclerView.addItemDecoration(dividerItemDecoration);
+
+/*		this.getProductsListView().setAdapter(this.productListAdapter);
 		this.getProductsListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -56,8 +72,10 @@ public class ProductsListingActivity extends AppCompatActivity {
 
 				startActivity(intent);
 			}
-		});
+		});*/
 	}
+
+
 	// create an action bar button
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -82,7 +100,7 @@ public class ProductsListingActivity extends AppCompatActivity {
 				this.products = new ArrayList<>();
 				this.productListAdapter = new ProductListAdapter(this, this.products);
 
-				this.getProductsListView().setAdapter(this.productListAdapter);
+				//this.getProductsListView().setAdapter(this.productListAdapter);
 				(new RetrieveProductsTask()).execute();
 
 				// create the popup window
@@ -122,8 +140,8 @@ public class ProductsListingActivity extends AppCompatActivity {
 		(new RetrieveProductsTask()).execute();
 	}
 
-	private ListView getProductsListView() {
-		return (ListView) this.findViewById(R.id.list_view_products);
+	private RecyclerView getProductsListView() {
+		return (RecyclerView) this.findViewById(R.id.recycler_view);
 	}
 
 	private class RetrieveProductsTask extends AsyncTask<Void, Void, ApiResponse<List<Product>>> {
@@ -147,7 +165,7 @@ public class ProductsListingActivity extends AppCompatActivity {
 		@Override
 		protected void onPostExecute(ApiResponse<List<Product>> apiResponse) {
 			if (apiResponse.isValidResponse()) {
-				productListAdapter.notifyDataSetChanged();
+				productCardAdapter.notifyDataSetChanged();
 			}
 
 			this.loadingProductsAlert.dismiss();
@@ -179,4 +197,6 @@ public class ProductsListingActivity extends AppCompatActivity {
 
 	private List<Product> products;
 	private ProductListAdapter productListAdapter;
+	private ProductCardRecyclerViewAdapter productCardAdapter;
+	RecyclerView.LayoutManager layoutManager;
 }

@@ -3,7 +3,6 @@ package edu.uark.uarkregisterapp;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -11,16 +10,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,16 +24,11 @@ import com.auth0.android.jwt.JWT;
 import com.microsoft.identity.client.AuthenticationCallback;
 import com.microsoft.identity.client.AuthenticationResult;
 import com.microsoft.identity.client.IAccount;
-import com.microsoft.identity.client.ILoggerCallback;
-import com.microsoft.identity.client.Logger;
-import com.microsoft.identity.common.internal.dto.AccountRecord;
 import com.microsoft.identity.client.PublicClientApplication;
 import com.microsoft.identity.client.exception.MsalClientException;
 import com.microsoft.identity.client.exception.MsalException;
 import com.microsoft.identity.client.exception.MsalServiceException;
-import com.nimbusds.jose.util.Resource;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -46,7 +36,6 @@ import edu.uark.uarkregisterapp.models.api.ApiResponse;
 import edu.uark.uarkregisterapp.models.api.Employee;
 import edu.uark.uarkregisterapp.models.api.services.EmployeeService;
 import edu.uark.uarkregisterapp.models.transition.EmployeeTransition;
-import edu.uark.uarkregisterapp.LoginActivity;
 import edu.uark.uarkregisterapp.models.transition.ProductTransition;
 
 public class LandingActivity extends AppCompatActivity {
@@ -123,7 +112,7 @@ public class LandingActivity extends AppCompatActivity {
             case R.id.cart:
                 LayoutInflater inflater = (LayoutInflater)
                         getSystemService(LAYOUT_INFLATER_SERVICE);
-                View popupView = inflater.inflate(R.layout.cart_popup_window, null);
+                View popupView = inflater.inflate(R.layout.product_card, null);
 
                 // create the popup window
                 int width = LinearLayout.LayoutParams.MATCH_PARENT;
