@@ -12,7 +12,8 @@
     app:contentPaddingBottom="12dp"
     app:contentPaddingLeft="16dp"
     app:contentPaddingRight="16dp"
-    app:contentPaddingTop="12dp">
+    app:contentPaddingTop="12dp"
+    tools:context="edu.uark.uarkregisterapp.ProductsListingActivity">
 
     <RelativeLayout
         android:id="@+id/activity_landing"
@@ -44,7 +45,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:text="@string/_0"
-            android:textAppearance="@android:style/TextAppearance.Material.Body1"
+            android:textAppearance="@style/Theme.Design.Light.BottomSheetDialog"
             android:textSize="24sp" />
 
         <TextView
@@ -54,7 +55,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:text="@string/_0"
-            android:textAppearance="@android:style/TextAppearance.Material.Body1"
+            android:textAppearance="@style/Theme.Design.Light.BottomSheetDialog"
             android:textSize="24sp" />
 
         <android.support.design.button.MaterialButton
@@ -73,14 +74,14 @@
             app:iconSize="20dp" />
 
         <TextView
-            android:id="@+id/t"
+            android:id="@+id/number_picker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="190dp"
             android:text="@string/_0"
-            android:textAppearance="@android:style/TextAppearance.Material.Body1"
-            android:textSize="24sp" />
+            android:textAppearance="@style/Theme.Design.Light.BottomSheetDialog"
+            android:textSize="18sp" />
 
     </RelativeLayout>
 

@@ -77,4 +77,9 @@
     <string name="todo">TODO</string>
     <string name="this_is_a_popup_window">this is a popup window</string>
     <string name="_0">0</string>
+    <string name="item">Item</string>
+    <string name="price">Price</string>
+    <string name="qty">QTY</string>
+    <string name="textview">TextView</string>
+    <string name="total">Total:</string>
 </resources>

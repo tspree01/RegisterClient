@@ -16,7 +16,7 @@ import edu.uark.uarkregisterapp.models.api.Product;
 
 public class ProductCardRecyclerViewAdapter extends RecyclerView.Adapter<ProductCardViewHolder> {
 
-    private List<Product> productList;
+    public List<Product> productList;
 
     public ProductCardRecyclerViewAdapter(List<Product> productList){
         this.productList = productList;
@@ -25,8 +25,9 @@ public class ProductCardRecyclerViewAdapter extends RecyclerView.Adapter<Product
     @NonNull
     @Override
     public ProductCardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_card, parent, false);
-        return new ProductCardViewHolder(layoutView);
+            View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_card, parent, false);
+            return new ProductCardViewHolder(layoutView);
+
     }
 
     @Override

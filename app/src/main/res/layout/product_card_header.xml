@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/material_card"
+    style="@style/Widget.MaterialComponents.CardView"
+    android:layout_width="match_parent"
+    android:layout_height="55dp"
+    app:cardElevation="5dp"
+    app:cardPreventCornerOverlap="true"
+    app:contentPadding="16dp"
+    app:contentPaddingBottom="12dp"
+    app:contentPaddingLeft="16dp"
+    app:contentPaddingRight="16dp"
+    app:contentPaddingTop="12dp">
+
+    <RelativeLayout
+        android:id="@+id/activity_landing"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!--tools:showIn="@layout/content_cart">-->
+
+
+        <TextView
+            android:id="@+id/product_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+
+            android:layout_centerVertical="true"
+            android:layout_marginStart="1dp"
+            android:text="@string/item"
+            android:textAppearance="@style/TextAppearance.Design.Counter" />
+
+        <TextView
+            android:id="@+id/product_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:text="@string/price"
+            android:textAppearance="@style/TextAppearance.Design.Counter" />
+
+        <TextView
+            android:id="@+id/number_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="190dp"
+            android:text="@string/qty"
+            android:textAppearance="@style/TextAppearance.Design.Counter" />
+
+    </RelativeLayout>
+
+</android.support.design.card.MaterialCardView>

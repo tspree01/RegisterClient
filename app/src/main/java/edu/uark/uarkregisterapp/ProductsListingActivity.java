@@ -25,9 +25,11 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import edu.uark.uarkregisterapp.adapters.ProductCardRecyclerViewAdapter;
 import edu.uark.uarkregisterapp.adapters.ProductListAdapter;
@@ -42,7 +44,7 @@ public class ProductsListingActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_products_listing);
 		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-		RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+		RecyclerView recyclerView = getProductsListView();
 
 		ActionBar actionBar = this.getSupportActionBar();
 		if (actionBar != null) {
@@ -59,6 +61,7 @@ public class ProductsListingActivity extends AppCompatActivity {
 		dividerItemDecoration.setDrawable(getDrawable(R.drawable.product_list_divider));
 		recyclerView.addItemDecoration(dividerItemDecoration);
 
+
 /*		this.getProductsListView().setAdapter(this.productListAdapter);
 		this.getProductsListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -73,6 +76,15 @@ public class ProductsListingActivity extends AppCompatActivity {
 				startActivity(intent);
 			}
 		});*/
+	}
+
+
+	private int getTotal(List<Product> productList){
+		int total = 0;
+		for (Product product : productList) {
+			total += product.getPrice();
+		}
+		return total;
 	}
 
 
