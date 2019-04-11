@@ -58,6 +58,7 @@ public class ProductTransition implements Parcelable {
 		return this;
 	}
 
+
 	@Override
 	public void writeToParcel(Parcel destination, int flags) {
 		destination.writeByteArray((new UUIDToByteConverterCommand()).setValueToConvert(this.id).execute());

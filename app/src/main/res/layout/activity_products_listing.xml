@@ -26,6 +26,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_cart" />
-    <include layout="@layout/product_total_bottom_sheet"/>
+
+    <include layout="@layout/product_total_bottom_sheet" />
 
 </android.support.design.widget.CoordinatorLayout>
