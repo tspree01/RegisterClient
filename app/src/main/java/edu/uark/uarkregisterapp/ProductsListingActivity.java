@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -57,6 +58,12 @@ public class ProductsListingActivity extends AppCompatActivity {
 		productCardAdapter = new ProductCardRecyclerViewAdapter(products);
 		recyclerView.setAdapter(productCardAdapter);
 
+		LayoutInflater inflater = (LayoutInflater)
+				getSystemService(LAYOUT_INFLATER_SERVICE);
+
+		View popupView = inflater.inflate(R.layout.product_card_header, (ViewGroup)null);
+		recyclerView.addItemDecoration((new ProductCardHeaderViewDecoration(recyclerView.getContext(),recyclerView,R.layout.product_card_header)));
+
 		DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
 		dividerItemDecoration.setDrawable(getDrawable(R.drawable.product_list_divider));
 		recyclerView.addItemDecoration(dividerItemDecoration);
@@ -96,6 +103,8 @@ public class ProductsListingActivity extends AppCompatActivity {
 	}
 
 
+
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -104,6 +113,42 @@ public class ProductsListingActivity extends AppCompatActivity {
 
 				return true;
 
+			case R.id.cart:
+				LayoutInflater inflater = (LayoutInflater)
+						getSystemService(LAYOUT_INFLATER_SERVICE);
+
+				View popupView = inflater.inflate(R.layout.activity_products_listing, null);
+				this.products = new ArrayList<>();
+				this.productListAdapter = new ProductListAdapter(this, this.products);
+
+				//this.getProductsListView().setAdapter(this.productListAdapter);
+				(new RetrieveProductsTask()).execute();
+
+				// create the popup window
+				int width = LinearLayout.LayoutParams.MATCH_PARENT;
+				int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+				boolean focusable = true; // lets taps outside the popup also dismiss it
+				final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+				popupWindow.setElevation(10);
+
+				// show the popup window
+				// which view you pass in doesn't matter, it is only used for the window tolken
+				popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+
+				// dismiss the popup window when touched
+				popupView.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						popupWindow.dismiss();
+					}
+
+/*                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        popupWindow.dismiss();
+                        return true;
+                    }*/
+				});
+				return true;
 		}
 
 		return super.onOptionsItemSelected(item);
