@@ -81,10 +81,10 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/number_picker"
+            android:id="@+id/product_quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="192dp"
+            android:layout_marginStart="182dp"
             android:text="@string/_0"
             android:textAppearance="@style/Theme.Design.Light.BottomSheetDialog"
             android:textSize="18sp"

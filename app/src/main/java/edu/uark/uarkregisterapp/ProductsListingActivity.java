@@ -112,43 +112,6 @@ public class ProductsListingActivity extends AppCompatActivity {
 				this.finish();
 
 				return true;
-
-			case R.id.cart:
-				LayoutInflater inflater = (LayoutInflater)
-						getSystemService(LAYOUT_INFLATER_SERVICE);
-
-				View popupView = inflater.inflate(R.layout.activity_products_listing, null);
-				this.products = new ArrayList<>();
-				this.productListAdapter = new ProductListAdapter(this, this.products);
-
-				//this.getProductsListView().setAdapter(this.productListAdapter);
-				(new RetrieveProductsTask()).execute();
-
-				// create the popup window
-				int width = LinearLayout.LayoutParams.MATCH_PARENT;
-				int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-				boolean focusable = true; // lets taps outside the popup also dismiss it
-				final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
-				popupWindow.setElevation(10);
-
-				// show the popup window
-				// which view you pass in doesn't matter, it is only used for the window tolken
-				popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
-
-				// dismiss the popup window when touched
-				popupView.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						popupWindow.dismiss();
-					}
-
-/*                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        popupWindow.dismiss();
-                        return true;
-                    }*/
-				});
-				return true;
 		}
 
 		return super.onOptionsItemSelected(item);

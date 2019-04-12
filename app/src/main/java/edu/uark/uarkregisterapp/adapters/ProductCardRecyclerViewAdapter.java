@@ -36,6 +36,7 @@ public class ProductCardRecyclerViewAdapter extends RecyclerView.Adapter<Product
             Product product = productList.get(position);
             productCardViewHolder.productTitle.setText(product.getLookupCode());
             productCardViewHolder.productPrice.setText(String.format(Locale.getDefault(), "$ %d", product.getPrice()));
+            productCardViewHolder.productQuantity.setText(String.format(Locale.getDefault(),"%d",product.getCount()));
         }
 
     }

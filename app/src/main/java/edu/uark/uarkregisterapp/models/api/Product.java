@@ -36,7 +36,7 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
 
 	private int count;
 	public int getCount() {
-		return this.count;
+		return count;
 	}
 	public Product setCount(int count) {
 		this.count = count;
