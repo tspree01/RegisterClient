@@ -16,6 +16,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -52,10 +53,9 @@ public class ProductsListingActivity extends AppCompatActivity {
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 
-		this.products = new ArrayList<>();
 		layoutManager = new LinearLayoutManager(this);
 		recyclerView.setLayoutManager(layoutManager);
-		productCardAdapter = new ProductCardRecyclerViewAdapter(products);
+		productCardAdapter = new ProductCardRecyclerViewAdapter(this,products);
 		recyclerView.setAdapter(productCardAdapter);
 
 		LayoutInflater inflater = (LayoutInflater)
@@ -63,6 +63,10 @@ public class ProductsListingActivity extends AppCompatActivity {
 
 		View popupView = inflater.inflate(R.layout.product_card_header, (ViewGroup)null);
 		recyclerView.addItemDecoration((new ProductCardHeaderViewDecoration(recyclerView.getContext(),recyclerView,R.layout.product_card_header)));
+
+		ItemTouchHelper itemTouchHelper = new
+				ItemTouchHelper(new SwipeToDelete(productCardAdapter));
+		itemTouchHelper.attachToRecyclerView(recyclerView);
 
 		DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
 		dividerItemDecoration.setDrawable(getDrawable(R.drawable.product_list_divider));
@@ -183,7 +187,7 @@ public class ProductsListingActivity extends AppCompatActivity {
 		}
 	}
 
-	private List<Product> products;
+	private List<Product> products = new ArrayList<>();
 	private ProductListAdapter productListAdapter;
 	private ProductCardRecyclerViewAdapter productCardAdapter;
 	RecyclerView.LayoutManager layoutManager;

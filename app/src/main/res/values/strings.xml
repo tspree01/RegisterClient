@@ -84,4 +84,5 @@
     <string name="subtotal">Subtotal</string>
     <string name="taxes">Taxes</string>
     <string name="qty">QTY</string>
+    <string name="checkout">CheckOut</string>
 </resources>

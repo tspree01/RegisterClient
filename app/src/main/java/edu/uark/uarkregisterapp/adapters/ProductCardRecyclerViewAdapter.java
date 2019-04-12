@@ -1,5 +1,6 @@
 package edu.uark.uarkregisterapp.adapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,10 +16,11 @@ import edu.uark.uarkregisterapp.R;
 import edu.uark.uarkregisterapp.models.api.Product;
 
 public class ProductCardRecyclerViewAdapter extends RecyclerView.Adapter<ProductCardViewHolder> {
-
+    public Context context;
     public List<Product> productList;
 
-    public ProductCardRecyclerViewAdapter(List<Product> productList){
+    public ProductCardRecyclerViewAdapter(Context context,List<Product> productList){
+        this.context = context;
         this.productList = productList;
     }
 
@@ -44,5 +46,10 @@ public class ProductCardRecyclerViewAdapter extends RecyclerView.Adapter<Product
     @Override
     public int getItemCount() {
         return productList.size();
+    }
+
+    public void deleteItem(int position){
+        productList.remove(position);
+        notifyDataSetChanged();
     }
 }
