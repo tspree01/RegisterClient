@@ -72,8 +72,6 @@
     <string name="logging_in">Logging You In…</string>
     <string name="sign_out">Sign Out</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="todo">TODO</string>
     <string name="this_is_a_popup_window">this is a popup window</string>
     <string name="_0">0</string>

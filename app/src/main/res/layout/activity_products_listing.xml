@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/product_listing"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundOfApp"
@@ -13,9 +13,10 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="visible"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-         <android.support.v7.widget.Toolbar
+        <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -25,8 +26,26 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_cart" />
 
-    <include layout="@layout/product_total_bottom_sheet" />
+    <include
+        android:id="@+id/include"
+        layout="@layout/content_cart"
+        android:visibility="visible" />
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/shopingCartFloatingActionButton"
+        style="@style/Widget.Design.FloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:onClick="shoppingCartFloatingActionOnClick"
+        app:elevation="6dp"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="right|bottom"
+        app:srcCompat="@drawable/baseline_add_shopping_cart_black_48"
+        app:useCompatPadding="false" />
 
 </android.support.design.widget.CoordinatorLayout>

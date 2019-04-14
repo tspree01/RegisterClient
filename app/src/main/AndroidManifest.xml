@@ -35,6 +35,12 @@
         </activity>
 
         <activity
+            android:name=".CartActivity"
+            android:label="@string/title_activity_products_listing"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
             android:name=".ProductViewActivity"
             android:label="@string/title_activity_product_view"
             android:theme="@style/AppTheme.NoActionBar">

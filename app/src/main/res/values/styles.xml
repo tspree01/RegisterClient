@@ -1,5 +1,6 @@
 <resources>
 
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
@@ -8,9 +9,25 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="BaseAppTheme" parent="android:Theme.Material">
+        <!-- enable window content transitions -->
+        <item name="android:windowActivityTransitions">true</item>
+
+        <!-- specify enter and exit transitions -->
+        <item name="android:windowEnterTransition">@transition/cart_transition_set</item>
+        <item name="android:windowExitTransition">@transition/cart_transition_set</item>
+
+
+    </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowActivityTransitions">true</item>
+
+        <!-- specify enter and exit transitions -->
+        <item name="android:windowEnterTransition">@transition/cart_transition_set</item>
+        <item name="android:windowExitTransition">@transition/cart_transition_set</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
