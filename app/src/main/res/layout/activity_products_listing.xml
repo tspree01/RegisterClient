@@ -13,7 +13,9 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:fitsSystemWindows="true"
+        android:theme="@style/Theme.Design.NoActionBar"
+        android:visibility="invisible"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.v7.widget.Toolbar
@@ -21,8 +23,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/actionbarColor"
-            android:visibility="visible"
-            app:popupTheme="@color/backgroundOfApp" />
+            android:theme="@style/Theme.Design.NoActionBar"
+            android:visibility="visible" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -32,6 +34,11 @@
         layout="@layout/content_cart"
         android:visibility="visible" />
 
+    <include
+        layout="@layout/activity_cart_listing"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/shopingCartFloatingActionButton"
