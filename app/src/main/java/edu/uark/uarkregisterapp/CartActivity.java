@@ -24,6 +24,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -72,9 +73,13 @@ public class CartActivity extends AppCompatActivity {
                 ItemTouchHelper(new SwipeToDelete(productCardAdapter));
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
+
+
+
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(getDrawable(R.drawable.product_list_divider));
         recyclerView.addItemDecoration(dividerItemDecoration);
+
 
 
 /*		this.getProductsListView().setAdapter(this.productListAdapter);
@@ -119,6 +124,12 @@ public class CartActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent e){
+        ((TextView) findViewById(R.id.bottom_sheet_product_total)).setText(String.format(Locale.getDefault(), "$ %d", getTotal()));
+        return true;
+    }
+
 
     public int getTotal() {
         int total = 0;
@@ -159,6 +170,12 @@ public class CartActivity extends AppCompatActivity {
     private RecyclerView getProductsListView() {
         return (RecyclerView) this.findViewById(R.id.recycler_view);
     }
+
+    private void doInBackground(Void... params){
+        ((TextView) findViewById(R.id.bottom_sheet_product_total)).setText(String.format(Locale.getDefault(), "$ %d", getTotal()));
+
+    }
+
 
 
     private class RetrieveProductsTask extends AsyncTask<Void, Void, ApiResponse<List<Product>>> {
@@ -202,7 +219,6 @@ public class CartActivity extends AppCompatActivity {
                         show();
             }
 
-            ((TextView) findViewById(R.id.bottom_sheet_product_total)).setText(String.format(Locale.getDefault(), "$ %d", getTotal()));
         }
 
         private AlertDialog loadingProductsAlert;

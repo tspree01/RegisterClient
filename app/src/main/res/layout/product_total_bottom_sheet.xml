@@ -59,13 +59,11 @@
                 android:id="@+id/bottom_sheet_product_total"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="365dp"
                 android:text="@string/_0"
                 android:textAppearance="@style/Theme.Design.Light.BottomSheetDialog"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/nav_arrows"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
 

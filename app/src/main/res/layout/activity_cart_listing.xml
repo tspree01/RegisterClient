@@ -8,21 +8,25 @@
     android:layout_height="match_parent"
     android:background="@color/backgroundOfApp"
     android:fitsSystemWindows="true"
-    tools:context="edu.uark.uarkregisterapp.ProductsListingActivity">
+    tools:context="edu.uark.uarkregisterapp.CartActivity">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/appBarLayout"
+        android:id="@+id/car_appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+        app:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/cart_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/actionbarColor"
             android:elevation="5dp"
-            android:theme="@style/ThemeOverlay.MaterialComponents.Light"
-            android:visibility="visible" />
+            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+            android:onClick="expandBottomSheet"
+            android:visibility="visible"
+            app:navigationIcon="@drawable/baseline_close_white_24" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -30,7 +34,7 @@
     <include
         layout="@layout/content_cart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="660dp" />
 
     <include layout="@layout/product_total_bottom_sheet" />
 

@@ -13,9 +13,8 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
         android:theme="@style/Theme.Design.NoActionBar"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.v7.widget.Toolbar
@@ -50,8 +49,11 @@
         android:clickable="true"
         android:onClick="shoppingCartFloatingActionOnClick"
         app:elevation="6dp"
+        app:fabSize="auto"
         app:layout_anchor="@+id/include"
         app:layout_anchorGravity="right|bottom"
+
+        app:pressedTranslationZ="16dp"
         app:srcCompat="@drawable/baseline_add_shopping_cart_black_48"
         app:useCompatPadding="false" />
 

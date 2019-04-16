@@ -51,5 +51,6 @@ public class ProductCardRecyclerViewAdapter extends RecyclerView.Adapter<Product
     public void deleteItem(int position){
         productList.remove(position);
         notifyDataSetChanged();
+
     }
 }

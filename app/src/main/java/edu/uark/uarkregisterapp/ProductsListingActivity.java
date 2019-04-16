@@ -1,22 +1,10 @@
 package edu.uark.uarkregisterapp;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.ActivityOptions;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -25,21 +13,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.transition.Explode;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewAnimationUtils;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.NumberPicker;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -51,7 +27,6 @@ import edu.uark.uarkregisterapp.adapters.ProductListAdapter;
 import edu.uark.uarkregisterapp.models.api.ApiResponse;
 import edu.uark.uarkregisterapp.models.api.Product;
 import edu.uark.uarkregisterapp.models.api.services.ProductService;
-import edu.uark.uarkregisterapp.models.transition.ProductTransition;
 
 public class ProductsListingActivity extends AppCompatActivity {
     @Override
@@ -61,13 +36,10 @@ public class ProductsListingActivity extends AppCompatActivity {
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         RecyclerView recyclerView = getProductsListView();
 
-        ActionBar actionBar = this.getSupportActionBar();
-        if (actionBar != null) {
+        ActionBar productListActionBar = this.getSupportActionBar();
+        if (productListActionBar != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
-        layoutBottomSheet = findViewById(R.id.bottom_sheet);
-        bottomSheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
 
         this.products = new ArrayList<>();
         layoutManager = new LinearLayoutManager(this);
@@ -83,6 +55,7 @@ public class ProductsListingActivity extends AppCompatActivity {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(getDrawable(R.drawable.product_list_divider));
         recyclerView.addItemDecoration(dividerItemDecoration);
+
 
 /*		this.getProductsListView().setAdapter(this.productListAdapter);
 		this.getProductsListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -100,76 +73,11 @@ public class ProductsListingActivity extends AppCompatActivity {
 		});*/
     }
 
-    public void expandBottomSheet(View view) {
-        if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
-            ImageView nav_arrows = (ImageView) findViewById(R.id.nav_arrows);
-            nav_arrows.setImageResource(R.drawable.animatied_nav_arrows);
-
-            // Get the background, which has been compiled to an AnimationDrawable object.
-            AnimationDrawable frameAnimation = (AnimationDrawable) nav_arrows.getDrawable();
-
-            // Start the animation (looped playback by default).
-            frameAnimation.start();
-            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-        }
-        else {
-            ImageView nav_arrows = (ImageView) findViewById(R.id.nav_arrows);
-            nav_arrows.setImageResource(R.drawable.animatied_nav_arrows);
-
-            // Get the background, which has been compiled to an AnimationDrawable object.
-            AnimationDrawable frameAnimation = (AnimationDrawable) nav_arrows.getDrawable();
-
-            // Start the animation (looped playback by default).
-            frameAnimation.setOneShot(false);
-            frameAnimation.setOneShot(true);
-            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        }
-    }
-
     public void shoppingCartFloatingActionOnClick(View view) {
-        cartFloatingButtonPressed = true;
-        shoppingCartView = findViewById(R.id.shopping_cart_activity);
-        cartRecyclerView = getCartProductsListView();
-        final View productListingFloatingButton = findViewById(R.id.shopingCartFloatingActionButton);
+        final View shoppingCartView = findViewById(R.id.shopping_cart_activity);
 
-       /* startActivity(new Intent(getApplicationContext(), CartActivity.class),
-                ActivityOptions.makeClipRevealAnimation(shoppingCartView, shoppingCartView.getWidth(), shoppingCartView.getHeight(), shoppingCartView.getWidth(), shoppingCartView.getHeight()).toBundle())*/
-        this.cartProducts = new ArrayList<>();
-        cartLayoutManager = new LinearLayoutManager(shoppingCartView.getContext());
-        cartRecyclerView.setLayoutManager(cartLayoutManager);
-        cartProductCardAdapter = new ProductCardRecyclerViewAdapter((shoppingCartView.getContext()),cartProducts);
-        cartRecyclerView.setAdapter(cartProductCardAdapter);
-        cartRecyclerView.addItemDecoration((new ProductCardHeaderViewDecoration(cartRecyclerView.getContext(),cartRecyclerView,R.layout.product_card_header)));
-        ItemTouchHelper itemTouchHelperCart = new
-                ItemTouchHelper(new SwipeToDelete(cartProductCardAdapter));
-        itemTouchHelperCart.attachToRecyclerView(cartRecyclerView);
-
-        DividerItemDecoration dividerCartItemDecoration = new DividerItemDecoration(cartRecyclerView.getContext(), DividerItemDecoration.VERTICAL);
-        dividerCartItemDecoration.setDrawable(getDrawable(R.drawable.product_list_divider));
-        cartRecyclerView.addItemDecoration(dividerCartItemDecoration);
-        (new RetrieveProductsTask()).execute();
-
-        // previously invisible view
-        // get the center for the clipping circle
-        int cx = shoppingCartView.getWidth();
-        int cy = shoppingCartView.getHeight();
-
-        // get the final radius for the clipping circle
-        float finalRadius = (float) Math.hypot(cx, cy);
-
-        // create the animator for this view (the start radius is zero)
-        Animator anim = ViewAnimationUtils.createCircularReveal(shoppingCartView, cx, cy, 0f, finalRadius);
-        // make the view invisible when the animation is done
-        anim.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                productListingFloatingButton.setVisibility(View.INVISIBLE);
-            }
-        });
-        // make the view visible and start the animation
-        shoppingCartView.setVisibility(View.VISIBLE);
-        anim.start();
+       startActivity(new Intent(getApplicationContext(), CartActivity.class),
+                ActivityOptions.makeClipRevealAnimation(shoppingCartView, shoppingCartView.getWidth(), shoppingCartView.getHeight(), 50, 50).toBundle());
     }
 
     public int getTotal() {
@@ -191,7 +99,6 @@ public class ProductsListingActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:// Respond to the action bar's Up/Home button
-                cartFloatingButtonPressed = false;
                 this.finish();
 
                 return true;
@@ -209,9 +116,6 @@ public class ProductsListingActivity extends AppCompatActivity {
     private RecyclerView getProductsListView() {
         return (RecyclerView) this.findViewById(R.id.recycler_view);
     }
-    private RecyclerView getCartProductsListView() {
-        return (RecyclerView) shoppingCartView.findViewById(R.id.recycler_view);
-    }
 
 
     private class RetrieveProductsTask extends AsyncTask<Void, Void, ApiResponse<List<Product>>> {
@@ -225,13 +129,8 @@ public class ProductsListingActivity extends AppCompatActivity {
             ApiResponse<List<Product>> apiResponse = (new ProductService()).getProducts();
 
             if (apiResponse.isValidResponse()) {
-                if(cartFloatingButtonPressed){
-                    cartProducts.clear();
-                    cartProducts.addAll(apiResponse.getData());
-                }else {
-                    products.clear();
-                    products.addAll(apiResponse.getData());
-                }
+                products.clear();
+                products.addAll(apiResponse.getData());
             }
             return apiResponse;
         }
@@ -239,11 +138,8 @@ public class ProductsListingActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ApiResponse<List<Product>> apiResponse) {
             if (apiResponse.isValidResponse()) {
-                if(cartFloatingButtonPressed){
-                    cartProductCardAdapter.notifyDataSetChanged();
-                }else {
-                    productCardAdapter.notifyDataSetChanged();
-                }
+                productCardAdapter.notifyDataSetChanged();
+
             }
             this.loadingProductsAlert.dismiss();
 
@@ -261,11 +157,9 @@ public class ProductsListingActivity extends AppCompatActivity {
                         create().
                         show();
             }
-            /* ((TextView) findViewById(R.id.bottom_sheet_product_total)).setText(String.format(Locale.getDefault(), "$ %d", getTotal()));*/
         }
 
         private AlertDialog loadingProductsAlert;
-
         private RetrieveProductsTask() {
             this.loadingProductsAlert = new AlertDialog.Builder(ProductsListingActivity.this).
                     setMessage(R.string.alert_dialog_products_loading).
@@ -273,18 +167,9 @@ public class ProductsListingActivity extends AppCompatActivity {
         }
     }
 
-
     private List<Product> products;
-    private List<Product> cartProducts;
-    RecyclerView cartRecyclerView;
-    View shoppingCartView;
-    ConstraintLayout layoutBottomSheet;
-    BottomSheetBehavior bottomSheetBehavior;
     private ProductListAdapter productListAdapter;
     private ProductCardRecyclerViewAdapter productCardAdapter;
-    private ProductCardRecyclerViewAdapter cartProductCardAdapter;
     RecyclerView.LayoutManager layoutManager;
-    RecyclerView.LayoutManager cartLayoutManager;
-    boolean cartFloatingButtonPressed = false;
 
 }
