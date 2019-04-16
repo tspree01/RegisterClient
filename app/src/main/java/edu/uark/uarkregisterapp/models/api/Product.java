@@ -52,11 +52,11 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
 		return this;
 	}
 
-	private int price;
-	public int getPrice() {
+	private double price;
+	public double getPrice() {
 		return this.price;
 	}
-	public Product setPrice(int price) {
+	public Product setPrice(double price) {
 		this.price = price;
 		return this;
 	}
@@ -79,7 +79,7 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
 				e.printStackTrace();
 			}
 		}
-		this.price = rawJsonObject.optInt(ProductFieldName.PRICE.getFieldName());
+		this.price = rawJsonObject.optDouble(ProductFieldName.PRICE.getFieldName());
 
 		return this;
 	}

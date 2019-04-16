@@ -35,6 +35,7 @@ public class ProductsListingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_products_listing);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         RecyclerView recyclerView = getProductsListView();
+        View cartView = findViewById(R.id.shopping_cart_activity);
 
         ActionBar productListActionBar = this.getSupportActionBar();
         if (productListActionBar != null) {
@@ -44,7 +45,7 @@ public class ProductsListingActivity extends AppCompatActivity {
         this.products = new ArrayList<>();
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        productCardAdapter = new ProductCardRecyclerViewAdapter(this, products);
+        productCardAdapter = new ProductCardRecyclerViewAdapter(this, products, cartView);
         recyclerView.setAdapter(productCardAdapter);
         recyclerView.addItemDecoration((new ProductCardHeaderViewDecoration(recyclerView.getContext(), recyclerView, R.layout.product_card_header)));
 

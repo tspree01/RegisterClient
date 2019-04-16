@@ -5,6 +5,7 @@
     <color name="colorAccent">#CACCCF</color>
     <color name="actionbarColor">#3D3D3D</color>
     <color name="white">#FFFFFF</color>
+    <color name="transparent">#00000000</color>
     <color name="tan">#FFFFFF</color>
     <color name="whites">#FFFFFF</color>
     <color name="tans">#F3F3F3</color>

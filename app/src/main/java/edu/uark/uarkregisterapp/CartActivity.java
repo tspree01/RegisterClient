@@ -1,17 +1,13 @@
 package edu.uark.uarkregisterapp;
 
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetBehavior;
-import android.support.v4.content.ContextCompat;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -20,24 +16,19 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.NumberPicker;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 import edu.uark.uarkregisterapp.adapters.ProductCardRecyclerViewAdapter;
 import edu.uark.uarkregisterapp.adapters.ProductListAdapter;
@@ -53,6 +44,7 @@ public class CartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cart_listing);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         RecyclerView recyclerView = getProductsListView();
+        View cartView = findViewById(R.id.shopping_cart_activity);
 
         ActionBar actionBar = this.getSupportActionBar();
         if (actionBar != null) {
@@ -65,41 +57,22 @@ public class CartActivity extends AppCompatActivity {
         this.products = new ArrayList<>();
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        productCardAdapter = new ProductCardRecyclerViewAdapter(this, products);
+        productCardAdapter = new ProductCardRecyclerViewAdapter(this, products, cartView);
         recyclerView.setAdapter(productCardAdapter);
         recyclerView.addItemDecoration((new ProductCardHeaderViewDecoration(recyclerView.getContext(), recyclerView, R.layout.product_card_header)));
 
         ItemTouchHelper itemTouchHelper = new
                 ItemTouchHelper(new SwipeToDelete(productCardAdapter));
         itemTouchHelper.attachToRecyclerView(recyclerView);
-
-
-
-
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(getDrawable(R.drawable.product_list_divider));
         recyclerView.addItemDecoration(dividerItemDecoration);
-
-
-
-/*		this.getProductsListView().setAdapter(this.productListAdapter);
-		this.getProductsListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent intent = new Intent(getApplicationContext(), ProductViewActivity.class);
-
-				intent.putExtra(
-					getString(R.string.intent_extra_product),
-					new ProductTransition((Product) getProductsListView().getItemAtPosition(position))
-				);
-
-				startActivity(intent);
-			}
-		});*/
     }
 
+
+
     public void expandBottomSheet(View view) {
-        if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+        if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
             ImageView nav_arrows = (ImageView) findViewById(R.id.nav_arrows);
             nav_arrows.setImageResource(R.drawable.animatied_nav_arrows);
 
@@ -109,8 +82,7 @@ public class CartActivity extends AppCompatActivity {
             // Start the animation (looped playback by default).
             frameAnimation.start();
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-        }
-        else {
+        } else {
             ImageView nav_arrows = (ImageView) findViewById(R.id.nav_arrows);
             nav_arrows.setImageResource(R.drawable.animatied_nav_arrows);
 
@@ -124,21 +96,62 @@ public class CartActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent e){
-        ((TextView) findViewById(R.id.bottom_sheet_product_total)).setText(String.format(Locale.getDefault(), "$ %d", getTotal()));
-        return true;
+
+
+    public static double calculateSubtotal(List<Product> products){
+        double subtotal = 0.0;
+        for (Product product : products) {
+            subtotal += product.getPrice() * product.getCount();
+        }
+        return subtotal;
     }
 
 
-    public int getTotal() {
-        int total = 0;
-        for (Product product : products) {
-            total += product.getPrice();
-        }
+    public static double calculateTotal(List<Product> products) {
+        double total = 0.0;
+        total = calculateSubtotal(products) + calculateTaxes(products) ;
         return total;
     }
 
+    public static double calculateTaxes(List<Product> products){
+        double taxRate = 0.0975;
+        return (calculateSubtotal(products) * (taxRate + 1)) - calculateSubtotal(products);
+    }
+
+    public void productQuantityEditTextOnClick(View view) {
+        TextInputEditText productQuantity = findViewById(R.id.product_quantity);
+        productQuantity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String productTitle = findViewById(R.id.product_title).toString();
+                int productQuantity = Integer.parseInt(findViewById(R.id.product_quantity).toString());
+                Product foundProduct = getProductFromList(productTitle);
+                foundProduct.setCount(productQuantity);
+                updateDataBase(foundProduct);
+
+                ((TextView) findViewById(R.id.bottom_sheet_subtotal_price)).setText(String.format(Locale.getDefault(), "$ %.2f", calculateSubtotal(products)));
+                ((TextView) findViewById(R.id.bottom_sheet_taxes_price)).setText(String.format(Locale.getDefault(), "$ %.2f", calculateTaxes(products)));
+                ((TextView) findViewById(R.id.bottom_sheet_total_price)).setText(String.format(Locale.getDefault(), "$ %.2f", calculateTotal(products)));
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    private void updateDataBase(Product product){
+        ApiResponse<Product> apiResponse = (
+                (product.getId().equals(new UUID(0, 0)))
+                        ? (new ProductService()).updateProduct(product)
+                        : (new ProductService()).updateProduct(product)
+        );
+    }
 
     // create an action bar button
     @Override
@@ -171,11 +184,20 @@ public class CartActivity extends AppCompatActivity {
         return (RecyclerView) this.findViewById(R.id.recycler_view);
     }
 
-    private void doInBackground(Void... params){
-        ((TextView) findViewById(R.id.bottom_sheet_product_total)).setText(String.format(Locale.getDefault(), "$ %d", getTotal()));
+    Product getProductFromList(String product_title){
+        Product foundProduct = new Product();
+        for (Product product : products) {
+            if(product.getLookupCode() == product_title){
+                foundProduct = product;
+            }
+        }
+        return foundProduct;
 
     }
 
+    private TextInputEditText getProductCountTextInputEditText() {
+        return (TextInputEditText) this.findViewById(R.id.product_quantity);
+    }
 
 
     private class RetrieveProductsTask extends AsyncTask<Void, Void, ApiResponse<List<Product>>> {
@@ -218,7 +240,9 @@ public class CartActivity extends AppCompatActivity {
                         create().
                         show();
             }
-
+            ((TextView) findViewById(R.id.bottom_sheet_subtotal_price)).setText(String.format(Locale.getDefault(), "$ %.2f", calculateSubtotal(products)));
+            ((TextView) findViewById(R.id.bottom_sheet_taxes_price)).setText(String.format(Locale.getDefault(), "$ %.2f", calculateTaxes(products)));
+            ((TextView) findViewById(R.id.bottom_sheet_total_price)).setText(String.format(Locale.getDefault(), "$ %.2f", calculateTotal(products)));
         }
 
         private AlertDialog loadingProductsAlert;
@@ -232,6 +256,7 @@ public class CartActivity extends AppCompatActivity {
 
     private List<Product> products;
     ConstraintLayout layoutBottomSheet;
+    private ProductTransition productTransition;
     BottomSheetBehavior bottomSheetBehavior;
     private ProductListAdapter productListAdapter;
     private ProductCardRecyclerViewAdapter productCardAdapter;

@@ -49,11 +49,11 @@ public class ProductTransition implements Parcelable {
 		return this;
 	}
 
-	private int price;
-	public int getPrice() {
+	private double price;
+	public double getPrice() {
 		return this.price;
 	}
-	public ProductTransition setPrice(int price) {
+	public ProductTransition setPrice(double price) {
 		this.price = price;
 		return this;
 	}
@@ -65,7 +65,7 @@ public class ProductTransition implements Parcelable {
 		destination.writeString(this.lookupCode);
 		destination.writeInt(this.count);
 		destination.writeLong(this.createdOn.getTime());
-		destination.writeInt(this.price);
+		destination.writeDouble(this.price);
 	}
 
 	@Override
@@ -88,7 +88,7 @@ public class ProductTransition implements Parcelable {
 		this.id = new UUID(0, 0);
 		this.createdOn = new Date();
 		this.lookupCode = StringUtils.EMPTY;
-		this.price = 0;
+		this.price = 0.0;
 	}
 
 	public ProductTransition(Product product) {
@@ -106,6 +106,6 @@ public class ProductTransition implements Parcelable {
 
 		this.createdOn = new Date();
 		this.createdOn.setTime(productTransitionParcel.readLong());
-		this.price = productTransitionParcel.readInt();
+		this.price = productTransitionParcel.readDouble();
 	}
 }

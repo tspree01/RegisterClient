@@ -13,7 +13,7 @@
     app:contentPaddingLeft="16dp"
     app:contentPaddingRight="16dp"
     app:contentPaddingTop="12dp"
-    tools:context="edu.uark.uarkregisterapp.ProductsListingActivity">
+    tools:context="edu.uark.uarkregisterapp.CartActivity">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/product_card_constraint_layout"
@@ -80,18 +80,28 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <android.support.design.widget.TextInputEditText
             android:id="@+id/product_quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="182dp"
+            android:background="@color/transparent"
+            android:clickable="true"
+            android:inputType="number"
+            android:onClick="productQuantityEditTextOnClick"
             android:text="@string/_0"
-            android:textAppearance="@style/Theme.Design.Light.BottomSheetDialog"
-            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.47" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/product_quantity"
+            app:layout_constraintEnd_toStartOf="@+id/product_quantity"
+            app:layout_constraintTop_toTopOf="parent"/>
 
     </android.support.constraint.ConstraintLayout>
 

@@ -45,18 +45,19 @@
                 android:id="@+id/bottom_sheet_total"
                 android:layout_width="wrap_content"
                 android:layout_height="56dp"
-                android:layout_marginStart="203dp"
+                android:layout_marginStart="185dp"
                 android:layout_marginEnd="80dp"
                 android:text="@string/total"
                 android:textAlignment="textEnd"
                 android:textAppearance="@style/Theme.Design.Light.BottomSheetDialog"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/nav_arrows"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/bottom_sheet_product_total"
+                android:id="@+id/bottom_sheet_total_price"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/_0"
@@ -84,7 +85,7 @@
     </android.support.design.card.MaterialCardView>
 
     <TextView
-        android:id="@+id/subtotal"
+        android:id="@+id/bottom_sheet_subtotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="87dp"
@@ -96,29 +97,27 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/subtotal_price"
+        android:id="@+id/bottom_sheet_subtotal_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="85dp"
         android:layout_marginEnd="16dp"
         android:text="@string/_0"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/bottom_sheet_subtotal"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/taxes_price"
+        android:id="@+id/bottom_sheet_taxes_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="123dp"
         android:layout_marginEnd="16dp"
         android:text="@string/_0"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/bottom_sheet_taxes"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/taxes"
+        android:id="@+id/bottom_sheet_taxes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="125dp"
@@ -139,7 +138,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/bottom_sheet_checkout"
         android:layout_width="393dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
