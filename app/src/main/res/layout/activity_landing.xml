@@ -40,14 +40,14 @@
         android:onClick="displayCreateEmployeeButtonOnClick"/>
 
     <Button
-        android:id="@+id/button_sales_report"
+        android:id="@+id/button_inventory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/button_create_employee"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:text="@string/button_sales_report"
-        android:onClick="SalesReportButtonOnClick"/>
+        android:text="@string/button_inventory"
+        android:onClick="InventoryButtonOnClick"/>
 
     <Button
         android:text="@string/sign_out"
@@ -62,5 +62,16 @@
         android:id="@+id/clearCache"
         android:visibility="visible"
         android:onClick="SignOut"/>
+
+    <Button
+        android:text="@string/button_sales_report"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_inventory"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:id="@+id/button_sale_report"
+        android:onClick="displaySalesReportButtonOnClick"
+         />
 
 </RelativeLayout>

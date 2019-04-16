@@ -5,6 +5,9 @@
     <string name="title_activity_product_view">ProductViewActivity</string>
     <string name="title_activity_employee_view">EmployeeViewActivity</string>
     <string name="title_activity_employee_listing">Employees</string>
+    <string name="title_activity_Sales_Report_view">Sales Report</string>
+    <string name="title_activity_Sales_Report_employee_view">Employee Sales Report</string>
+    <string name="title_activity_product_Sales_Report_employee_view">Product Sales Report</string>
     <string name="button_ok">OK</string>
     <string name="button_cancel">Cancel</string>
     <string name="button_save">Save</string>
@@ -12,7 +15,8 @@
     <string name="button_dismiss">Dismiss</string>
     <string name="button_transaction">Start transaction</string>
     <string name="button_create_employee">Create employee</string>
-    <string name="button_sales_report">Sales report</string>
+    <string name="button_inventory">Inventory</string>
+    <string name="button_sales_report">Sales Report</string>
     <string name="text_view_landing_welcome">Welcome {name}! What would you like to do next?</string>
     <string name="text_view_products_lookup_code">LookupCode</string>
     <string name="text_view_employees_recordID">recordID</string>
@@ -22,6 +26,7 @@
     <string name="text_view_employees_active">active</string>
     <string name="text_view_employees_role">role</string>
     <string name="text_view_employees_manager">manager</string>
+    <string name="text_view_employees_sales">0</string>
     <string name="text_view_products_count">0</string>
     <string name="text_view_employees_count">0</string>
     <string name="text_view_products_created_on">01/01/1970</string>
@@ -61,9 +66,12 @@
     <string name="validation_product_count">Product count must be a number and may not be negative.</string>
     <string name="validation_employee_count">Employee count must be a number and may not be negative.</string>
     <string name="intent_extra_product">intent_extra_product</string>
+    <string name="intent_sales_report">intent_sales_report</string>
     <string name="intent_extra_employee">intent_extra_employee</string>
     <string name="welcome">Welcome,</string>
     <string name="login">Login</string>
     <string name="logging_in">Logging You In…</string>
     <string name="sign_out">Sign Out</string>
+    <string name="cashier_sales">Cashier Sales</string>
+    <string name="product_sales">Product Sales</string>
 </resources>

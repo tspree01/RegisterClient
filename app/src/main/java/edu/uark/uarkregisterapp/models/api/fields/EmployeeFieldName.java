@@ -13,7 +13,8 @@ public enum EmployeeFieldName implements FieldNameInterface {
 	Password("password"),
 	API_REQUEST_STATUS("apiRequestStatus"),
 	API_REQUEST_MESSAGE("apiRequestMessage"),
-	CREATED_ON("created_on");
+	CREATED_ON("created_on"),
+	Total_Sales("total_sales");
 
 	private String fieldName;
 	public String getFieldName() {

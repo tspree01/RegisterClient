@@ -34,7 +34,16 @@ public class EmployeeService extends BaseRemoteService {
 			)
 		);
 	}
-
+	public ApiResponse<Employee> getEmployeeByTotalSales(int total_sales){
+		return this.readEmployeeDetailsFromResponse(
+				this.<Employee>performGetRequest(
+						this.buildPath(
+								new PathElementInterface[] { EmployeeApiMethod.BY_TOTAL_SALES}
+								, String.valueOf(total_sales)
+						)
+				)
+		);
+	}
 	public ApiResponse<List<Employee>> getEmployees() {
 		ApiResponse<List<Employee>> apiResponse = this.performGetRequest(
 			this.buildPath()

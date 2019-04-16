@@ -33,7 +33,10 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
 		this.lookupCode = lookupCode;
 		return this;
 	}
-
+	private int total_sales;
+	public int getTotal_Sales(){
+		return this.total_sales;
+	}
 	private int count;
 	public int getCount() {
 		return this.count;

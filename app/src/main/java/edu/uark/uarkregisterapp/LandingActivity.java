@@ -56,8 +56,8 @@ public class LandingActivity extends AppCompatActivity {
 					this.getApplicationContext(), "e2266648-f2aa-444a-9767-a0a40ae3105a", "https://uarkregisterapp.b2clogin.com/tfp/uarkregisterapp.onmicrosoft.com/B2C_1_uarkregisterapp_SignIn");
 		}
 
-		if(!logged_In) {
-			setContentView(R.layout.activity_main);
+		if(logged_In) {
+			setContentView(R.layout.activity_landing);
 
 
 			loginButton = (Button) findViewById(R.id.Login);
@@ -264,6 +264,9 @@ public class LandingActivity extends AppCompatActivity {
 		this.startActivity(new Intent(getApplicationContext(), ProductsListingActivity.class));
 	}
 
+	public void displaySalesReportButtonOnClick(View view){
+        this.startActivity(new Intent(getApplicationContext(), SalesReportActivity.class));
+    }
 	public void displayCreateEmployeeButtonOnClick(View view) {
 		/* Configure your sample app and save state for this activity */
 		sampleApp = null;
@@ -275,7 +278,7 @@ public class LandingActivity extends AppCompatActivity {
 		sampleApp.acquireToken(getActivity(), SCOPES, getAuthInteractiveCallback());
 	}
 
-	public void SalesReportButtonOnClick(View view) {
+	public void InventoryButtonOnClick(View view) {
 		Intent intent = new Intent(getApplicationContext(), ProductViewActivity.class);
 
 		intent.putExtra(
@@ -285,6 +288,7 @@ public class LandingActivity extends AppCompatActivity {
 
 		this.startActivity(intent);
 	}
+
 
 	public void SignOut(View view) {
 		//* Attempt to get a account and remove their cookies from cache *//*

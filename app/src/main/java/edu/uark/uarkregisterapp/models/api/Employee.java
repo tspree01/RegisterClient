@@ -25,14 +25,14 @@ public class Employee implements ConvertToJsonInterface, LoadFromJsonInterface<E
 		return this;
 	}
 
-/*	private int recordID;
+	private int recordID;
 	public int getRecordID() {
 		return this.recordID;
 	}
 	public Employee setRecordID(int RecordID) {
 		this.recordID = RecordID;
 		return this;
-	}*/
+	}
 
 /*	private Date createdOn;
 	public Date getCreatedOn() {
@@ -72,6 +72,12 @@ public class Employee implements ConvertToJsonInterface, LoadFromJsonInterface<E
 		this.managerID = managerID;
 		return this;
 	}
+	private int total_sales;
+	public int getTotal_sales(){return this.total_sales;}
+	public Employee setTotal_sales(int total_sales){
+	    this.total_sales = total_sales;
+	    return this;
+    }
 /*	private String password;
 	public String getPassword(){return this.password;}
 	public Employee setPassword(String password){
