@@ -11,8 +11,10 @@ import java.util.List;
 import java.util.UUID;
 
 import edu.uark.uarkregisterapp.models.api.ApiResponse;
+import edu.uark.uarkregisterapp.models.api.Employee;
 import edu.uark.uarkregisterapp.models.api.Product;
 import edu.uark.uarkregisterapp.models.api.enums.ApiObject;
+import edu.uark.uarkregisterapp.models.api.enums.EmployeeApiMethod;
 import edu.uark.uarkregisterapp.models.api.enums.ProductApiMethod;
 import edu.uark.uarkregisterapp.models.api.interfaces.PathElementInterface;
 
@@ -35,7 +37,16 @@ public class ProductService extends BaseRemoteService {
 			)
 		);
 	}
-
+	public ApiResponse<Product> getProductByTotalSales(int total_sales){
+		return this.readProductDetailsFromResponse(
+				this.<Product>performGetRequest(
+						this.buildPath(
+								new PathElementInterface[] { ProductApiMethod.BY_TOTAL_SALES}
+								, String.valueOf(total_sales)
+						)
+				)
+		);
+	}
 	public ApiResponse<List<Product>> getProducts() {
 		ApiResponse<List<Product>> apiResponse = this.performGetRequest(
 			this.buildPath()

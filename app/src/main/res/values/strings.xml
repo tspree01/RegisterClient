@@ -19,6 +19,7 @@
     <string name="button_sales_report">Sales Report</string>
     <string name="text_view_landing_welcome">Welcome {name}! What would you like to do next?</string>
     <string name="text_view_products_lookup_code">LookupCode</string>
+    <string name="text_view_product_total_sales">Product Sold</string>
     <string name="text_view_employees_recordID">recordID</string>
     <string name="text_view_employees_first_name">first name</string>
     <string name="text_view_employees_last_name">last name</string>

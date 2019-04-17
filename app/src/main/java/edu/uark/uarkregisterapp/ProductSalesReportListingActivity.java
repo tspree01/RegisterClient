@@ -63,26 +63,26 @@ public class ProductSalesReportListingActivity extends AppCompatActivity {
         return (ListView) this.findViewById(R.id.list_view_products);
     }
 
-    private class RetrieveProductsTask extends AsyncTask<Void, Void, ApiResponse<List<Product>>> {
+    private class RetrieveProductsTask extends AsyncTask<Void, Void, ApiResponse<Product>> {
         @Override
         protected void onPreExecute() {
             this.loadingProductsAlert.show();
         }
 
         @Override
-        protected ApiResponse<List<Product>> doInBackground(Void... params) {
-            ApiResponse<List<Product>> apiResponse = (new ProductService()).getProducts();
+        protected ApiResponse<Product> doInBackground(Void... params) {
+            ApiResponse<Product> apiResponse = (new ProductService()).getProductByTotalSales(0);
 
             if (apiResponse.isValidResponse()) {
                 products.clear();
-                products.addAll(apiResponse.getData());
+                products.add(apiResponse.getData());
             }
 
             return apiResponse;
         }
 
         @Override
-        protected void onPostExecute(ApiResponse<List<Product>> apiResponse) {
+        protected void onPostExecute(ApiResponse<Product> apiResponse) {
             if (apiResponse.isValidResponse()) {
                 productListAdapter.notifyDataSetChanged();
             }

@@ -32,7 +32,7 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
 			}
 			TextView ProductSalesTextView = view.findViewById(R.id.list_view_product_total_sales);
 			if (ProductSalesTextView != null){
-			    ProductSalesTextView.setText(product.getTotal_Sales());
+			    ProductSalesTextView.setText(String.format(Locale.getDefault(), "%d",product.getTotal_Sales()));
             }
 			TextView countTextView = view.findViewById(R.id.list_view_item_product_count);
 			if (countTextView != null) {

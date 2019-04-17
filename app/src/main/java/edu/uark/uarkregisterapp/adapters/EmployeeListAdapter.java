@@ -29,7 +29,7 @@ public class EmployeeListAdapter extends ArrayAdapter<Employee> {
 			if (EmployeeIDTextView != null) {
 				EmployeeIDTextView.setText(employee.getFirst_Name());
 			}
-			TextView EmployeeSalesTextView = (TextView) view.findViewById(R.id.list_view_item_employee_count);
+			TextView EmployeeSalesTextView = view.findViewById(R.id.list_view_item_employee_sales);
 			if (EmployeeSalesTextView != null) {
 				EmployeeSalesTextView.setText(employee.getTotal_sales());
 			}

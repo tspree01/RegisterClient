@@ -34,8 +34,11 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
 		return this;
 	}
 	private int total_sales;
-	public int getTotal_Sales(){
-		return this.total_sales;
+	public int getTotal_Sales(){return this.total_sales;}
+	public Product setTotal_Sales(int total_sales)
+	{
+		this.total_sales = total_sales;
+		return this;
 	}
 	private int count;
 	public int getCount() {
