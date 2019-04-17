@@ -5,7 +5,7 @@
     android:id="@+id/content_cart"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.uark.uarkregisterapp.ProductsListingActivity"
+    tools:context="edu.uark.uarkregisterapp.CartActivity"
     tools:showIn="@layout/activity_cart_listing">
 
 

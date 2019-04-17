@@ -63,6 +63,7 @@ public class CartActivity extends AppCompatActivity {
 
         ItemTouchHelper itemTouchHelper = new
                 ItemTouchHelper(new SwipeToDelete(productCardAdapter));
+
         itemTouchHelper.attachToRecyclerView(recyclerView);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(getDrawable(R.drawable.product_list_divider));
@@ -119,7 +120,7 @@ public class CartActivity extends AppCompatActivity {
     }
 
     public void productQuantityEditTextOnClick(View view) {
-        TextInputEditText productQuantity = findViewById(R.id.product_quantity);
+        TextInputEditText productQuantity = getProductCountTextInputEditText();
         productQuantity.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -129,7 +130,7 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String productTitle = findViewById(R.id.product_title).toString();
-                int productQuantity = Integer.parseInt(findViewById(R.id.product_quantity).toString());
+                int productQuantity = Integer.parseInt(getProductCountTextInputEditText().toString());
                 Product foundProduct = getProductFromList(productTitle);
                 foundProduct.setCount(productQuantity);
                 updateDataBase(foundProduct);
