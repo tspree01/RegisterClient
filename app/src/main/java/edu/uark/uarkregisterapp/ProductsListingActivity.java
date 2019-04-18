@@ -14,28 +14,29 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+import java.util.UUID;
 
-import edu.uark.uarkregisterapp.adapters.ProductCardRecyclerViewAdapter;
+import edu.uark.uarkregisterapp.adapters.CartRecyclerViewAdapter;
 import edu.uark.uarkregisterapp.adapters.ProductListAdapter;
 import edu.uark.uarkregisterapp.models.api.ApiResponse;
 import edu.uark.uarkregisterapp.models.api.Product;
 import edu.uark.uarkregisterapp.models.api.services.ProductService;
+import edu.uark.uarkregisterapp.models.transition.ProductTransition;
 
-public class ProductsListingActivity extends AppCompatActivity {
+public  class ProductsListingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products_listing);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-        RecyclerView recyclerView = getProductsListView();
-        View cartView = findViewById(R.id.shopping_cart_activity);
 
         ActionBar productListActionBar = this.getSupportActionBar();
         if (productListActionBar != null) {
@@ -43,35 +44,8 @@ public class ProductsListingActivity extends AppCompatActivity {
         }
 
         this.products = new ArrayList<>();
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        productCardAdapter = new ProductCardRecyclerViewAdapter(this, products, cartView);
-        recyclerView.setAdapter(productCardAdapter);
-        recyclerView.addItemDecoration((new ProductCardHeaderViewDecoration(recyclerView.getContext(), recyclerView, R.layout.product_card_header)));
-
-        ItemTouchHelper itemTouchHelper = new
-                ItemTouchHelper(new SwipeToDelete(productCardAdapter));
-        itemTouchHelper.attachToRecyclerView(recyclerView);
-
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-        dividerItemDecoration.setDrawable(getDrawable(R.drawable.product_list_divider));
-        recyclerView.addItemDecoration(dividerItemDecoration);
-
-
-/*		this.getProductsListView().setAdapter(this.productListAdapter);
-		this.getProductsListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent intent = new Intent(getApplicationContext(), ProductViewActivity.class);
-
-				intent.putExtra(
-					getString(R.string.intent_extra_product),
-					new ProductTransition((Product) getProductsListView().getItemAtPosition(position))
-				);
-
-				startActivity(intent);
-			}
-		});*/
+        this.productListAdapter = new ProductListAdapter(this, this.products);
+		this.getProductsListView().setAdapter(this.productListAdapter);
     }
 
     public void shoppingCartFloatingActionOnClick(View view) {
@@ -80,21 +54,6 @@ public class ProductsListingActivity extends AppCompatActivity {
        startActivity(new Intent(getApplicationContext(), CartActivity.class),
                 ActivityOptions.makeClipRevealAnimation(shoppingCartView, shoppingCartView.getWidth(), shoppingCartView.getHeight(), 50, 50).toBundle());
     }
-
-    public int getTotal() {
-        int total = 0;
-        for (Product product : products) {
-            total += product.getPrice();
-        }
-        return total;
-    }
-
-    // create an action bar button
-/*    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_action_buttons, menu);
-        return super.onCreateOptionsMenu(menu);
-    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -114,12 +73,22 @@ public class ProductsListingActivity extends AppCompatActivity {
         (new RetrieveProductsTask()).execute();
     }
 
-    private RecyclerView getProductsListView() {
-        return (RecyclerView) this.findViewById(R.id.recycler_view);
+    private ListView getProductsListView() {
+        return (ListView) this.findViewById(R.id.list_view_products);
+    }
+
+    private TextView getProductLookupCodeEditText() {
+        return (TextView) this.findViewById(R.id.edit_text_product_lookup_code);
+    }
+
+    private  EditText getProductCountEditText() {
+        return (EditText) this.findViewById(R.id.edit_text_product_count);
     }
 
 
-    private class RetrieveProductsTask extends AsyncTask<Void, Void, ApiResponse<List<Product>>> {
+
+
+    public class RetrieveProductsTask extends AsyncTask<Void, Void, ApiResponse<List<Product>>> {
         @Override
         protected void onPreExecute() {
             this.loadingProductsAlert.show();
@@ -139,7 +108,7 @@ public class ProductsListingActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ApiResponse<List<Product>> apiResponse) {
             if (apiResponse.isValidResponse()) {
-                productCardAdapter.notifyDataSetChanged();
+                productListAdapter.notifyDataSetChanged();
 
             }
             this.loadingProductsAlert.dismiss();
@@ -168,9 +137,13 @@ public class ProductsListingActivity extends AppCompatActivity {
         }
     }
 
+
+
+
     private List<Product> products;
+    private static ProductTransition productTransition;
     private ProductListAdapter productListAdapter;
-    private ProductCardRecyclerViewAdapter productCardAdapter;
+    private CartRecyclerViewAdapter productCardAdapter;
     RecyclerView.LayoutManager layoutManager;
 
 }

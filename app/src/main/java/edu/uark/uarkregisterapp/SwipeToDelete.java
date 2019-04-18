@@ -8,19 +8,18 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
-import android.widget.Adapter;
 
-import edu.uark.uarkregisterapp.adapters.ProductCardRecyclerViewAdapter;
+import edu.uark.uarkregisterapp.adapters.CartRecyclerViewAdapter;
 
 
 public class SwipeToDelete extends ItemTouchHelper.SimpleCallback {
-    private ProductCardRecyclerViewAdapter mAdapter;
+    private CartRecyclerViewAdapter mAdapter;
 
     private Drawable icon;
     private final ColorDrawable background;
 
 
-    public SwipeToDelete(ProductCardRecyclerViewAdapter adapter) {
+    public SwipeToDelete(CartRecyclerViewAdapter adapter) {
         super(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         mAdapter = adapter;
         icon = ContextCompat.getDrawable(mAdapter.context,

@@ -1,13 +1,13 @@
 package edu.uark.uarkregisterapp;
 
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
-import edu.uark.uarkregisterapp.adapters.ProductCardRecyclerViewAdapter;
+import edu.uark.uarkregisterapp.adapters.CartRecyclerViewAdapter;
 import edu.uark.uarkregisterapp.adapters.ProductListAdapter;
 import edu.uark.uarkregisterapp.models.api.ApiResponse;
 import edu.uark.uarkregisterapp.models.api.Product;
@@ -45,6 +45,7 @@ public class CartActivity extends AppCompatActivity {
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         RecyclerView recyclerView = getProductsListView();
         View cartView = findViewById(R.id.shopping_cart_activity);
+        EditText productQuantity = findViewById(R.id.product_quantity);
 
         ActionBar actionBar = this.getSupportActionBar();
         if (actionBar != null) {
@@ -57,7 +58,7 @@ public class CartActivity extends AppCompatActivity {
         this.products = new ArrayList<>();
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        productCardAdapter = new ProductCardRecyclerViewAdapter(this, products, cartView);
+        productCardAdapter = new CartRecyclerViewAdapter(this, products, cartView);
         recyclerView.setAdapter(productCardAdapter);
         recyclerView.addItemDecoration((new ProductCardHeaderViewDecoration(recyclerView.getContext(), recyclerView, R.layout.product_card_header)));
 
@@ -97,6 +98,12 @@ public class CartActivity extends AppCompatActivity {
         }
     }
 
+    public void shoppingCartFloatingActionOnClick(View view) {
+        final View shoppingCartView = findViewById(R.id.shopping_cart_activity);
+
+        startActivity(new Intent(getApplicationContext(), CartActivity.class),
+                ActivityOptions.makeClipRevealAnimation(shoppingCartView, shoppingCartView.getWidth(), shoppingCartView.getHeight(), 50, 50).toBundle());
+    }
 
 
     public static double calculateSubtotal(List<Product> products){
@@ -120,8 +127,9 @@ public class CartActivity extends AppCompatActivity {
     }
 
     public void productQuantityEditTextOnClick(View view) {
-        TextInputEditText productQuantity = getProductCountTextInputEditText();
-        productQuantity.addTextChangedListener(new TextWatcher() {
+        TextWatcher textWatcher = new TextWatcher() {
+            int newProductQuantity;
+            boolean _ignore = false;
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -129,21 +137,23 @@ public class CartActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                newProductQuantity = Integer.parseInt(s.toString());
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
                 String productTitle = findViewById(R.id.product_title).toString();
-                int productQuantity = Integer.parseInt(getProductCountTextInputEditText().toString());
+                //String productQuantity = getProductCountTextInputEditText().toString();
                 Product foundProduct = getProductFromList(productTitle);
-                foundProduct.setCount(productQuantity);
+                foundProduct.setCount(newProductQuantity);
                 updateDataBase(foundProduct);
 
                 ((TextView) findViewById(R.id.bottom_sheet_subtotal_price)).setText(String.format(Locale.getDefault(), "$ %.2f", calculateSubtotal(products)));
                 ((TextView) findViewById(R.id.bottom_sheet_taxes_price)).setText(String.format(Locale.getDefault(), "$ %.2f", calculateTaxes(products)));
                 ((TextView) findViewById(R.id.bottom_sheet_total_price)).setText(String.format(Locale.getDefault(), "$ %.2f", calculateTotal(products)));
             }
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+        };
+        productCardAdapter.productCardViewHolder.productQuantity.addTextChangedListener(textWatcher);
     }
 
     private void updateDataBase(Product product){
@@ -179,6 +189,7 @@ public class CartActivity extends AppCompatActivity {
         super.onResume();
 
         (new RetrieveProductsTask()).execute();
+
     }
 
     private RecyclerView getProductsListView() {
@@ -195,11 +206,6 @@ public class CartActivity extends AppCompatActivity {
         return foundProduct;
 
     }
-
-    private TextInputEditText getProductCountTextInputEditText() {
-        return (TextInputEditText) this.findViewById(R.id.product_quantity);
-    }
-
 
     private class RetrieveProductsTask extends AsyncTask<Void, Void, ApiResponse<List<Product>>> {
         @Override
@@ -260,6 +266,6 @@ public class CartActivity extends AppCompatActivity {
     private ProductTransition productTransition;
     BottomSheetBehavior bottomSheetBehavior;
     private ProductListAdapter productListAdapter;
-    private ProductCardRecyclerViewAdapter productCardAdapter;
+    private CartRecyclerViewAdapter productCardAdapter;
     RecyclerView.LayoutManager layoutManager;
 }

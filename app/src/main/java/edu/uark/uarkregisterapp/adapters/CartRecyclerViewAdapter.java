@@ -16,12 +16,13 @@ import edu.uark.uarkregisterapp.ProductCardViewHolder;
 import edu.uark.uarkregisterapp.R;
 import edu.uark.uarkregisterapp.models.api.Product;
 
-public class ProductCardRecyclerViewAdapter extends RecyclerView.Adapter<ProductCardViewHolder> {
+public class CartRecyclerViewAdapter extends RecyclerView.Adapter<ProductCardViewHolder> {
     public Context context;
     public List<Product> productList;
     private View cartView;
+    public ProductCardViewHolder productCardViewHolder;
 
-    public ProductCardRecyclerViewAdapter(Context context,List<Product> productList, View cartView){
+    public CartRecyclerViewAdapter(Context context, List<Product> productList, View cartView){
         this.context = context;
         this.productList = productList;
         this.cartView = cartView;
@@ -31,8 +32,8 @@ public class ProductCardRecyclerViewAdapter extends RecyclerView.Adapter<Product
     @Override
     public ProductCardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_card, parent, false);
-            return new ProductCardViewHolder(layoutView);
-
+            productCardViewHolder = new ProductCardViewHolder(layoutView);
+            return productCardViewHolder;
     }
 
     @Override

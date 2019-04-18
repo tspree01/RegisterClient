@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="edu.uark.uarkregisterapp.ProductsListingActivity">
 
     <TextView
         android:id="@+id/list_view_item_product_lookup_code"
@@ -52,7 +53,7 @@
         app:srcCompat="@android:drawable/arrow_down_float" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/button_add"
         style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
