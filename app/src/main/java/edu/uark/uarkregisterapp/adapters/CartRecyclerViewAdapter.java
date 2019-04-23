@@ -50,34 +50,42 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<ProductCardVie
             productCardViewHolder.productQuantity.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    productCardViewHolder.productQuantity.addTextChangedListener(new TextWatcher() {
-
-                        @Override
-                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                        }
-
-                        @Override
-                        public void onTextChanged(CharSequence s, int start, int before, int count) {
-                            product.setCount(Integer.parseInt(s.toString()));
-                        }
-                        @Override
-                        public void afterTextChanged(Editable s) {
-                            (new UpdateProductTask(product,context)).execute();
-                        }
-                    });
+                    productCardViewHolder.productQuantity.addTextChangedListener(new EditTextListener(product,context));
                 }
             });
         }
     }
 
-    private class UpdateProductTask extends AsyncTask<Void, Void, Boolean> {
+    public class EditTextListener implements TextWatcher {
         Product product;
         Context context;
 
-        UpdateProductTask(Product product, Context context) {
+        EditTextListener(Product product, Context context) {
             this.product = product;
             this.context = context;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            product.setCount(Integer.parseInt(s.toString()));
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            product.setCount(Integer.parseInt(s.toString()));
+            (new UpdateProductTask(product)).execute();
+        }
+    }
+
+    public class UpdateProductTask extends AsyncTask<Void, Void, Boolean> {
+        Product product;
+
+        UpdateProductTask(Product product) {
+            this.product = product;
         }
 
         @Override
@@ -107,16 +115,47 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<ProductCardVie
         }
     }
 
+    private class DeleteProductTask extends AsyncTask<Void, Void, Boolean> {
+        Product product;
+        public DeleteProductTask(Product product) {
+            this.product = product;
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            return (new CartService())
+                    .deleteProduct(product.getId())
+                    .isValidResponse();
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean successfulSave) {
+            if(successfulSave) {
+                Toast.makeText(context, "Deleted!", Toast.LENGTH_SHORT)
+                        .show();
+                ((TextView) cartView.findViewById(R.id.bottom_sheet_subtotal_price)).setText(String.format(Locale.getDefault(), "$ %.2f", CartActivity.calculateSubtotal(productList)));
+                ((TextView) cartView.findViewById(R.id.bottom_sheet_taxes_price)).setText(String.format(Locale.getDefault(), "$ %.2f", CartActivity.calculateTaxes(productList)));
+                ((TextView) cartView.findViewById(R.id.bottom_sheet_total_price)).setText(String.format(Locale.getDefault(), "$ %.2f", CartActivity.calculateTotal(productList)));
+            }
+            else {
+                Toast.makeText(context, "Failed to delete!", Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }
+    }
+
     @Override
     public int getItemCount() {
         return productList.size();
     }
 
     public void deleteItem(int position){
+        (new DeleteProductTask(productList.get(position))).execute();
         productList.remove(position);
         notifyDataSetChanged();
-        ((TextView) cartView.findViewById(R.id.bottom_sheet_subtotal_price)).setText(String.format(Locale.getDefault(), "$ %.2f", CartActivity.calculateSubtotal(productList)));
-        ((TextView) cartView.findViewById(R.id.bottom_sheet_taxes_price)).setText(String.format(Locale.getDefault(), "$ %.2f", CartActivity.calculateTaxes(productList)));
-        ((TextView) cartView.findViewById(R.id.bottom_sheet_total_price)).setText(String.format(Locale.getDefault(), "$ %.2f", CartActivity.calculateTotal(productList)));
     }
 }

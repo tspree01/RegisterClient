@@ -6,6 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="250dp"
     android:background="@color/backgroundOfApp"
+    android:maxHeight="250dp"
+    android:minHeight="56dp"
     android:orientation="vertical"
     android:theme="@style/Theme.Design.Light.BottomSheetDialog"
     app:behavior_hideable="false"
