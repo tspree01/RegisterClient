@@ -5,17 +5,16 @@
     android:id="@+id/content_products_listing"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundOfApp"
+    android:background="@color/colorAccent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="edu.uark.uarkregisterapp.ProductsListingActivity"
     tools:showIn="@layout/activity_products_listing">
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/list_view_products"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="#00000000"
-        android:dividerHeight="10dp"
-        android:padding="10dp" />
+        android:paddingTop="10dp"
+        tools:listitem="@layout/list_view_item_product" />
 
 </RelativeLayout>

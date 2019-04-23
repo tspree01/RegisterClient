@@ -21,7 +21,7 @@
         tools:context="edu.uark.uarkregisterapp.ProductsListingActivity">
 
         <TextView
-            android:id="@+id/list_view_item_product_lookup_code"
+            android:id="@+id/list_view_item_product_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"

@@ -1,25 +1,16 @@
 package edu.uark.uarkregisterapp.adapters;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AlertDialog;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,22 +24,23 @@ import edu.uark.uarkregisterapp.models.api.services.CartService;
 public class ProductListAdapter extends ArrayAdapter<Product> {
     private Context context;
     private static List<Product> productsInCart = new ArrayList<>();
-    View view;
 
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull final ViewGroup parent) {
-        view = convertView;
+        int zero = 0;
+        View view = convertView;
         if (view == null) {
             LayoutInflater inflater = LayoutInflater.from(this.getContext());
             view = inflater.inflate(R.layout.list_view_item_product, parent, false);
         }
 
         final Product product = this.getItem(position);
-        final EditText quantityEditTexts = view.findViewById(R.id.quantityEditText);
-        final TextInputLayout quantityTextLayout = view.findViewById(R.id.quantityTextLayout);
+        View quantityEditTextView = parent.getChildAt(position);
+        final EditText quantityEditTexts = quantityEditTextView.findViewById(R.id.quantityEditText);
+        final TextInputLayout quantityTextLayout = quantityEditTextView.findViewById(R.id.quantityTextLayout);
         if (product != null) {
-            TextView lookupCodeTextView = (TextView) view.findViewById(R.id.list_view_item_product_lookup_code);
+            TextView lookupCodeTextView = (TextView) view.findViewById(R.id.list_view_item_product_title);
             if (lookupCodeTextView != null) {
                 lookupCodeTextView.setText(product.getLookupCode());
             }
@@ -57,9 +49,8 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
             if (countTextView != null) {
                 countTextView.setText(String.format(Locale.getDefault(), "%d", product.getCount()));
             }
-
         }
-
+/*
         ImageButton upButton = view.findViewById(R.id.upArrow);
         upButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,19 +94,8 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
                     (new SaveProductTask(product, context, productsInCart)).execute();
                 }
             }
-        });
+        });*/
         return view;
-    }
-
-    private boolean validateQuantity() {
-        EditText quantityEditText = view.findViewById(R.id.quantityEditText);
-        if (quantityEditText.getText().toString().equals("")) {
-            TextInputLayout quantityTextLayout = view.findViewById(R.id.quantityTextLayout);
-            quantityTextLayout.setError("Quantity can't be blank");
-            return false;
-        } else {
-            return true;
-        }
     }
 
     class SaveProductTask extends AsyncTask<Void, Void, Boolean> {

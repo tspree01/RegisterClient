@@ -152,11 +152,6 @@ public class CartActivity extends AppCompatActivity {
         });
     }*/
 
-    public void updateDataBase(Product product) {
-        ApiResponse<Product> apiResponse = ((new CartService()).updateProduct(product)
-        );
-    }
-
     // create an action bar button
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

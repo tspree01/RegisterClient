@@ -26,6 +26,7 @@ import java.util.UUID;
 
 import edu.uark.uarkregisterapp.adapters.CartRecyclerViewAdapter;
 import edu.uark.uarkregisterapp.adapters.ProductListAdapter;
+import edu.uark.uarkregisterapp.adapters.ProductRecyclerViewAdapter;
 import edu.uark.uarkregisterapp.models.api.ApiResponse;
 import edu.uark.uarkregisterapp.models.api.Product;
 import edu.uark.uarkregisterapp.models.api.services.ProductService;
@@ -37,6 +38,9 @@ public  class ProductsListingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products_listing);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        RecyclerView recyclerView = getProductsRecyclerView();
+        View productListView = findViewById(R.id.product_listing);
+
 
         ActionBar productListActionBar = this.getSupportActionBar();
         if (productListActionBar != null) {
@@ -44,8 +48,18 @@ public  class ProductsListingActivity extends AppCompatActivity {
         }
 
         this.products = new ArrayList<>();
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        productRecyclerViewAdapter = new ProductRecyclerViewAdapter(this, products, productListView);
+        recyclerView.setAdapter(productRecyclerViewAdapter);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(getDrawable(R.drawable.product_list_divider));
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
+/*       this.products = new ArrayList<>();
         this.productListAdapter = new ProductListAdapter(this, this.products);
-		this.getProductsListView().setAdapter(this.productListAdapter);
+		this.getProductsListView().setAdapter(this.productListAdapter);*/
     }
 
     public void shoppingCartFloatingActionOnClick(View view) {
@@ -53,6 +67,10 @@ public  class ProductsListingActivity extends AppCompatActivity {
 
        startActivity(new Intent(getApplicationContext(), CartActivity.class),
                 ActivityOptions.makeClipRevealAnimation(shoppingCartView, shoppingCartView.getWidth(), shoppingCartView.getHeight(), 50, 50).toBundle());
+    }
+
+    public void productQuantityEditTextOnClick(View view) {
+
     }
 
     @Override
@@ -73,8 +91,11 @@ public  class ProductsListingActivity extends AppCompatActivity {
         (new RetrieveProductsTask()).execute();
     }
 
-    private ListView getProductsListView() {
+/*    private ListView getProductsListView() {
         return (ListView) this.findViewById(R.id.list_view_products);
+    }*/
+    private RecyclerView getProductsRecyclerView() {
+        return (RecyclerView) this.findViewById(R.id.list_view_products);
     }
 
     private TextView getProductLookupCodeEditText() {
@@ -105,7 +126,7 @@ public  class ProductsListingActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ApiResponse<List<Product>> apiResponse) {
             if (apiResponse.isValidResponse()) {
-                productListAdapter.notifyDataSetChanged();
+                productRecyclerViewAdapter.notifyDataSetChanged();
             }
             this.loadingProductsAlert.dismiss();
 
@@ -136,7 +157,7 @@ public  class ProductsListingActivity extends AppCompatActivity {
     private List<Product> products;
     private static ProductTransition productTransition;
     private ProductListAdapter productListAdapter;
-    private CartRecyclerViewAdapter productCardAdapter;
+    private ProductRecyclerViewAdapter productRecyclerViewAdapter;
     RecyclerView.LayoutManager layoutManager;
 
 }
