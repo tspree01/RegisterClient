@@ -8,6 +8,8 @@
     <color name="transparent">#00000000</color>
     <color name="tan">#FFFFFF</color>
     <color name="whites">#FFFFFF</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="listingBackground">#c0c0c0</color>>
     <color name="tans">#F3F3F3</color>
     <color name="backgroundOfApp">#F9F9F9</color>
 </resources>

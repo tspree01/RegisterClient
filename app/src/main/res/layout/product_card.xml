@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/material_card"
@@ -87,7 +88,6 @@
             android:layout_marginStart="182dp"
             android:breakStrategy="high_quality"
             android:clickable="true"
-            android:onClick="productQuantityEditTextOnClick"
             android:importantForAutofill="no"
             android:inputType="number"
             android:text="@string/_0"

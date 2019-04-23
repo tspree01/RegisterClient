@@ -36,7 +36,7 @@
         layout="@layout/activity_cart_listing"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible" />
+        android:visibility="gone" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/shopingCartFloatingActionButton"

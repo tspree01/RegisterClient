@@ -34,6 +34,7 @@ import edu.uark.uarkregisterapp.adapters.CartRecyclerViewAdapter;
 import edu.uark.uarkregisterapp.adapters.ProductListAdapter;
 import edu.uark.uarkregisterapp.models.api.ApiResponse;
 import edu.uark.uarkregisterapp.models.api.Product;
+import edu.uark.uarkregisterapp.models.api.services.CartService;
 import edu.uark.uarkregisterapp.models.api.services.ProductService;
 import edu.uark.uarkregisterapp.models.transition.ProductTransition;
 
@@ -71,8 +72,6 @@ public class CartActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(dividerItemDecoration);
     }
 
-
-
     public void expandBottomSheet(View view) {
         if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
             ImageView nav_arrows = (ImageView) findViewById(R.id.nav_arrows);
@@ -105,8 +104,7 @@ public class CartActivity extends AppCompatActivity {
                 ActivityOptions.makeClipRevealAnimation(shoppingCartView, shoppingCartView.getWidth(), shoppingCartView.getHeight(), 50, 50).toBundle());
     }
 
-
-    public static double calculateSubtotal(List<Product> products){
+    public static double calculateSubtotal(List<Product> products) {
         double subtotal = 0.0;
         for (Product product : products) {
             subtotal += product.getPrice() * product.getCount();
@@ -114,20 +112,19 @@ public class CartActivity extends AppCompatActivity {
         return subtotal;
     }
 
-
     public static double calculateTotal(List<Product> products) {
         double total = 0.0;
-        total = calculateSubtotal(products) + calculateTaxes(products) ;
+        total = calculateSubtotal(products) + calculateTaxes(products);
         return total;
     }
 
-    public static double calculateTaxes(List<Product> products){
+    public static double calculateTaxes(List<Product> products) {
         double taxRate = 0.0975;
         return (calculateSubtotal(products) * (taxRate + 1)) - calculateSubtotal(products);
     }
 
-    public void productQuantityEditTextOnClick(View view) {
-        TextWatcher textWatcher = new TextWatcher() {
+/*    public void productQuantityEditTextOnClick(View view) {
+        productCardAdapter.productCardViewHolder.productQuantity.addTextChangedListener(new TextWatcher() {
             int newProductQuantity;
             boolean _ignore = false;
             @Override
@@ -152,15 +149,11 @@ public class CartActivity extends AppCompatActivity {
                 ((TextView) findViewById(R.id.bottom_sheet_taxes_price)).setText(String.format(Locale.getDefault(), "$ %.2f", calculateTaxes(products)));
                 ((TextView) findViewById(R.id.bottom_sheet_total_price)).setText(String.format(Locale.getDefault(), "$ %.2f", calculateTotal(products)));
             }
-        };
-        productCardAdapter.productCardViewHolder.productQuantity.addTextChangedListener(textWatcher);
-    }
+        });
+    }*/
 
-    private void updateDataBase(Product product){
-        ApiResponse<Product> apiResponse = (
-                (product.getId().equals(new UUID(0, 0)))
-                        ? (new ProductService()).updateProduct(product)
-                        : (new ProductService()).updateProduct(product)
+    public void updateDataBase(Product product) {
+        ApiResponse<Product> apiResponse = ((new CartService()).updateProduct(product)
         );
     }
 
@@ -171,7 +164,6 @@ public class CartActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -180,31 +172,27 @@ public class CartActivity extends AppCompatActivity {
 
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
         (new RetrieveProductsTask()).execute();
-
     }
 
     private RecyclerView getProductsListView() {
         return (RecyclerView) this.findViewById(R.id.recycler_view);
     }
 
-    Product getProductFromList(String product_title){
+    Product getProductFromList(String product_title) {
         Product foundProduct = new Product();
         for (Product product : products) {
-            if(product.getLookupCode() == product_title){
+            if (product.getLookupCode() == product_title) {
                 foundProduct = product;
             }
         }
         return foundProduct;
-
     }
 
     private class RetrieveProductsTask extends AsyncTask<Void, Void, ApiResponse<List<Product>>> {
@@ -215,13 +203,12 @@ public class CartActivity extends AppCompatActivity {
 
         @Override
         protected ApiResponse<List<Product>> doInBackground(Void... params) {
-            ApiResponse<List<Product>> apiResponse = (new ProductService()).getProducts();
+            ApiResponse<List<Product>> apiResponse = (new CartService()).getProducts();
 
             if (apiResponse.isValidResponse()) {
                 products.clear();
                 products.addAll(apiResponse.getData());
             }
-
             return apiResponse;
         }
 
@@ -230,7 +217,6 @@ public class CartActivity extends AppCompatActivity {
             if (apiResponse.isValidResponse()) {
                 productCardAdapter.notifyDataSetChanged();
             }
-
             this.loadingProductsAlert.dismiss();
 
             if (!apiResponse.isValidResponse()) {

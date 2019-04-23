@@ -85,9 +85,6 @@ public  class ProductsListingActivity extends AppCompatActivity {
         return (EditText) this.findViewById(R.id.edit_text_product_count);
     }
 
-
-
-
     public class RetrieveProductsTask extends AsyncTask<Void, Void, ApiResponse<List<Product>>> {
         @Override
         protected void onPreExecute() {
@@ -109,7 +106,6 @@ public  class ProductsListingActivity extends AppCompatActivity {
         protected void onPostExecute(ApiResponse<List<Product>> apiResponse) {
             if (apiResponse.isValidResponse()) {
                 productListAdapter.notifyDataSetChanged();
-
             }
             this.loadingProductsAlert.dismiss();
 
@@ -136,9 +132,6 @@ public  class ProductsListingActivity extends AppCompatActivity {
                     create();
         }
     }
-
-
-
 
     private List<Product> products;
     private static ProductTransition productTransition;
