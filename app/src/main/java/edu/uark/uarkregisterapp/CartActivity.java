@@ -122,6 +122,10 @@ public class CartActivity extends AppCompatActivity {
         double taxRate = 0.0975;
         return (calculateSubtotal(products) * (taxRate + 1)) - calculateSubtotal(products);
     }
+    public void transactionButtonOnClick(View view) {
+
+
+    }
 
 /*    public void productQuantityEditTextOnClick(View view) {
         productCardAdapter.productCardViewHolder.productQuantity.addTextChangedListener(new TextWatcher() {
@@ -180,14 +184,24 @@ public class CartActivity extends AppCompatActivity {
         return (RecyclerView) this.findViewById(R.id.recycler_view);
     }
 
-    Product getProductFromList(String product_title) {
-        Product foundProduct = new Product();
-        for (Product product : products) {
-            if (product.getLookupCode() == product_title) {
-                foundProduct = product;
-            }
+    private class SaveProductTask extends AsyncTask<Void, Void, Boolean> {
+        Product product;
+
+        @Override
+        protected void onPreExecute() {
         }
-        return foundProduct;
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
+            ApiResponse<Product> apiResponse = ((new ProductService()).updateProduct(product));
+
+            return apiResponse.isValidResponse();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean successfulSave) {
+        }
     }
 
     private class RetrieveProductsTask extends AsyncTask<Void, Void, ApiResponse<List<Product>>> {

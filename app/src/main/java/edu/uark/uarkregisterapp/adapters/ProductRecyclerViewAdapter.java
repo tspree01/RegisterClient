@@ -49,12 +49,6 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductList
             int zero = 0;
             productListViewHolder.productTitle.setText(product.getLookupCode());
             productListViewHolder.productCount.setText(String.format(Locale.getDefault(),"%d",product.getCount()));
-            productListViewHolder.productQuantityEditText.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    productListViewHolder.productQuantityEditText.addTextChangedListener(new EditTextListener(product,context,productListViewHolder));
-                }
-            });
 
             ImageButton upButton = productListViewHolder.upButton;
             upButton.setOnClickListener(new View.OnClickListener() {
@@ -100,34 +94,6 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductList
                     }
                 }
             });
-        }
-    }
-
-    public class EditTextListener implements TextWatcher {
-        Product product;
-        Context context;
-        ProductListViewHolder productListViewHolder;
-
-        EditTextListener(Product product, Context context, ProductListViewHolder productListViewHolder) {
-            this.product = product;
-            this.context = context;
-            this.productListViewHolder = productListViewHolder;
-        }
-
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            product.setCount(Integer.parseInt(s.toString()));
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
         }
     }
 

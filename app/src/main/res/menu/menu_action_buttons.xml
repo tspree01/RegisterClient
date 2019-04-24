@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/cart"
-        android:icon="@drawable/sharp_shopping_cart_white_48"
-        android:title="@string/shopping_chart"
-        app:showAsAction="always"/>
+    <item android:id="@+id/search_product_list"
+        android:title="@string/search_title"
+        android:icon="@drawable/baseline_search_black_36"
+        app:showAsAction="collapseActionView|ifRoom"
+        app:actionViewClass="android.widget.SearchView" />
 </menu>

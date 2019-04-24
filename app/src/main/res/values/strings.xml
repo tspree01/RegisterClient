@@ -69,6 +69,7 @@
     <string name="intent_extra_sampleapp">intent_extra_sampleapp</string>
     <string name="welcome">Welcome,</string>
     <string name="login">Login</string>
+    <string name="search_title">Search</string>
     <string name="logging_in">Logging You In…</string>
     <string name="sign_out">Sign Out</string>
     <string name="todo">TODO</string>

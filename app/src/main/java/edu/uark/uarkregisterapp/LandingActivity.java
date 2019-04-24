@@ -41,8 +41,6 @@ import edu.uark.uarkregisterapp.models.transition.ProductTransition;
 public class LandingActivity extends AppCompatActivity {
     final static String SCOPES[] = {"https://uarkregisterapp.onmicrosoft.com/api/read"};
     private static final String TAG = LandingActivity.class.getSimpleName();
-  //  private Button loginButton;
-   // private Button signOutButton;
     private boolean createEmployeeClicked = false;
     private boolean logged_In = false;
     private EmployeeTransition loginTokenClaims = new EmployeeTransition();
