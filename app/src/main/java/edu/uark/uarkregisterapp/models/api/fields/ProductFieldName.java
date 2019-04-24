@@ -8,6 +8,7 @@ public enum ProductFieldName implements FieldNameInterface {
 	COUNT("count"),
 	API_REQUEST_STATUS("apiRequestStatus"),
 	API_REQUEST_MESSAGE("apiRequestMessage"),
+	TOTAL_SOLD("total_sold"),
 	CREATED_ON("createdOn");
 
 	private String fieldName;

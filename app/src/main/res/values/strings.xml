@@ -8,6 +8,7 @@
     <string name="title_activity_Sales_Report_view">Sales Report</string>
     <string name="title_activity_Sales_Report_employee_view">Employee Sales Report</string>
     <string name="title_activity_product_Sales_Report_employee_view">Product Sales Report</string>
+    <string name="title_activity_best_selling_cashier_view">Best Selling Cashier</string>
     <string name="button_ok">OK</string>
     <string name="button_cancel">Cancel</string>
     <string name="button_save">Save</string>
@@ -27,6 +28,7 @@
     <string name="text_view_employees_active">active</string>
     <string name="text_view_employees_role">role</string>
     <string name="text_view_employees_manager">manager</string>
+    <string name="text_view_employees_total_sales">total sales</string>
     <string name="text_view_employees_sales">0</string>
     <string name="text_view_products_count">0</string>
     <string name="text_view_employees_count">0</string>
@@ -75,4 +77,5 @@
     <string name="sign_out">Sign Out</string>
     <string name="cashier_sales">Cashier Sales</string>
     <string name="product_sales">Product Sales</string>
+    <string name="Best_Selling_Cashier">Best Selling Cahier</string>
 </resources>

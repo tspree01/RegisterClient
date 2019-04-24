@@ -37,16 +37,6 @@ public class ProductService extends BaseRemoteService {
 			)
 		);
 	}
-	public ApiResponse<Product> getProductByTotalSales(int total_sales){
-		return this.readProductDetailsFromResponse(
-				this.<Product>performGetRequest(
-						this.buildPath(
-								new PathElementInterface[] { ProductApiMethod.BY_TOTAL_SALES}
-								, String.valueOf(total_sales)
-						)
-				)
-		);
-	}
 	public ApiResponse<List<Product>> getProducts() {
 		ApiResponse<List<Product>> apiResponse = this.performGetRequest(
 			this.buildPath()

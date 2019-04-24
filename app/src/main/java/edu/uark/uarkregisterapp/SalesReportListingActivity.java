@@ -16,7 +16,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.uark.uarkregisterapp.adapters.EmployeeListAdapter;
+import edu.uark.uarkregisterapp.adapters.EmployeeSalesListAdapter;
 import edu.uark.uarkregisterapp.models.api.ApiResponse;
 import edu.uark.uarkregisterapp.models.api.Employee;
 import edu.uark.uarkregisterapp.models.api.services.EmployeeService;
@@ -36,9 +36,9 @@ public class SalesReportListingActivity extends AppCompatActivity{
             }
 
             this.employees = new ArrayList<>();
-            this.employeeListAdapter = new EmployeeListAdapter(this, this.employees);
+            this.employeeSalesListAdapter = new EmployeeSalesListAdapter(this, this.employees);
 
-            this.getEmployeesListView().setAdapter(this.employeeListAdapter);
+            this.getEmployeesListView().setAdapter(this.employeeSalesListAdapter);
             this.getEmployeesListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -75,29 +75,28 @@ public class SalesReportListingActivity extends AppCompatActivity{
             return (ListView) this.findViewById(R.id.list_view_employees);
         }
 
-        private class RetrieveEmployeesTask extends AsyncTask<Void, Void, ApiResponse<Employee>> {
+        private class RetrieveEmployeesTask extends AsyncTask<Void, Void, ApiResponse<List<Employee>>> {
             @Override
             protected void onPreExecute() {
                 this.loadingEmployeesAlert.show();
             }
 
             @Override
-            protected ApiResponse<Employee> doInBackground(Void... params) {
-                int stuff = 10;
-                ApiResponse<Employee> apiResponse = (new EmployeeService()).getEmployeeByTotalSales(stuff);
+            protected ApiResponse<List<Employee>> doInBackground(Void... params) {
+                ApiResponse<List<Employee>> apiResponse = (new EmployeeService()).getEmployees();
 
                 if (apiResponse.isValidResponse()) {
                     employees.clear();
-                    employees.add(apiResponse.getData());
+                    employees.addAll(apiResponse.getData());
                 }
 
                 return apiResponse;
             }
 
             @Override
-            protected void onPostExecute(ApiResponse<Employee> apiResponse) {
+            protected void onPostExecute(ApiResponse<List<Employee>> apiResponse) {
                 if (apiResponse.isValidResponse()) {
-                    employeeListAdapter.notifyDataSetChanged();
+                    employeeSalesListAdapter.notifyDataSetChanged();
                 }
 
                 this.loadingEmployeesAlert.dismiss();
@@ -129,6 +128,6 @@ public class SalesReportListingActivity extends AppCompatActivity{
 
 
         private List<Employee> employees;
-        private EmployeeListAdapter employeeListAdapter;
+        private EmployeeSalesListAdapter employeeSalesListAdapter;
     }
 

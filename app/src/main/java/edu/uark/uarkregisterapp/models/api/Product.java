@@ -67,7 +67,7 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
 
 		this.lookupCode = rawJsonObject.optString(ProductFieldName.LOOKUP_CODE.getFieldName());
 		this.count = rawJsonObject.optInt(ProductFieldName.COUNT.getFieldName());
-
+		this.total_sales = rawJsonObject.optInt(ProductFieldName.TOTAL_SOLD.getFieldName());
 		value = rawJsonObject.optString(ProductFieldName.CREATED_ON.getFieldName());
 		if (!StringUtils.isBlank(value)) {
 			try {
@@ -78,6 +78,7 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
 		}
 
 		return this;
+
 	}
 
 	@Override

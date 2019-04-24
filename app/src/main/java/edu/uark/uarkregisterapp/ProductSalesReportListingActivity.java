@@ -15,7 +15,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.uark.uarkregisterapp.adapters.ProductListAdapter;
+import edu.uark.uarkregisterapp.adapters.ProductSalesListAdapter;
 import edu.uark.uarkregisterapp.models.api.ApiResponse;
 import edu.uark.uarkregisterapp.models.api.Product;
 import edu.uark.uarkregisterapp.models.api.services.ProductService;
@@ -34,9 +34,9 @@ public class ProductSalesReportListingActivity extends AppCompatActivity {
         }
 
         this.products = new ArrayList<>();
-        this.productListAdapter = new ProductListAdapter(this, this.products);
+        this.productSalesListAdapters = new ProductSalesListAdapter(this, this.products);
 
-        this.getProductsListView().setAdapter(this.productListAdapter);
+        this.getProductsListView().setAdapter(this.productSalesListAdapters);
         this.getProductsListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -63,28 +63,28 @@ public class ProductSalesReportListingActivity extends AppCompatActivity {
         return (ListView) this.findViewById(R.id.list_view_products);
     }
 
-    private class RetrieveProductsTask extends AsyncTask<Void, Void, ApiResponse<Product>> {
+    private class RetrieveProductsTask extends AsyncTask<Void, Void, ApiResponse<List<Product>>> {
         @Override
         protected void onPreExecute() {
             this.loadingProductsAlert.show();
         }
 
         @Override
-        protected ApiResponse<Product> doInBackground(Void... params) {
-            ApiResponse<Product> apiResponse = (new ProductService()).getProductByTotalSales(0);
+        protected ApiResponse<List<Product>> doInBackground(Void... params) {
+            ApiResponse<List<Product>> apiResponse = (new ProductService()).getProducts();
 
             if (apiResponse.isValidResponse()) {
                 products.clear();
-                products.add(apiResponse.getData());
+                products.addAll(apiResponse.getData());
             }
 
             return apiResponse;
         }
 
         @Override
-        protected void onPostExecute(ApiResponse<Product> apiResponse) {
+        protected void onPostExecute(ApiResponse<List<Product>> apiResponse) {
             if (apiResponse.isValidResponse()) {
-                productListAdapter.notifyDataSetChanged();
+                productSalesListAdapters.notifyDataSetChanged();
             }
 
             this.loadingProductsAlert.dismiss();
@@ -115,5 +115,5 @@ public class ProductSalesReportListingActivity extends AppCompatActivity {
     }
 
     private List<Product> products;
-    private ProductListAdapter productListAdapter;
+    private ProductSalesListAdapter productSalesListAdapters;
 }
