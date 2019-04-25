@@ -61,6 +61,16 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
 		return this;
 	}
 
+	private UUID cartid;
+	public UUID getCartId() {
+		return this.cartid;
+	}
+	public Product setCartId(UUID cartid) {
+		this.cartid = cartid;
+		return this;
+	}
+
+
 	@Override
 	public Product loadFromJson(JSONObject rawJsonObject) {
 		String value = rawJsonObject.optString(ProductFieldName.ID.getFieldName());
@@ -81,6 +91,11 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
 		}
 		this.price = rawJsonObject.optDouble(ProductFieldName.PRICE.getFieldName());
 
+		String values = rawJsonObject.optString(ProductFieldName.CARTID.getFieldName());
+		if (!StringUtils.isBlank(values)) {
+			this.cartid = UUID.fromString(values);
+		}
+
 		return this;
 	}
 
@@ -94,6 +109,7 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
 			jsonObject.put(ProductFieldName.COUNT.getFieldName(), this.count);
 			jsonObject.put(ProductFieldName.CREATED_ON.getFieldName(), (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.US)).format(this.createdOn));
 			jsonObject.put(ProductFieldName.PRICE.getFieldName(), this.price);
+			jsonObject.put(ProductFieldName.CARTID.getFieldName(), this.cartid.toString());
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -107,6 +123,7 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
 		this.id = new UUID(0, 0);
 		this.createdOn = new Date();
 		this.price = 0;
+		this.cartid = new UUID(0, 0);
 	}
 
 	public Product(ProductTransition productTransition) {

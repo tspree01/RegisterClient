@@ -27,11 +27,13 @@ import edu.uark.uarkregisterapp.R;
 import edu.uark.uarkregisterapp.models.api.ApiResponse;
 import edu.uark.uarkregisterapp.models.api.Product;
 import edu.uark.uarkregisterapp.models.api.services.CartService;
+import edu.uark.uarkregisterapp.models.transition.EmployeeTransition;
 
 public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductListViewHolder> {
     private Context context;
     private List<Product> productList;
     private View productView;
+    private EmployeeTransition employeeTransition;
     private static List<Product> productsInCart = new ArrayList<>();
 
     @NonNull
@@ -44,11 +46,11 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductList
     @Override
     public void onBindViewHolder(@NonNull final ProductListViewHolder productListViewHolder, int position) {
 
-        if(productList != null && position < productList.size()) {
+        if (productList != null && position < productList.size()) {
             final Product product = productList.get(position);
             int zero = 0;
             productListViewHolder.productTitle.setText(product.getLookupCode());
-            productListViewHolder.productCount.setText(String.format(Locale.getDefault(),"%d",product.getCount()));
+            productListViewHolder.productCount.setText(String.format(Locale.getDefault(), "%d", product.getCount()));
 
             ImageButton upButton = productListViewHolder.upButton;
             upButton.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +85,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductList
             addButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    product.setCartId(employeeTransition.getId());
                     String quantityEditTextString = productListViewHolder.productQuantityEditText.getText().toString();
                     if (quantityEditTextString.equals("")) {
                         productListViewHolder.productQuantityLayout.setError("Quantity can't be blank");
@@ -117,22 +120,22 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductList
         protected void onPreExecute() {
         }
 
-        private boolean isProductNotInCart(Product product) {
+        private boolean isProductInCart(Product product) {
             for (Product productInCart : productsInCart) {
-                if (productInCart.getLookupCode().equals(product.getLookupCode())) {
-                    return false;
+                if (productInCart.getCartId().equals(product.getCartId()) && productInCart.getLookupCode().equals(product.getLookupCode())) {
+                    return true;
                 }
             }
-            return true;
+            return false;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
 
             ApiResponse<Product> apiResponse = (
-                    (isProductNotInCart(product))
-                            ? (new CartService()).createProduct(product)
-                            : (new CartService()).updateProduct(product)
+                    (isProductInCart(product))
+                            ? (new CartService()).updateProduct(product)
+                            : (new CartService()).createProduct(product)
             );
             return apiResponse.isValidResponse();
         }
@@ -170,10 +173,11 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductList
         }
     }
 
-    public ProductRecyclerViewAdapter(Context context, List<Product> productList, View productView){
+    public ProductRecyclerViewAdapter(Context context, List<Product> productList, View productView, EmployeeTransition employeeTransition) {
         this.context = context;
         this.productList = productList;
         this.productView = productView;
+        this.employeeTransition = employeeTransition;
     }
 
 }

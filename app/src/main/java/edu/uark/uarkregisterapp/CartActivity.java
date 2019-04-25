@@ -1,6 +1,7 @@
 package edu.uark.uarkregisterapp;
 
 import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
@@ -16,26 +17,27 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.UUID;
 
 import edu.uark.uarkregisterapp.adapters.CartRecyclerViewAdapter;
 import edu.uark.uarkregisterapp.adapters.ProductListAdapter;
 import edu.uark.uarkregisterapp.models.api.ApiResponse;
+import edu.uark.uarkregisterapp.models.api.Employee;
 import edu.uark.uarkregisterapp.models.api.Product;
 import edu.uark.uarkregisterapp.models.api.services.CartService;
+import edu.uark.uarkregisterapp.models.api.services.EmployeeService;
 import edu.uark.uarkregisterapp.models.api.services.ProductService;
+import edu.uark.uarkregisterapp.models.transition.EmployeeTransition;
 import edu.uark.uarkregisterapp.models.transition.ProductTransition;
 
 public class CartActivity extends AppCompatActivity {
@@ -70,6 +72,8 @@ public class CartActivity extends AppCompatActivity {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(getDrawable(R.drawable.product_list_divider));
         recyclerView.addItemDecoration(dividerItemDecoration);
+
+        this.employeeTransition = this.getIntent().getParcelableExtra(this.getString(R.string.intent_extra_employee));
     }
 
     public void expandBottomSheet(View view) {
@@ -104,6 +108,10 @@ public class CartActivity extends AppCompatActivity {
                 ActivityOptions.makeClipRevealAnimation(shoppingCartView, shoppingCartView.getWidth(), shoppingCartView.getHeight(), 50, 50).toBundle());
     }
 
+    private Double getCartTotalTextView() {
+        return Double.parseDouble(this.findViewById(R.id.bottom_sheet_total_price).toString());
+    }
+
     public static double calculateSubtotal(List<Product> products) {
         double subtotal = 0.0;
         for (Product product : products) {
@@ -122,9 +130,12 @@ public class CartActivity extends AppCompatActivity {
         double taxRate = 0.0975;
         return (calculateSubtotal(products) * (taxRate + 1)) - calculateSubtotal(products);
     }
+
     public void transactionButtonOnClick(View view) {
-
-
+        Employee loggedInEmployee = new Employee();
+        loggedInEmployee.setId(employeeTransition.getId());
+        loggedInEmployee.setAmount_Of_Money_Made(getCartTotalTextView());
+        (new TransactionTask(products,loggedInEmployee)).execute();
     }
 
 /*    public void productQuantityEditTextOnClick(View view) {
@@ -184,8 +195,14 @@ public class CartActivity extends AppCompatActivity {
         return (RecyclerView) this.findViewById(R.id.recycler_view);
     }
 
-    private class SaveProductTask extends AsyncTask<Void, Void, Boolean> {
-        Product product;
+    private class TransactionTask extends AsyncTask<Void, Void, Boolean> {
+        List<Product> products;
+        Employee loggedInEmployee;
+
+        TransactionTask(List<Product> products, Employee loggedInEmployee) {
+            this.products = products;
+            this.loggedInEmployee = loggedInEmployee;
+        }
 
         @Override
         protected void onPreExecute() {
@@ -193,18 +210,51 @@ public class CartActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
+            ApiResponse<Product> apiResponse = new ApiResponse<Product>();
+            ApiResponse<Employee> apiResponseEmployee = new ApiResponse<Employee>();
+            apiResponseEmployee = (new EmployeeService().updateEmployee(loggedInEmployee));
 
-            ApiResponse<Product> apiResponse = ((new ProductService()).updateProduct(product));
-
+            for (Product product : products) {
+                apiResponse= ((new ProductService()).updateProduct(product));
+            }
             return apiResponse.isValidResponse();
         }
 
         @Override
         protected void onPostExecute(Boolean successfulSave) {
+            if (successfulSave) {
+                Toast.makeText(CartActivity.this, "Transaction Completed!", Toast.LENGTH_SHORT)
+                        .show();
+                (new DeleteProductInCartTask()).execute();
+
+
+            } else {
+                Toast.makeText(CartActivity.this, "Transaction Failed!", Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }
+    }
+
+    private class DeleteProductInCartTask extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+                return (new CartService())
+                        .deleteProduct(products.get(0).getCartId())
+                        .isValidResponse();
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean successfulSave) {
         }
     }
 
     private class RetrieveProductsTask extends AsyncTask<Void, Void, ApiResponse<List<Product>>> {
+
         @Override
         protected void onPreExecute() {
             this.loadingProductsAlert.show();
@@ -212,7 +262,7 @@ public class CartActivity extends AppCompatActivity {
 
         @Override
         protected ApiResponse<List<Product>> doInBackground(Void... params) {
-            ApiResponse<List<Product>> apiResponse = (new CartService()).getProducts();
+            ApiResponse<List<Product>> apiResponse = (new CartService()).getProductsByCartId(employeeTransition.getId());
 
             if (apiResponse.isValidResponse()) {
                 products.clear();
@@ -257,10 +307,12 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private List<Product> products;
-    ConstraintLayout layoutBottomSheet;
+    private Context context;
+    private ConstraintLayout layoutBottomSheet;
     private ProductTransition productTransition;
-    BottomSheetBehavior bottomSheetBehavior;
+    private BottomSheetBehavior bottomSheetBehavior;
     private ProductListAdapter productListAdapter;
     private CartRecyclerViewAdapter productCardAdapter;
-    RecyclerView.LayoutManager layoutManager;
+    private RecyclerView.LayoutManager layoutManager;
+    private EmployeeTransition employeeTransition;
 }

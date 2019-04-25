@@ -30,6 +30,7 @@ import edu.uark.uarkregisterapp.adapters.ProductRecyclerViewAdapter;
 import edu.uark.uarkregisterapp.models.api.ApiResponse;
 import edu.uark.uarkregisterapp.models.api.Product;
 import edu.uark.uarkregisterapp.models.api.services.ProductService;
+import edu.uark.uarkregisterapp.models.transition.EmployeeTransition;
 import edu.uark.uarkregisterapp.models.transition.ProductTransition;
 
 public  class ProductsListingActivity extends AppCompatActivity {
@@ -41,16 +42,16 @@ public  class ProductsListingActivity extends AppCompatActivity {
         RecyclerView recyclerView = getProductsRecyclerView();
         View productListView = findViewById(R.id.product_listing);
 
-
         ActionBar productListActionBar = this.getSupportActionBar();
         if (productListActionBar != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        this.employeeTransition = this.getIntent().getParcelableExtra(this.getString(R.string.intent_extra_employee));
 
         this.products = new ArrayList<>();
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        productRecyclerViewAdapter = new ProductRecyclerViewAdapter(this, products, productListView);
+        productRecyclerViewAdapter = new ProductRecyclerViewAdapter(this, products, productListView, employeeTransition);
         recyclerView.setAdapter(productRecyclerViewAdapter);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
@@ -64,13 +65,14 @@ public  class ProductsListingActivity extends AppCompatActivity {
 
     public void shoppingCartFloatingActionOnClick(View view) {
         final View shoppingCartView = findViewById(R.id.shopping_cart_activity);
+        Intent intent = new Intent(getApplicationContext(), CartActivity.class);
 
-       startActivity(new Intent(getApplicationContext(), CartActivity.class),
+        intent.putExtra(
+                getString(R.string.intent_extra_employee),
+                employeeTransition
+        );
+               startActivity(intent,
                 ActivityOptions.makeClipRevealAnimation(shoppingCartView, shoppingCartView.getWidth(), shoppingCartView.getHeight(), 50, 50).toBundle());
-    }
-
-    public void productQuantityEditTextOnClick(View view) {
-
     }
 
     @Override
@@ -158,6 +160,7 @@ public  class ProductsListingActivity extends AppCompatActivity {
     private static ProductTransition productTransition;
     private ProductListAdapter productListAdapter;
     private ProductRecyclerViewAdapter productRecyclerViewAdapter;
-    RecyclerView.LayoutManager layoutManager;
+    private RecyclerView.LayoutManager layoutManager;
+    private EmployeeTransition employeeTransition;
 
 }

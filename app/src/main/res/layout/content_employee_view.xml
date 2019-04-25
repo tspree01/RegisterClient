@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_product_view"
@@ -19,110 +19,141 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/text_view_label_employees_first_name" />
+        android:text="@string/text_view_label_employees_first_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_conversion_wrapHeight="65"
+        tools:layout_conversion_wrapWidth="251" />
 
     <EditText
         android:id="@+id/edit_text_employee_first_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text_view_employee_first_name"
-        android:layout_alignParentStart="true"
         android:layout_marginTop="5dp"
         android:hint="@string/text_view_employees_first_name"
-        android:inputType="text" />
+        android:inputType="text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_employee_first_name"
+        tools:layout_conversion_wrapHeight="158"
+        tools:layout_conversion_wrapWidth="1328" />
 
     <TextView
         android:id="@+id/text_view_employee_last_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/edit_text_employee_first_name"
         android:layout_marginTop="10dp"
-        android:text="@string/text_view_label_employees_last_name" />
+        android:text="@string/text_view_label_employees_last_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_employee_first_name"
+        tools:layout_conversion_wrapHeight="65"
+        tools:layout_conversion_wrapWidth="250" />
 
     <EditText
         android:id="@+id/edit_text_employee_last_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text_view_employee_last_name"
-        android:layout_alignParentStart="true"
         android:layout_marginTop="5dp"
         android:hint="@string/text_view_employees_last_name"
-        android:inputType="text" />
+        android:inputType="text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_employee_last_name"
+        tools:layout_conversion_wrapHeight="158"
+        tools:layout_conversion_wrapWidth="1328" />
 
     <TextView
         android:id="@+id/text_view_employee_employee_ID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/edit_text_employee_last_name"
         android:layout_marginTop="10dp"
-        android:text="@string/text_view_label_employees_employee_ID" />
+        android:text="@string/text_view_label_employees_employee_ID"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_employee_last_name"
+        tools:layout_conversion_wrapHeight="65"
+        tools:layout_conversion_wrapWidth="282" />
 
     <EditText
         android:id="@+id/edit_text_employee_employee_ID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text_view_employee_employee_ID"
-        android:layout_alignParentStart="true"
         android:layout_marginTop="5dp"
         android:hint="@string/text_view_employees_employee_ID"
-        android:inputType="text" />
+        android:inputType="text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_employee_employee_ID"
+        tools:layout_conversion_wrapHeight="158"
+        tools:layout_conversion_wrapWidth="1328" />
 
     <TextView
         android:id="@+id/text_view_employee_role"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/edit_text_employee_employee_ID"
         android:layout_marginTop="10dp"
-        android:text="@string/text_view_label_employees_role" />
+        android:text="@string/text_view_label_employees_role"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_employee_employee_ID"
+        tools:layout_conversion_wrapHeight="65"
+        tools:layout_conversion_wrapWidth="108" />
 
     <EditText
         android:id="@+id/edit_text_employee_role"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text_view_employee_role"
-        android:layout_alignParentStart="true"
         android:layout_marginTop="5dp"
         android:hint="@string/text_view_employees_role"
-        android:inputType="text" />
+        android:inputType="text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_employee_role"
+        tools:layout_conversion_wrapHeight="158"
+        tools:layout_conversion_wrapWidth="1328" />
 
     <TextView
         android:id="@+id/text_view_employee_created_on"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/edit_text_employee_role"
         android:layout_marginTop="10dp"
-        android:text="@string/text_view_label_employees_created_on" />
+        android:text="@string/text_view_label_employees_created_on"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_employee_role"
+        tools:layout_conversion_wrapHeight="65"
+        tools:layout_conversion_wrapWidth="257" />
 
     <EditText
         android:id="@+id/edit_text_employee_created_on"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text_view_employee_created_on"
         android:layout_marginTop="5dp"
         android:enabled="false"
         android:hint="@string/text_view_employees_created_on"
-        android:inputType="date" />
+        android:inputType="date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_employee_created_on"
+        tools:layout_conversion_wrapHeight="158"
+        tools:layout_conversion_wrapWidth="1328" />
 
     <ImageButton
         android:id="@+id/button_activity_edit_delete"
         style="?android:attr/buttonBarButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
         android:contentDescription="@string/button_delete"
         android:onClick="deleteButtonOnClick"
-        android:src="@mipmap/ic_delete_forever_black_24dp" />
+        android:src="@mipmap/ic_delete_forever_black_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_conversion_wrapHeight="189"
+        tools:layout_conversion_wrapWidth="224" />
 
     <ImageButton
         android:id="@+id/button_activity_edit_save"
         style="?android:attr/buttonBarButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
         android:contentDescription="@string/button_save"
         android:onClick="saveButtonOnClick"
-        android:src="@mipmap/ic_save_black_24dp" />
+        android:src="@mipmap/ic_save_black_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_conversion_wrapHeight="189"
+        tools:layout_conversion_wrapWidth="224" />
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

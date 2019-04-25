@@ -36,9 +36,8 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
         }
 
         final Product product = this.getItem(position);
-        View quantityEditTextView = parent.getChildAt(position);
-        final EditText quantityEditTexts = quantityEditTextView.findViewById(R.id.quantityEditText);
-        final TextInputLayout quantityTextLayout = quantityEditTextView.findViewById(R.id.quantityTextLayout);
+        final EditText quantityEditTexts = view.findViewById(R.id.quantityEditText);
+        final TextInputLayout quantityTextLayout = view.findViewById(R.id.quantityTextLayout);
         if (product != null) {
             TextView lookupCodeTextView = (TextView) view.findViewById(R.id.list_view_item_product_title);
             if (lookupCodeTextView != null) {

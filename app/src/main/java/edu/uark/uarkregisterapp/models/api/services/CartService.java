@@ -25,6 +25,7 @@ public class CartService extends BaseRemoteService {
 		);
 	}
 
+
 	public ApiResponse<Product> getProductByLookupCode(String productLookupCode) {
 		return this.readProductDetailsFromResponse(
 			this.<Product>performGetRequest(
@@ -34,6 +35,30 @@ public class CartService extends BaseRemoteService {
 				)
 			)
 		);
+	}
+
+	public ApiResponse<List<Product>> getProductsByCartId(UUID cartid) {
+		ApiResponse<List<Product>> apiResponse = this.performGetRequest(
+				this.buildPath(cartid)
+		);
+
+		JSONArray rawJsonArray = this.rawResponseToJSONArray(apiResponse.getRawResponse());
+		if (rawJsonArray != null) {
+			ArrayList<Product> products = new ArrayList<>(rawJsonArray.length());
+			for (int i = 0; i < rawJsonArray.length(); i++) {
+				try {
+					products.add((new Product()).loadFromJson(rawJsonArray.getJSONObject(i)));
+				} catch (JSONException e) {
+					Log.d("GET PRODUCTS", e.getMessage());
+				}
+			}
+
+			apiResponse.setData(products);
+		} else {
+			apiResponse.setData(new ArrayList<Product>(0));
+		}
+
+		return apiResponse;
 	}
 
 	public ApiResponse<List<Product>> getProducts() {

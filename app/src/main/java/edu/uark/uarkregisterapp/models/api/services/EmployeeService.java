@@ -93,7 +93,6 @@ public class EmployeeService extends BaseRemoteService {
 				(new Employee()).loadFromJson(rawJsonObject)
 			);
 		}
-
 		return apiResponse;
 	}
 

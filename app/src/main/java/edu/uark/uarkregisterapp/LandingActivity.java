@@ -10,12 +10,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,8 +39,7 @@ public class LandingActivity extends AppCompatActivity {
     private static final String TAG = LandingActivity.class.getSimpleName();
     private boolean createEmployeeClicked = false;
     private boolean logged_In = false;
-    private EmployeeTransition loginTokenClaims = new EmployeeTransition();
-
+    private EmployeeTransition employeeLoginTokenClaims = new EmployeeTransition();
 
     /* Azure AD Variables */
     private PublicClientApplication sampleApp;
@@ -58,14 +53,11 @@ public class LandingActivity extends AppCompatActivity {
         sampleApp = new PublicClientApplication(
                 this.getApplicationContext(), R.raw.b2c_config);
 
-
-
-
         if(!logged_In) {
-            //setContentView(R.layout.activity_main);
-            setContentView(R.layout.activity_landing);
+            setContentView(R.layout.activity_main);
+            //setContentView(R.layout.activity_landing);
         }else{
-            if (loginTokenClaims.getRole().equals("Manager")) {
+            if (employeeLoginTokenClaims.getRole().equals("Manager")) {
                 setContentView(R.layout.activity_landing);
                 Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
                 setSupportActionBar(toolbar);
@@ -75,15 +67,12 @@ public class LandingActivity extends AppCompatActivity {
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 }
 
-                //this.getWelcomeText().setText(String.format("Welcome %s! What would you like to do next?", tokenCliams.getFirst_Name()));
-                ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do next?", loginTokenClaims.getFirst_Name()));
+                ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do next?", employeeLoginTokenClaims.getFirst_Name()));
             } else {
                 setContentView(R.layout.employee_landing);
-                //this.getWelcomeText().setText(String.format("Welcome %s! What would you like to do next?", tokenCliams.getFirst_Name()));
-                ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do next?", loginTokenClaims.getFirst_Name()));
+                ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do next?", employeeLoginTokenClaims.getFirst_Name()));
             }
         }
-
 //        //* Enable logging *//*
 //       mLogs = new StringBuilder();
 //        Logger.getInstance().setLogLevel(Logger.LogLevel.VERBOSE);
@@ -95,7 +84,6 @@ public class LandingActivity extends AppCompatActivity {
 //                mLogs.append(message).append('\n');
 //            }
 //        });
-
     }
     // create an action bar button
     @Override
@@ -103,10 +91,8 @@ public class LandingActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_action_buttons, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
-
     /* Handles the redirect from the System Browser */
-    //@Override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         sampleApp.handleInteractiveRequestRedirect(requestCode, resultCode, data);
     }
@@ -114,7 +100,6 @@ public class LandingActivity extends AppCompatActivity {
     public void Login(View view) {
         sampleApp.acquireToken(getActivity(), SCOPES, getAuthInteractiveCallback());
     }
-
     //
     // Helper methods manage UI updates
     // ================================
@@ -125,16 +110,15 @@ public class LandingActivity extends AppCompatActivity {
     /* Set the UI for successful token acquisition data */
     private void updateSuccessLoginUI() {
         logged_In = true;
-        if (loginTokenClaims.getRole().equals("Manager")) {
+        if (employeeLoginTokenClaims.getRole().equals("Manager")) {
             setContentView(R.layout.activity_landing);
-            ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do next?", loginTokenClaims.getFirst_Name()));
+            ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do next?", employeeLoginTokenClaims.getFirst_Name()));
         } else {
             setContentView(R.layout.employee_landing);
-            ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do next?", loginTokenClaims.getFirst_Name()));
+            ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do next?", employeeLoginTokenClaims.getFirst_Name()));
         }
         //this.startActivity(new Intent(getApplicationContext(), LandingActivity.class));
     }
-
 /*    private void updateSuccessSignUpUI() {
         logged_In = true;
     }*/
@@ -158,10 +142,10 @@ public class LandingActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             Employee employee = (new Employee())
-                    .setFirst_Name(loginTokenClaims.getFirst_Name())
-                    .setLast_Name(loginTokenClaims.getLast_Name())
-                    .setId(loginTokenClaims.getId())
-                    .setRole(loginTokenClaims.getRole());
+                    .setFirst_Name(employeeLoginTokenClaims.getFirst_Name())
+                    .setLast_Name(employeeLoginTokenClaims.getLast_Name())
+                    .setId(employeeLoginTokenClaims.getId())
+                    .setRole(employeeLoginTokenClaims.getRole());
 
             ApiResponse<Employee> apiResponse = (
                     (employee.getManagerID().equals(new UUID(0, 0)))
@@ -170,7 +154,7 @@ public class LandingActivity extends AppCompatActivity {
             );
 
 			if (apiResponse.isValidResponse()) {
-				//loginTokenClaims.setRecordID(apiResponse.getData().getRecordID());
+				//employeeLoginTokenClaims.setRecordID(apiResponse.getData().getRecordID());
 			}
 
             return apiResponse.isValidResponse();
@@ -179,7 +163,6 @@ public class LandingActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean successfulSave) {
             String message;
-
             savingEmployeeAlert.dismiss();
 
             if (successfulSave) {
@@ -231,17 +214,15 @@ public class LandingActivity extends AppCompatActivity {
                 Claim new_User_Claim = access_Token.getClaim("newUser");
                 Claim object_ID_Claim = access_Token.getClaim("oid");
                 UUID object_ID = UUID.fromString(object_ID_Claim.asString());
-                loginTokenClaims.setId(object_ID);
-                loginTokenClaims.setFirst_Name(first_Name_Claim.asString());
-                loginTokenClaims.setLast_Name(last_Name_Claim.asString());
-                loginTokenClaims.setRole(job_Title_Claim.asString());
-
+                employeeLoginTokenClaims.setId(object_ID);
+                employeeLoginTokenClaims.setFirst_Name(first_Name_Claim.asString());
+                employeeLoginTokenClaims.setLast_Name(last_Name_Claim.asString());
+                employeeLoginTokenClaims.setRole(job_Title_Claim.asString());
                 if (logged_In) {
                     (new SaveEmployeeTask()).execute();
                 } else {
                     updateSuccessLoginUI();
 				}
-
 			}
 
             @Override
@@ -264,16 +245,16 @@ public class LandingActivity extends AppCompatActivity {
         };
     }
 
-    private TextView getWelcomeText() {
-        return (TextView) this.findViewById(R.id.text_view_welcome);
-    }
-
-    public void displayTransactionButtonOnClick(View view) {
-        this.startActivity(new Intent(getApplicationContext(), ProductsListingActivity.class));
+    public void startTransactionButtonOnClick(View view) {
+        Intent intent = new Intent(getApplicationContext(), ProductsListingActivity.class);
+        intent.putExtra(
+                getString(R.string.intent_extra_employee),
+                employeeLoginTokenClaims
+        );
+        this.startActivity(intent);
     }
 
     public void displayCreateEmployeeButtonOnClick(View view) {
-        //this.startActivity(new Intent(getApplicationContext(), SignUpActivity.class));
         /* Configure your sample app and save state for this activity */
 
        sampleApp = new PublicClientApplication(

@@ -9,7 +9,8 @@ public enum ProductFieldName implements FieldNameInterface {
 	API_REQUEST_STATUS("apiRequestStatus"),
 	API_REQUEST_MESSAGE("apiRequestMessage"),
 	CREATED_ON("createdOn"),
-	PRICE("price");
+	PRICE("price"),
+	CARTID("cartid");
 
 	private String fieldName;
 	public String getFieldName() {
