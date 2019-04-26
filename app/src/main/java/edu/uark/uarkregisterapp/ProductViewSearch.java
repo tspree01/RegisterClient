@@ -53,8 +53,8 @@ public class ProductViewSearch extends AppCompatActivity implements SearchView.O
             }
         });
 
-        editsearch = findViewById(R.id.search);
-        editsearch.setOnQueryTextListener(this);
+        this.editsearch = findViewById(R.id.search);
+        this.editsearch.setOnQueryTextListener(this);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class ProductViewSearch extends AppCompatActivity implements SearchView.O
     @Override
     public boolean onQueryTextChange(String newText) {
         String text = newText;
-        //productSearchAdapter.filter(text);
+        productSearchAdapter.filter(text);
         return false;
     }
 
@@ -93,6 +93,7 @@ public class ProductViewSearch extends AppCompatActivity implements SearchView.O
             if (apiResponse.isValidResponse()) {
                 products.clear();
                 products.addAll(apiResponse.getData());
+                productSearchAdapter.setProductList(products);
             }
 
             return apiResponse;
