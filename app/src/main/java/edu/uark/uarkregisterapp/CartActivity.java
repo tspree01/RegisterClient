@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AlertDialog;
@@ -32,6 +33,7 @@ import java.util.Locale;
 import edu.uark.uarkregisterapp.adapters.CartRecyclerViewAdapter;
 import edu.uark.uarkregisterapp.adapters.ProductListAdapter;
 import edu.uark.uarkregisterapp.models.api.ApiResponse;
+import edu.uark.uarkregisterapp.models.api.CartProduct;
 import edu.uark.uarkregisterapp.models.api.Employee;
 import edu.uark.uarkregisterapp.models.api.Product;
 import edu.uark.uarkregisterapp.models.api.services.CartService;
@@ -108,33 +110,28 @@ public class CartActivity extends AppCompatActivity {
                 ActivityOptions.makeClipRevealAnimation(shoppingCartView, shoppingCartView.getWidth(), shoppingCartView.getHeight(), 50, 50).toBundle());
     }
 
-    private Double getCartTotalTextView() {
-        return Double.parseDouble(this.findViewById(R.id.bottom_sheet_total_price).toString());
-    }
-
-    public static double calculateSubtotal(List<Product> products) {
-        double subtotal = 0.0;
+    public static float calculateSubtotal(List<Product> products) {
+        float subtotal = 0.0f;
         for (Product product : products) {
-            subtotal += product.getPrice() * product.getCount();
+            subtotal += product.getPrice() * product.getQuantity_sold();
         }
         return subtotal;
     }
 
-    public static double calculateTotal(List<Product> products) {
-        double total = 0.0;
+    public static float calculateTotal(List<Product> products) {
         total = calculateSubtotal(products) + calculateTaxes(products);
         return total;
     }
 
-    public static double calculateTaxes(List<Product> products) {
-        double taxRate = 0.0975;
+    public static float calculateTaxes(List<Product> products) {
+        float taxRate = 0.0975f;
         return (calculateSubtotal(products) * (taxRate + 1)) - calculateSubtotal(products);
     }
 
     public void transactionButtonOnClick(View view) {
         Employee loggedInEmployee = new Employee();
         loggedInEmployee.setId(employeeTransition.getId());
-        loggedInEmployee.setAmount_Of_Money_Made(getCartTotalTextView());
+        loggedInEmployee.setAmount_Of_Money_Made(total);
         (new TransactionTask(products,loggedInEmployee)).execute();
     }
 
@@ -226,8 +223,6 @@ public class CartActivity extends AppCompatActivity {
                 Toast.makeText(CartActivity.this, "Transaction Completed!", Toast.LENGTH_SHORT)
                         .show();
                 (new DeleteProductInCartTask()).execute();
-
-
             } else {
                 Toast.makeText(CartActivity.this, "Transaction Failed!", Toast.LENGTH_SHORT)
                         .show();
@@ -243,9 +238,14 @@ public class CartActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-                return (new CartService())
-                        .deleteProduct(products.get(0).getCartId())
+            boolean isValidResponse = false;
+
+            for (Product productInCart : products) {
+                isValidResponse = (new CartService())
+                        .deleteProduct(employeeTransition.getId())
                         .isValidResponse();
+            }
+            return isValidResponse;
         }
 
         @Override
@@ -308,6 +308,7 @@ public class CartActivity extends AppCompatActivity {
 
     private List<Product> products;
     private Context context;
+    static float total = 0.0f;
     private ConstraintLayout layoutBottomSheet;
     private ProductTransition productTransition;
     private BottomSheetBehavior bottomSheetBehavior;

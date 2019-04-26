@@ -86,11 +86,11 @@ public class LandingActivity extends AppCompatActivity {
 //        });
     }
     // create an action bar button
-    @Override
+/*    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_action_buttons, menu);
         return super.onCreateOptionsMenu(menu);
-    }
+    }*/
     /* Handles the redirect from the System Browser */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

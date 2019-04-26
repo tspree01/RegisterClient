@@ -15,12 +15,12 @@ import edu.uark.uarkregisterapp.models.api.interfaces.ConvertToJsonInterface;
 import edu.uark.uarkregisterapp.models.api.interfaces.LoadFromJsonInterface;
 import edu.uark.uarkregisterapp.models.transition.ProductTransition;
 
-public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Product> {
+public class CartProduct implements ConvertToJsonInterface, LoadFromJsonInterface<CartProduct> {
 	private UUID id;
 	public UUID getId() {
 		return this.id;
 	}
-	public Product setId(UUID id) {
+	public CartProduct setId(UUID id) {
 		this.id = id;
 		return this;
 	}
@@ -29,23 +29,15 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
 	public String getLookupCode() {
 		return this.lookupCode;
 	}
-	public Product setLookupCode(String lookupCode) {
+	public CartProduct setLookupCode(String lookupCode) {
 		this.lookupCode = lookupCode;
 		return this;
 	}
+
 	private int quantity_sold;
 	public int getQuantity_sold() { return quantity_sold; }
-	public Product setQuantity_sold(int quantity_sold) {
+	public CartProduct setQuantity_sold(int quantity_sold) {
 		this.quantity_sold = quantity_sold;
-		return this;
-	}
-
-	private int count;
-	public int getCount() {
-		return count;
-	}
-	public Product setCount(int count) {
-		this.count = count;
 		return this;
 	}
 
@@ -53,7 +45,7 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
 	public Date getCreatedOn() {
 		return this.createdOn;
 	}
-	public Product setCreatedOn(Date createdOn) {
+	public CartProduct setCreatedOn(Date createdOn) {
 		this.createdOn = createdOn;
 		return this;
 	}
@@ -62,7 +54,7 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
 	public double getPrice() {
 		return this.price;
 	}
-	public Product setPrice(double price) {
+	public CartProduct setPrice(double price) {
 		this.price = price;
 		return this;
 	}
@@ -71,14 +63,14 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
 	public UUID getCartId() {
 		return this.cartid;
 	}
-	public Product setCartId(UUID cartid) {
+	public CartProduct setCartId(UUID cartid) {
 		this.cartid = cartid;
 		return this;
 	}
 
 
 	@Override
-	public Product loadFromJson(JSONObject rawJsonObject) {
+	public CartProduct loadFromJson(JSONObject rawJsonObject) {
 		String value = rawJsonObject.optString(ProductFieldName.ID.getFieldName());
 		if (!StringUtils.isBlank(value)) {
 			this.id = UUID.fromString(value);
@@ -86,7 +78,6 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
 
 		this.lookupCode = rawJsonObject.optString(ProductFieldName.LOOKUP_CODE.getFieldName());
 		this.quantity_sold = rawJsonObject.optInt(ProductFieldName.QUANTITY_SOLD.getFieldName());
-		this.count = rawJsonObject.optInt(ProductFieldName.COUNT.getFieldName());
 
 		value = rawJsonObject.optString(ProductFieldName.CREATED_ON.getFieldName());
 		if (!StringUtils.isBlank(value)) {
@@ -114,7 +105,6 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
 			jsonObject.put(ProductFieldName.ID.getFieldName(), this.id.toString());
 			jsonObject.put(ProductFieldName.LOOKUP_CODE.getFieldName(), this.lookupCode);
 			jsonObject.put(ProductFieldName.QUANTITY_SOLD.getFieldName(), this.quantity_sold);
-			jsonObject.put(ProductFieldName.COUNT.getFieldName(), this.count);
 			jsonObject.put(ProductFieldName.CREATED_ON.getFieldName(), (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.US)).format(this.createdOn));
 			jsonObject.put(ProductFieldName.PRICE.getFieldName(), this.price);
 			jsonObject.put(ProductFieldName.CARTID.getFieldName(), this.cartid.toString());
@@ -125,8 +115,7 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
 		return jsonObject;
 	}
 
-	public Product() {
-		this.count = -1;
+	public CartProduct() {
 		this.quantity_sold = 0;
 		this.lookupCode = "";
 		this.id = new UUID(0, 0);
@@ -135,10 +124,9 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
 		this.cartid = new UUID(0, 0);
 	}
 
-	public Product(ProductTransition productTransition) {
+	public CartProduct(ProductTransition productTransition) {
 		this.id = productTransition.getId();
-		this.count = productTransition.getCount();
-		this.quantity_sold = productTransition.getQuantity_sold();
+		this.quantity_sold = productTransition.getCount();
 		this.createdOn = productTransition.getCreatedOn();
 		this.lookupCode = productTransition.getLookupCode();
 		this.price = productTransition.getPrice();

@@ -25,6 +25,7 @@ import edu.uark.uarkregisterapp.ProductCardViewHolder;
 import edu.uark.uarkregisterapp.ProductListViewHolder;
 import edu.uark.uarkregisterapp.R;
 import edu.uark.uarkregisterapp.models.api.ApiResponse;
+import edu.uark.uarkregisterapp.models.api.CartProduct;
 import edu.uark.uarkregisterapp.models.api.Product;
 import edu.uark.uarkregisterapp.models.api.services.CartService;
 import edu.uark.uarkregisterapp.models.transition.EmployeeTransition;
@@ -91,9 +92,9 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductList
                         productListViewHolder.productQuantityLayout.setError("Quantity can't be blank");
                     } else {
                         productListViewHolder.productQuantityLayout.setErrorEnabled(false);
-                        product.setCount(Integer.parseInt(productListViewHolder.productQuantityEditText.getText().toString()));
+                        product.setQuantity_sold(Integer.parseInt(productListViewHolder.productQuantityEditText.getText().toString()));
                         (new RetrieveProductsTask()).execute();
-                        (new SaveProductTask(product, context, productsInCart)).execute();
+                        (new SaveProductToCartTask(product, context, productsInCart)).execute();
                     }
                 }
             });
@@ -105,12 +106,12 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductList
         return productList.size();
     }
 
-    class SaveProductTask extends AsyncTask<Void, Void, Boolean> {
+    class SaveProductToCartTask extends AsyncTask<Void, Void, Boolean> {
         Product product;
         Context context;
         List<Product> productsInCart;
 
-        SaveProductTask(Product product, Context context, List<Product> productsInCart) {
+        SaveProductToCartTask(Product product, Context context, List<Product> productsInCart) {
             this.product = product;
             this.context = context;
             this.productsInCart = productsInCart;
@@ -131,6 +132,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductList
 
         @Override
         protected Boolean doInBackground(Void... params) {
+
 
             ApiResponse<Product> apiResponse = (
                     (isProductInCart(product))

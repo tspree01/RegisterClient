@@ -87,7 +87,7 @@
             android:id="@+id/product_quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="182dp"
+            android:layout_marginStart="232dp"
             android:breakStrategy="simple"
             android:clickable="true"
             android:importantForAutofill="no"
@@ -97,7 +97,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.47"
+            app:layout_constraintVertical_bias="0.0"
             tools:text="@string/_0"
             tools:visibility="visible" />
 

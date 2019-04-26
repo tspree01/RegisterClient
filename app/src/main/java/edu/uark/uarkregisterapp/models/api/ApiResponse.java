@@ -2,6 +2,8 @@ package edu.uark.uarkregisterapp.models.api;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Collection;
+
 public class ApiResponse<T> {
     private boolean isValidResponse;
     public boolean isValidResponse() {

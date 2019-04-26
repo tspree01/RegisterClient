@@ -19,6 +19,7 @@ import edu.uark.uarkregisterapp.CartActivity;
 import edu.uark.uarkregisterapp.ProductCardViewHolder;
 import edu.uark.uarkregisterapp.R;
 import edu.uark.uarkregisterapp.models.api.ApiResponse;
+import edu.uark.uarkregisterapp.models.api.CartProduct;
 import edu.uark.uarkregisterapp.models.api.Product;
 import edu.uark.uarkregisterapp.models.api.services.CartService;
 
@@ -46,7 +47,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<ProductCardVie
             final Product product = productList.get(position);
             productCardViewHolder.productTitle.setText(product.getLookupCode());
             productCardViewHolder.productPrice.setText(String.format(Locale.getDefault(), "$ %.2f", product.getPrice()));
-            productCardViewHolder.productQuantity.setText(String.format(Locale.getDefault(),"%d",product.getCount()));
+            productCardViewHolder.productQuantity.setText(String.format(Locale.getDefault(),"%d",product.getQuantity_sold()));
             productCardViewHolder.productQuantity.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
