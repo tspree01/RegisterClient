@@ -64,6 +64,10 @@ public  class ProductsListingActivity extends AppCompatActivity {
         searchRecyclerView = this.findViewById(R.id.includeSearchResults).findViewById(R.id.list_view_products);
         searchedLayoutManager = new LinearLayoutManager(this);
         searchRecyclerView.setLayoutManager(searchedLayoutManager);
+
+        DividerItemDecoration searchdividerItemDecoration = new DividerItemDecoration(searchRecyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        searchdividerItemDecoration.setDrawable(getDrawable(R.drawable.product_list_divider));
+        searchRecyclerView.addItemDecoration(searchdividerItemDecoration);
         handleIntent(getIntent());
 
 /*       this.products = new ArrayList<>();
@@ -85,10 +89,6 @@ public  class ProductsListingActivity extends AppCompatActivity {
             (new RetrieveSearchedProductsTask(searchQuery)).execute();
             ProductSearchResultsRecyclerViewAdapter = new ProductSearchResultsRecyclerViewAdapter(this, searchProducts, productListView, employeeTransition);
             searchRecyclerView.setAdapter(ProductSearchResultsRecyclerViewAdapter);
-
-            DividerItemDecoration searchdividerItemDecoration = new DividerItemDecoration(searchRecyclerView.getContext(), DividerItemDecoration.VERTICAL);
-            searchdividerItemDecoration.setDrawable(getDrawable(R.drawable.product_list_divider));
-            searchRecyclerView.addItemDecoration(searchdividerItemDecoration);
         }
     }
 
@@ -150,10 +150,14 @@ public  class ProductsListingActivity extends AppCompatActivity {
 
         RetrieveSearchedProductsTask(String searchQuery) {
             this.searchQuery = searchQuery;
+            this.loadingProductsAlert = new AlertDialog.Builder(ProductsListingActivity.this).
+                    setMessage(R.string.alert_dialog_products_loading).
+                    create();
         }
 
         @Override
         protected void onPreExecute() {
+            this.loadingProductsAlert.show();
         }
 
         @Override
@@ -170,7 +174,7 @@ public  class ProductsListingActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ApiResponse<List<Product>> apiResponse) {
             if (apiResponse.isValidResponse()) {
-                productRecyclerViewAdapter.notifyDataSetChanged();
+                ProductSearchResultsRecyclerViewAdapter.notifyDataSetChanged();
             }
             this.loadingProductsAlert.dismiss();
 
@@ -191,11 +195,6 @@ public  class ProductsListingActivity extends AppCompatActivity {
         }
 
         private AlertDialog loadingProductsAlert;
-        private RetrieveSearchedProductsTask() {
-            this.loadingProductsAlert = new AlertDialog.Builder(ProductsListingActivity.this).
-                    setMessage(R.string.alert_dialog_products_loading).
-                    create();
-        }
     }
 
 /*    private ListView getProductsListView() {
