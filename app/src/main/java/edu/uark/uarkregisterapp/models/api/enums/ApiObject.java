@@ -6,7 +6,8 @@ public enum ApiObject implements PathElementInterface {
     NONE(""),
     PRODUCT("product/"),
     EMPLOYEE("employee/"),
-    CART("cart/");
+    CART("cart/"),
+    SEARCH("product/search/");
 
 
     @Override

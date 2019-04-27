@@ -14,26 +14,23 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-import edu.uark.uarkregisterapp.adapters.CartRecyclerViewAdapter;
 import edu.uark.uarkregisterapp.adapters.ProductListAdapter;
 import edu.uark.uarkregisterapp.adapters.ProductRecyclerViewAdapter;
+import edu.uark.uarkregisterapp.adapters.ProductSearchResultsRecyclerViewAdapter;
 import edu.uark.uarkregisterapp.models.api.ApiResponse;
 import edu.uark.uarkregisterapp.models.api.Product;
 import edu.uark.uarkregisterapp.models.api.services.ProductService;
+import edu.uark.uarkregisterapp.models.api.services.SearchService;
 import edu.uark.uarkregisterapp.models.transition.EmployeeTransition;
 import edu.uark.uarkregisterapp.models.transition.ProductTransition;
 
@@ -44,7 +41,7 @@ public  class ProductsListingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_products_listing);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         RecyclerView recyclerView = getProductsRecyclerView();
-        View productListView = findViewById(R.id.product_listing);
+        productListView = findViewById(R.id.product_listing);
 
         ActionBar productListActionBar = this.getSupportActionBar();
         if (productListActionBar != null) {
@@ -55,16 +52,44 @@ public  class ProductsListingActivity extends AppCompatActivity {
         this.products = new ArrayList<>();
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        productRecyclerViewAdapter = new ProductRecyclerViewAdapter(this, products, productListView, employeeTransition);
-        recyclerView.setAdapter(productRecyclerViewAdapter);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(getDrawable(R.drawable.product_list_divider));
         recyclerView.addItemDecoration(dividerItemDecoration);
 
+        productRecyclerViewAdapter = new ProductRecyclerViewAdapter(this, products, productListView, employeeTransition);
+        recyclerView.setAdapter(productRecyclerViewAdapter);
+
+        this.searchProducts = new ArrayList<>();
+        searchRecyclerView = this.findViewById(R.id.includeSearchResults).findViewById(R.id.list_view_products);
+        searchedLayoutManager = new LinearLayoutManager(this);
+        searchRecyclerView.setLayoutManager(searchedLayoutManager);
+        handleIntent(getIntent());
+
 /*       this.products = new ArrayList<>();
         this.productListAdapter = new ProductListAdapter(this, this.products);
 		this.getProductsListView().setAdapter(this.productListAdapter);*/
+    }
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String searchQuery = intent.getStringExtra(SearchManager.QUERY);
+            //use the query to search your data somehow
+            (new RetrieveSearchedProductsTask(searchQuery)).execute();
+            ProductSearchResultsRecyclerViewAdapter = new ProductSearchResultsRecyclerViewAdapter(this, searchProducts, productListView, employeeTransition);
+            searchRecyclerView.setAdapter(ProductSearchResultsRecyclerViewAdapter);
+
+            DividerItemDecoration searchdividerItemDecoration = new DividerItemDecoration(searchRecyclerView.getContext(), DividerItemDecoration.VERTICAL);
+            searchdividerItemDecoration.setDrawable(getDrawable(R.drawable.product_list_divider));
+            searchRecyclerView.addItemDecoration(searchdividerItemDecoration);
+        }
     }
 
     public void shoppingCartFloatingActionOnClick(View view) {
@@ -90,8 +115,11 @@ public  class ProductsListingActivity extends AppCompatActivity {
                 (SearchView) menu.findItem(R.id.search_product_list).getActionView();
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
+        searchView.setIconifiedByDefault(false);
+        searchView.setQueryHint("Search Products");
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -100,6 +128,11 @@ public  class ProductsListingActivity extends AppCompatActivity {
                 this.finish();
 
                 return true;
+            case R.id.search_product_list:
+                this.findViewById(R.id.includeSearchResults).setVisibility(View.VISIBLE);
+                searchButtonPushed = true;
+                return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -107,8 +140,62 @@ public  class ProductsListingActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if(!searchButtonPushed) {
+            (new RetrieveProductsTask()).execute();
+        }
+    }
 
-        (new RetrieveProductsTask()).execute();
+    class RetrieveSearchedProductsTask extends AsyncTask<Void, Void, ApiResponse<List<Product>>> {
+        String searchQuery;
+
+        RetrieveSearchedProductsTask(String searchQuery) {
+            this.searchQuery = searchQuery;
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected ApiResponse<List<Product>> doInBackground(Void... params) {
+            ApiResponse<List<Product>> apiResponse = (new SearchService().searchProducts(searchQuery));
+
+            if (apiResponse.isValidResponse()) {
+                searchProducts.clear();
+                searchProducts.addAll(apiResponse.getData());
+            }
+            return apiResponse;
+        }
+
+        @Override
+        protected void onPostExecute(ApiResponse<List<Product>> apiResponse) {
+            if (apiResponse.isValidResponse()) {
+                productRecyclerViewAdapter.notifyDataSetChanged();
+            }
+            this.loadingProductsAlert.dismiss();
+
+            if (!apiResponse.isValidResponse()) {
+                new AlertDialog.Builder(ProductsListingActivity.this).
+                        setMessage(R.string.alert_dialog_products_load_failure).
+                        setPositiveButton(
+                                R.string.button_dismiss,
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.dismiss();
+                                    }
+                                }
+                        ).
+                        create().
+                        show();
+            }
+        }
+
+        private AlertDialog loadingProductsAlert;
+        private RetrieveSearchedProductsTask() {
+            this.loadingProductsAlert = new AlertDialog.Builder(ProductsListingActivity.this).
+                    setMessage(R.string.alert_dialog_products_loading).
+                    create();
+        }
     }
 
 /*    private ListView getProductsListView() {
@@ -174,6 +261,13 @@ public  class ProductsListingActivity extends AppCompatActivity {
         }
     }
 
+    private List<Product> searchProducts;
+    private boolean searchButtonPushed = false;
+    private View productListView;
+    private RecyclerView searchRecyclerView;
+    private edu.uark.uarkregisterapp.adapters.ProductSearchResultsRecyclerViewAdapter ProductSearchResultsRecyclerViewAdapter;
+    private RecyclerView.LayoutManager searchedLayoutManager;
+    private View searchedProductListView;
     private List<Product> products;
     private static ProductTransition productTransition;
     private ProductListAdapter productListAdapter;

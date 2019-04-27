@@ -27,6 +27,9 @@ abstract class BaseRemoteService {
 	URL buildPath(UUID recordId) {
 		return this.buildPath((new PathElementInterface[0]), recordId.toString());
 	}
+	URL buildPath(String searchQuery){
+		return this.buildPath((new PathElementInterface[0]), searchQuery);
+	}
 
 	URL buildPath(PathElementInterface[] pathElements, String parameterValue) {
 		StringBuilder completePath = (new StringBuilder(BASE_URL))
@@ -103,11 +106,11 @@ abstract class BaseRemoteService {
 		return apiResponse.setRawResponse(rawResponse.toString());
 	}
 
-	<T extends Object> ApiResponse<T> performPutRequest(URL connectionUrl, JSONObject jsonObject) {
+	<T> ApiResponse<T> performPutRequest(URL connectionUrl, JSONObject jsonObject) {
 		return this.performUploadRequest(PUT_REQUEST_METHOD, connectionUrl, jsonObject);
 	}
 
-	<T extends Object> ApiResponse<T> performPostRequest(URL connectionUrl, JSONObject jsonObject) {
+	<T> ApiResponse<T> performPostRequest(URL connectionUrl, JSONObject jsonObject) {
 		return this.performUploadRequest(POST_REQUEST_METHOD, connectionUrl, jsonObject);
 	}
 

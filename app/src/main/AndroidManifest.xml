@@ -30,18 +30,18 @@
 
         <activity
             android:name=".SearchResultsActivity"
-            android:label="@string/title_activity_products_listing">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-            <meta-data android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
+            android:label="@string/title_activity_search_results_listing"
+            android:launchMode="singleTop">
         </activity>
 
         <activity
             android:name=".ProductsListingActivity"
             android:label="@string/title_activity_products_listing"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
             <meta-data android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>

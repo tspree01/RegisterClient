@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">UARKRegisterApp</string>
     <string name="title_activity_products_listing">Products</string>
+    <string name="title_activity_search_results_listing">SearchResults</string>
     <string name="title_activity_sign_up">Sign up page</string>
     <string name="title_activity_product_view">ProductViewActivity</string>
     <string name="title_activity_employee_view">EmployeeViewActivity</string>
