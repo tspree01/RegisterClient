@@ -134,8 +134,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
+    <android.support.design.button.MaterialButton
         android:id="@+id/bottom_sheet_checkout"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="393dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -143,7 +144,9 @@
         android:elevation="15dp"
         android:onClick="transactionButtonOnClick"
         android:text="@string/checkout"
+        android:textAppearance="@android:style/TextAppearance.Material.Button"
         android:textSize="18sp"
+        app:backgroundTint="@color/material_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
