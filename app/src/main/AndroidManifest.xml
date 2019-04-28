@@ -30,10 +30,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SearchResultsActivity"
-            android:label="@string/title_activity_search_results_listing"
-            android:launchMode="singleTop"></activity>
-        <activity
             android:name=".ProductsListingActivity"
             android:label="@string/title_activity_products_listing"
             android:launchMode="singleTop"

@@ -32,7 +32,6 @@ import java.util.Objects;
 
 import edu.uark.uarkregisterapp.adapters.ProductListAdapter;
 import edu.uark.uarkregisterapp.adapters.ProductRecyclerViewAdapter;
-import edu.uark.uarkregisterapp.adapters.ProductSearchResultsRecyclerViewAdapter;
 import edu.uark.uarkregisterapp.models.api.ApiResponse;
 import edu.uark.uarkregisterapp.models.api.Product;
 import edu.uark.uarkregisterapp.models.api.services.ProductService;
@@ -56,8 +55,6 @@ public  class ProductsListingActivity extends AppCompatActivity {
         }
         this.employeeTransition = this.getIntent().getParcelableExtra(this.getString(R.string.intent_extra_employee));
 
-
-
         this.products = new ArrayList<>();
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -68,15 +65,6 @@ public  class ProductsListingActivity extends AppCompatActivity {
 
         productRecyclerViewAdapter = new ProductRecyclerViewAdapter(this, products, productListView, employeeTransition);
         recyclerView.setAdapter(productRecyclerViewAdapter);
-
-        this.searchProducts = new ArrayList<>();
-        searchRecyclerView = this.findViewById(R.id.includeSearchResults).findViewById(R.id.list_view_products);
-        searchedLayoutManager = new LinearLayoutManager(this);
-        searchRecyclerView.setLayoutManager(searchedLayoutManager);
-
-        DividerItemDecoration searchdividerItemDecoration = new DividerItemDecoration(searchRecyclerView.getContext(), DividerItemDecoration.VERTICAL);
-        searchdividerItemDecoration.setDrawable(Objects.requireNonNull(getDrawable(R.drawable.product_list_divider)));
-        searchRecyclerView.addItemDecoration(searchdividerItemDecoration);
         handleIntent(getIntent());
 
 /*       this.products = new ArrayList<>();
@@ -294,15 +282,10 @@ public  class ProductsListingActivity extends AppCompatActivity {
         }
     }
 
-    private List<Product> searchProducts;
     private boolean searchButtonPushed = false;
     private View productListView;
     private RecyclerView recyclerView;
-    private RecyclerView searchRecyclerView;
     private FloatingActionButton cartFloatingActionButton;
-    private edu.uark.uarkregisterapp.adapters.ProductSearchResultsRecyclerViewAdapter ProductSearchResultsRecyclerViewAdapter;
-    private RecyclerView.LayoutManager searchedLayoutManager;
-    private View searchedProductListView;
     private ProductTransition productTransition;
     private BottomSheetBehavior bottomSheetBehavior;
     private FabTransformationBehavior fabTransformationBehavior;

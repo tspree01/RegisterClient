@@ -34,12 +34,13 @@
 
         <ImageButton
             android:id="@+id/upArrow"
-            style="@android:style/Widget.Material.Button"
+            style="@android:style/Widget.Material.Light.ImageButton"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="125dp"
             android:layout_marginTop="47dp"
-            android:elevation="10dp"
+            android:backgroundTint="@color/material_dark"
+            android:elevation="5dp"
             android:paddingStart="0dp"
             android:paddingLeft="0dp"
             android:paddingEnd="0dp"
@@ -52,12 +53,13 @@
 
         <ImageButton
             android:id="@+id/downArrow"
-            style="@android:style/Widget.Material.Light.Button"
+            style="@android:style/Widget.Material.ImageButton"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="160dp"
             android:layout_marginTop="47dp"
-            android:elevation="10dp"
+            android:backgroundTint="@color/material_dark"
+            android:elevation="5dp"
             android:paddingStart="0dp"
             android:paddingLeft="0dp"
             android:paddingEnd="0dp"
@@ -66,20 +68,23 @@
             android:screenReaderFocusable="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/baseline_arrow_drop_down_white_48" />
+            app:srcCompat="@drawable/baseline_arrow_drop_down_white_48"
+            tools:srcCompat="@drawable/baseline_arrow_drop_down_white_48" />
 
-        <Button
+        <android.support.design.button.MaterialButton
             android:id="@+id/button_add"
-            style="@android:style/Widget.Material.Button.Borderless"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="45dp"
             android:layout_height="35dp"
             android:layout_marginStart="328dp"
             android:layout_marginTop="32dp"
+            android:backgroundTint="@color/material_dark"
+            android:insetBottom="0dp"
             android:paddingLeft="0dp"
             android:paddingRight="0dp"
             android:stateListAnimator="@android:anim/slide_in_left"
             android:text="@string/ADD"
-            android:textAppearance="@style/Widget.MaterialComponents.Button.TextButton"
+            android:textAppearance="@android:style/TextAppearance.Material.Button"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

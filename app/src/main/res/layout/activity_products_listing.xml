@@ -29,16 +29,10 @@
 
     </android.support.design.widget.AppBarLayout>
 
-
     <include
         android:id="@+id/include"
         layout="@layout/content_products_listing"
         android:visibility="visible" />
-
-    <include
-        android:id="@+id/includeSearchResults"
-        layout="@layout/content_search_products_listing_results"
-        android:visibility="gone" />
 
     <include
         layout="@layout/activity_cart_listing"

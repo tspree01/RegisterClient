@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<android.support.constraint.ConstraintLayout
     android:id="@+id/activity_landing"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -27,11 +30,12 @@
         tools:layout_conversion_wrapHeight="71"
         tools:layout_conversion_wrapWidth="1178" />
 
-    <Button
+    <android.support.design.button.MaterialButton
         android:id="@+id/button_transaction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+        android:elevation="5dp"
         android:onClick="startTransactionButtonOnClick"
         android:text="@string/button_transaction"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -40,11 +44,12 @@
         tools:layout_conversion_wrapHeight="168"
         tools:layout_conversion_wrapWidth="585" />
 
-    <Button
+    <android.support.design.button.MaterialButton
         android:id="@+id/button_create_employee"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="31dp"
+        android:elevation="5dp"
         android:onClick="displayCreateEmployeeButtonOnClick"
         android:text="@string/button_create_employee"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -53,11 +58,12 @@
         tools:layout_conversion_wrapHeight="168"
         tools:layout_conversion_wrapWidth="526" />
 
-    <Button
+    <android.support.design.button.MaterialButton
         android:id="@+id/button_sales_report"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+        android:elevation="5dp"
         android:onClick="SalesReportButtonOnClick"
         android:text="@string/button_sales_report"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -66,28 +72,16 @@
         tools:layout_conversion_wrapHeight="168"
         tools:layout_conversion_wrapWidth="429" />
 
-    <!--
-        <Button
-            android:id="@+id/Login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="200dp"
-            android:onClick="Login"
-            android:background="#00a1f1"
-            android:text="@string/login"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:visibility="invisible"/>-->
-    <Button
+    <android.support.design.button.MaterialButton
         android:id="@+id/clearCache"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
         android:layout_marginBottom="30dp"
         android:background="#00a1f1"
+        android:elevation="5dp"
         android:onClick="SignOut"
         android:text="@string/sign_out"
-        android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -96,3 +90,4 @@
         tools:layout_conversion_wrapWidth="1328" />
 
 </android.support.constraint.ConstraintLayout>
+</android.support.design.widget.CoordinatorLayout>
