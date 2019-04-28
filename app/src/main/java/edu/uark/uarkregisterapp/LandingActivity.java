@@ -68,10 +68,10 @@ public class LandingActivity extends AppCompatActivity {
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 }
 
-                ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do next?", employeeLoginTokenClaims.getFirst_Name()));
+                ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do?", employeeLoginTokenClaims.getFirst_Name()));
             } else {
                 setContentView(R.layout.employee_landing);
-                ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do next?", employeeLoginTokenClaims.getFirst_Name()));
+                ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do?", employeeLoginTokenClaims.getFirst_Name()));
             }
         }
 //        //* Enable logging *//*
@@ -113,11 +113,11 @@ public class LandingActivity extends AppCompatActivity {
         logged_In = true;
         if (employeeLoginTokenClaims.getRole().equals("Manager")) {
             setContentView(R.layout.activity_landing);
-            ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do next?", employeeLoginTokenClaims.getFirst_Name()));
+            ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do?", employeeLoginTokenClaims.getFirst_Name()));
             employeeLoginTokenClaims.setEmployeeLoggedIn(logged_In);
         } else {
             setContentView(R.layout.employee_landing);
-            ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do next?", employeeLoginTokenClaims.getFirst_Name()));
+            ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do?", employeeLoginTokenClaims.getFirst_Name()));
         }
         //this.startActivity(new Intent(getApplicationContext(), LandingActivity.class));
     }

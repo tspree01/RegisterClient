@@ -70,7 +70,7 @@
 
         <Button
             android:id="@+id/button_add"
-            style="@style/Widget.MaterialComponents.Button"
+            style="@android:style/Widget.Material.Button.Borderless"
             android:layout_width="45dp"
             android:layout_height="35dp"
             android:layout_marginStart="328dp"
@@ -78,11 +78,9 @@
             android:paddingLeft="0dp"
             android:paddingRight="0dp"
             android:stateListAnimator="@android:anim/slide_in_left"
-            android:text="@string/add"
-            android:textAppearance="@style/Widget.MaterialComponents.Button"
-            android:textColor="@color/actionbarColor"
+            android:text="@string/ADD"
+            android:textAppearance="@style/Widget.MaterialComponents.Button.TextButton"
             android:textSize="14sp"
-            android:theme="@style/Widget.MaterialComponents.Button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.888"

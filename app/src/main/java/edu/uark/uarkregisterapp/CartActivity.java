@@ -20,6 +20,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.transition.Explode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -174,6 +175,7 @@ public class CartActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:  // Respond to the action bar's Up/Home button
                 this.finish();
+                getWindow().setExitTransition(new Explode());
                 return true;
         }
         return super.onOptionsItemSelected(item);
