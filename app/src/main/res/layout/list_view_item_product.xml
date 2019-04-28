@@ -34,7 +34,7 @@
 
         <ImageButton
             android:id="@+id/upArrow"
-            style="@style/Widget.MaterialComponents.Button.Icon"
+            style="@android:style/Widget.Material.Button"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="125dp"
@@ -52,7 +52,7 @@
 
         <ImageButton
             android:id="@+id/downArrow"
-            style="@style/Widget.MaterialComponents.Button.Icon"
+            style="@android:style/Widget.Material.Light.Button"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="160dp"
@@ -70,17 +70,19 @@
 
         <Button
             android:id="@+id/button_add"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="45dp"
             android:layout_height="35dp"
             android:layout_marginStart="328dp"
             android:layout_marginTop="32dp"
             android:paddingLeft="0dp"
             android:paddingRight="0dp"
+            android:stateListAnimator="@android:anim/slide_in_left"
             android:text="@string/add"
-            android:textAppearance="@style/Widget.MaterialComponents.Button.TextButton"
+            android:textAppearance="@style/Widget.MaterialComponents.Button"
             android:textColor="@color/actionbarColor"
             android:textSize="14sp"
+            android:theme="@style/Widget.MaterialComponents.Button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.888"

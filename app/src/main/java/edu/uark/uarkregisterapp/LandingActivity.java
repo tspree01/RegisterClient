@@ -39,6 +39,7 @@ public class LandingActivity extends AppCompatActivity {
     private static final String TAG = LandingActivity.class.getSimpleName();
     private boolean createEmployeeClicked = false;
     private boolean logged_In = false;
+    private EmployeeTransition employeeTransition;
     private EmployeeTransition employeeLoginTokenClaims = new EmployeeTransition();
 
     /* Azure AD Variables */
@@ -113,6 +114,7 @@ public class LandingActivity extends AppCompatActivity {
         if (employeeLoginTokenClaims.getRole().equals("Manager")) {
             setContentView(R.layout.activity_landing);
             ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do next?", employeeLoginTokenClaims.getFirst_Name()));
+            employeeLoginTokenClaims.setEmployeeLoggedIn(logged_In);
         } else {
             setContentView(R.layout.employee_landing);
             ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do next?", employeeLoginTokenClaims.getFirst_Name()));

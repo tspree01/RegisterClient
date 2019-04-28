@@ -63,6 +63,15 @@ public class Employee implements ConvertToJsonInterface, LoadFromJsonInterface<E
 		return this;
 	}
 
+	private boolean employeeLoggedIn;
+	public boolean getEmployeeLoggedIn() {
+		return this.employeeLoggedIn;
+	}
+	public Employee setEmployeeLoggedIn(boolean employeeLoggedIn) {
+		this.employeeLoggedIn = employeeLoggedIn;
+		return this;
+	}
+
 
 
 	@Override
@@ -80,6 +89,7 @@ public class Employee implements ConvertToJsonInterface, LoadFromJsonInterface<E
 		this.last_name = rawJsonObject.optString(EmployeeFieldName.Last_Name.getFieldName());
 		this.active = rawJsonObject.optBoolean(EmployeeFieldName.Role.getFieldName());
 		this.amount_of_money_made = rawJsonObject.optDouble(EmployeeFieldName.Amount_Of_Money_Made.getFieldName());
+		this.employeeLoggedIn = rawJsonObject.optBoolean(EmployeeFieldName.EmployeeLoggedIn.getFieldName());
 
 		return this;
 	}
@@ -96,6 +106,7 @@ public class Employee implements ConvertToJsonInterface, LoadFromJsonInterface<E
 			jsonObject.put(EmployeeFieldName.Role.getFieldName(),this.role);
 			jsonObject.put(EmployeeFieldName.Manager.getFieldName(), this.managerID.toString());
 			jsonObject.put(EmployeeFieldName.Amount_Of_Money_Made.getFieldName(), this.amount_of_money_made);
+			jsonObject.put(EmployeeFieldName.EmployeeLoggedIn.getFieldName(), this.employeeLoggedIn);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -111,6 +122,7 @@ public class Employee implements ConvertToJsonInterface, LoadFromJsonInterface<E
 		this.active = false;
 		this.role = " ";
 		this.amount_of_money_made = 0.0;
+		this.employeeLoggedIn = false;
 	}
 
 	public Employee(EmployeeTransition employeeTransition) {
@@ -120,5 +132,6 @@ public class Employee implements ConvertToJsonInterface, LoadFromJsonInterface<E
 		this.active = employeeTransition.getActive();
 		this.role = employeeTransition.getRole();
 		this.amount_of_money_made = employeeTransition.getAmount_Of_Money_Made();
+		this.employeeLoggedIn = employeeTransition.getEmployeeLoggedIn();
 	}
 }

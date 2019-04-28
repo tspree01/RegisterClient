@@ -13,7 +13,7 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/Theme.Design.NoActionBar"
+        android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
         android:visibility="visible"
         app:liftOnScroll="true">
 
@@ -22,8 +22,10 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/actionbarColor"
-            android:theme="@style/Theme.Design.NoActionBar"
-            android:visibility="visible" />
+            android:elevation="5dp"
+            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+            android:visibility="visible"
+            app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -46,7 +48,7 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/shopingCartFloatingActionButton"
-        style="@style/Widget.Design.FloatingActionButton"
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -56,7 +58,7 @@
         app:elevation="6dp"
         app:fabSize="auto"
         app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="right|bottom"
+        app:layout_anchorGravity="end|bottom"
         app:pressedTranslationZ="16dp"
         app:srcCompat="@drawable/baseline_add_shopping_cart_black_48"
         app:useCompatPadding="false" />

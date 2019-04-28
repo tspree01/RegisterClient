@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout
+<android.support.design.widget.CoordinatorLayout
     android:id="@+id/shopping_cart_activity"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -14,16 +14,14 @@
         android:id="@+id/car_appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        >
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/cart_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/actionbarColor"
-            android:elevation="5dp"
             android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
-            android:onClick="expandBottomSheet"
             android:visibility="visible"
             app:navigationIcon="@drawable/baseline_close_white_24" />
 
@@ -37,4 +35,4 @@
 
     <include layout="@layout/product_total_bottom_sheet" />
 
-</android.support.design.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout>
+</android.support.design.widget.CoordinatorLayout>

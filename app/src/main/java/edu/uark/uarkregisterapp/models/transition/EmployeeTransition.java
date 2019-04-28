@@ -84,6 +84,16 @@ public class EmployeeTransition implements Parcelable {
 		this.amount_of_money_made = amount_of_money_made;
 		return this;
 	}
+
+	private boolean employeeLoggedIn;
+	public boolean getEmployeeLoggedIn() {
+		return this.employeeLoggedIn;
+	}
+	public EmployeeTransition setEmployeeLoggedIn(boolean employeeLoggedIn) {
+		this.employeeLoggedIn = employeeLoggedIn;
+		return this;
+	}
+
 	@Override
 	public void writeToParcel(Parcel destination, int flags) {
 		destination.writeByteArray((new UUIDToByteConverterCommand()).setValueToConvert(this.id).execute());
@@ -92,7 +102,7 @@ public class EmployeeTransition implements Parcelable {
 		destination.writeString(this.role);
 		destination.writeBooleanArray(new boolean[]{this.active});
 		destination.writeDouble(this.amount_of_money_made);
-
+		destination.writeValue(this.employeeLoggedIn);
 	}
 
 	@Override
@@ -117,6 +127,7 @@ public class EmployeeTransition implements Parcelable {
 		this.active = false;
 		this.role = StringUtils.EMPTY;
 		this.amount_of_money_made = 0.0;
+		this.employeeLoggedIn = false;
 	}
 	public EmployeeTransition(PublicClientApplication application) {
 		this.id = new UUID(0, 0);
@@ -145,6 +156,7 @@ public class EmployeeTransition implements Parcelable {
 		this.active = employee.getActive();
 		this.role = employee.getRole();
 		this.amount_of_money_made = employee.getAmount_Of_Money_Made();
+		this.employeeLoggedIn = employee.getEmployeeLoggedIn();
 	}
 
 	private EmployeeTransition(Parcel employeeTransitionParcel) {
@@ -152,6 +164,6 @@ public class EmployeeTransition implements Parcelable {
 		this.first_name = employeeTransitionParcel.readString();
 		this.last_name = employeeTransitionParcel.readString();
 		this.role = employeeTransitionParcel.readString();
-		this.amount_of_money_made = employeeTransitionParcel.readDouble();
+		this.amount_of_money_made = employeeTransitionParcel.readDouble();;
 	}
 }

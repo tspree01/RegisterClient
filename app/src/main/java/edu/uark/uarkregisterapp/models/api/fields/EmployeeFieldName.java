@@ -11,7 +11,8 @@ public enum EmployeeFieldName implements FieldNameInterface {
 	Manager("manager"),
 	API_REQUEST_STATUS("apiRequestStatus"),
 	API_REQUEST_MESSAGE("apiRequestMessage"),
-	Amount_Of_Money_Made("amount_of_money_made");
+	Amount_Of_Money_Made("amount_of_money_made"),
+	EmployeeLoggedIn("employeeLoggedIn");
 	private String fieldName;
 	public String getFieldName() {
 		return this.fieldName;

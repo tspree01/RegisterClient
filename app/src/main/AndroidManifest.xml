@@ -21,7 +21,8 @@
         </activity>-->
 
 
-        <activity android:name=".LandingActivity">
+        <activity android:name=".LandingActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -38,7 +39,8 @@
             android:name=".ProductsListingActivity"
             android:label="@string/title_activity_products_listing"
             android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:parentActivityName=".LandingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -49,7 +51,11 @@
         <activity
             android:name=".CartActivity"
             android:label="@string/title_activity_products_listing"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/Theme.Design.Light.NoActionBar"
+            android:parentActivityName=".ProductsListingActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ProductsListingActivity" />
         </activity>
 
         <activity

@@ -9,7 +9,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.transformation.FabTransformationBehavior;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +31,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import edu.uark.uarkregisterapp.adapters.CartRecyclerViewAdapter;
 import edu.uark.uarkregisterapp.adapters.ProductListAdapter;
@@ -47,7 +50,8 @@ public class CartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart_listing);
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        Toolbar myToolbar = findViewById(R.id.cart_toolbar);
+        setSupportActionBar(myToolbar);
         RecyclerView recyclerView = getProductsListView();
         View cartView = findViewById(R.id.shopping_cart_activity);
         EditText productQuantity = findViewById(R.id.product_quantity);
@@ -72,7 +76,7 @@ public class CartActivity extends AppCompatActivity {
 
         itemTouchHelper.attachToRecyclerView(recyclerView);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-        dividerItemDecoration.setDrawable(getDrawable(R.drawable.product_list_divider));
+        dividerItemDecoration.setDrawable(Objects.requireNonNull(getDrawable(R.drawable.product_list_divider)));
         recyclerView.addItemDecoration(dividerItemDecoration);
 
         this.employeeTransition = this.getIntent().getParcelableExtra(this.getString(R.string.intent_extra_employee));
@@ -166,17 +170,10 @@ public class CartActivity extends AppCompatActivity {
 
     // create an action bar button
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_action_buttons, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:  // Respond to the action bar's Up/Home button
                 this.finish();
-
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -250,6 +247,7 @@ public class CartActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(final Boolean successfulSave) {
+            products.clear();
         }
     }
 
