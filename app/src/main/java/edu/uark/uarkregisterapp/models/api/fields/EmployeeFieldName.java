@@ -14,7 +14,7 @@ public enum EmployeeFieldName implements FieldNameInterface {
 	API_REQUEST_STATUS("apiRequestStatus"),
 	API_REQUEST_MESSAGE("apiRequestMessage"),
 	CREATED_ON("created_on"),
-	total_gain("total_gain");
+	total_gain("amount_of_money_made");
 
 	private String fieldName;
 	public String getFieldName() {

@@ -14,7 +14,7 @@ import java.util.Locale;
 import edu.uark.uarkregisterapp.R;
 import edu.uark.uarkregisterapp.models.api.Employee;
 
-public class EmployeeSalesListAdapter extends ArrayAdapter<Employee> {
+public class BestSellingCashierAdapter extends ArrayAdapter<Employee> {
 	@NonNull
 	@Override
 	public View getView(int position, View convertView, @NonNull ViewGroup parent) {
@@ -39,7 +39,7 @@ public class EmployeeSalesListAdapter extends ArrayAdapter<Employee> {
 		return view;
 	}
 
-	public EmployeeSalesListAdapter(Context context, List<Employee> employee) {
+	public BestSellingCashierAdapter(Context context, List<Employee> employee) {
 		super(context, R.layout.list_view_item_employee_sales, employee);
 	}
 }

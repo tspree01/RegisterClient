@@ -72,9 +72,9 @@ public class Employee implements ConvertToJsonInterface, LoadFromJsonInterface<E
 		this.managerID = managerID;
 		return this;
 	}
-	private int total_gain;
-	public int getTotal_gain(){return this.total_gain;}
-	public Employee setTotal_sales(int total_sales){
+	private double total_gain;
+	public double getTotal_gain(){return this.total_gain;}
+	public Employee setTotal_sales(double total_sales){
 	    this.total_gain = total_sales;
 	    return this;
     }
@@ -97,7 +97,7 @@ public class Employee implements ConvertToJsonInterface, LoadFromJsonInterface<E
 		this.role = rawJsonObject.optString(EmployeeFieldName.Role.getFieldName());
 		this.first_name = rawJsonObject.optString(EmployeeFieldName.First_Name.getFieldName());
 		this.last_name = rawJsonObject.optString(EmployeeFieldName.Last_Name.getFieldName());
-		this.total_gain = rawJsonObject.optInt(EmployeeFieldName.total_gain.getFieldName());
+		this.total_gain = rawJsonObject.optDouble(EmployeeFieldName.total_gain.getFieldName());
 		//this.password = rawJsonObject.optString(EmployeeFieldName.Password.getFieldName());
 		//this.recordID = rawJsonObject.optInt(EmployeeFieldName.RecordID.getFieldName());
 		this.active = rawJsonObject.optBoolean(EmployeeFieldName.Role.getFieldName());

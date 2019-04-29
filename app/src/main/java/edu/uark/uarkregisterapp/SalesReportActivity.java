@@ -45,6 +45,12 @@ public class SalesReportActivity extends AppCompatActivity {
     public void ProductSalesReportButtonOnClick(View view){
         this.startActivity(new Intent(getApplicationContext(),ProductSalesReportListingActivity.class));
     }
+    public void BestSellingCashierOnClick(View view){
+        this.startActivity(new Intent(getApplicationContext(),BestSellingCashierActivity.class));
+    }
+    public void BestSellingProductOnClick(View view){
+        this.startActivity(new Intent(getApplicationContext(),BestSellingProductActivity.class));
+    }
     public void SalesReportButtonOnClick(View view){
         this.startActivity(new Intent(getApplicationContext(), SalesReportListingActivity.class));
     }

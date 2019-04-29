@@ -33,9 +33,9 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
 		this.lookupCode = lookupCode;
 		return this;
 	}
-	private int total_sales;
-	public int getTotal_Sales(){return this.total_sales;}
-	public Product setTotal_Sales(int total_sales)
+	private double total_sales;
+	public double getTotal_Sales(){return this.total_sales;}
+	public Product setTotal_Sales(double total_sales)
 	{
 		this.total_sales = total_sales;
 		return this;
@@ -67,7 +67,7 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
 
 		this.lookupCode = rawJsonObject.optString(ProductFieldName.LOOKUP_CODE.getFieldName());
 		this.count = rawJsonObject.optInt(ProductFieldName.COUNT.getFieldName());
-		this.total_sales = rawJsonObject.optInt(ProductFieldName.TOTAL_SOLD.getFieldName());
+		this.total_sales = rawJsonObject.optDouble(ProductFieldName.TOTAL_SOLD.getFieldName());
 		value = rawJsonObject.optString(ProductFieldName.CREATED_ON.getFieldName());
 		if (!StringUtils.isBlank(value)) {
 			try {

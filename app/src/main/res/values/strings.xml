@@ -17,7 +17,6 @@
     <string name="button_transaction">Start transaction</string>
     <string name="button_create_employee">Create employee</string>
     <string name="button_inventory">Inventory</string>
-    <string name="button_sales_report">Sales Report</string>
     <string name="text_view_landing_welcome">Welcome {name}! What would you like to do next?</string>
     <string name="text_view_products_lookup_code">LookupCode</string>
     <string name="text_view_product_total_sales">Product Sold</string>
@@ -75,7 +74,9 @@
     <string name="login">Login</string>
     <string name="logging_in">Logging You In…</string>
     <string name="sign_out">Sign Out</string>
+    <string name="button_sales_report">Sales Report</string>
     <string name="cashier_sales">Cashier Sales</string>
     <string name="product_sales">Product Sales</string>
+    <string name="Best_Selling_Product">Best Selling Product</string>
     <string name="Best_Selling_Cashier">Best Selling Cahier</string>
 </resources>
