@@ -68,6 +68,6 @@
         android:layout_marginTop="32dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="Best_Selling_Product" />
+        android:text="Best Selling Product" />
 
 </android.support.constraint.ConstraintLayout>
