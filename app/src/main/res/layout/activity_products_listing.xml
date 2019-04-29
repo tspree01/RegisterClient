@@ -42,12 +42,12 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/shopingCartFloatingActionButton"
-        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        style="@style/Widget.Design.FloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/material_dark"
+        app:backgroundTint="@color/material_dark"
         android:clickable="true"
         android:onClick="shoppingCartFloatingActionOnClick"
         app:elevation="6dp"
@@ -55,7 +55,7 @@
         app:layout_anchor="@+id/include"
         app:layout_anchorGravity="end|bottom"
         app:pressedTranslationZ="16dp"
-        app:srcCompat="@drawable/baseline_add_shopping_cart_black_48"
+        app:srcCompat="@drawable/baseline_add_shopping_cart_white_48"
         app:useCompatPadding="false" />
 
 </android.support.design.widget.CoordinatorLayout>

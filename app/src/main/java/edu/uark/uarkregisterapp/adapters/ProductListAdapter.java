@@ -127,7 +127,7 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
             ApiResponse<Product> apiResponse = (
                     (isProductNotInCart(product))
                             ? (new CartService()).createProduct(product)
-                            : (new CartService()).updateProduct(product)
+                            : (new CartService()).updateProductByID(product)
             );
             return apiResponse.isValidResponse();
         }

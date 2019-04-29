@@ -85,6 +85,7 @@
             android:stateListAnimator="@android:anim/slide_in_left"
             android:text="@string/ADD"
             android:textAppearance="@android:style/TextAppearance.Material.Button"
+            android:textColor="@color/material_white"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

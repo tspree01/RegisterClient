@@ -136,7 +136,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductList
 
             ApiResponse<Product> apiResponse = (
                     (isProductInCart(product))
-                            ? (new CartService()).updateProduct(product)
+                            ? (new CartService()).updateProductByID(product)
                             : (new CartService()).createProduct(product)
             );
             return apiResponse.isValidResponse();

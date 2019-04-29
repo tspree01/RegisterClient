@@ -1,5 +1,7 @@
 package edu.uark.uarkregisterapp.models.api.services;
 
+import android.media.VolumeShaper;
+
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,10 +25,18 @@ abstract class BaseRemoteService {
 	URL buildPath() {
 		return this.buildPath((new PathElementInterface[0]), StringUtils.EMPTY);
 	}
-
-	URL buildPath(UUID recordId) {
-		return this.buildPath((new PathElementInterface[0]), recordId.toString());
+	URL buildPath(UUID Id) {
+		return this.buildPath((new PathElementInterface[0]), Id.toString());
 	}
+
+	URL buildPath(UUID Id, String operationName) {
+		return this.buildPath((new PathElementInterface[0]), operationName,Id.toString());
+	}
+
+	URL buildPath(UUID Id,UUID cartID, String operationName) {
+		return this.buildPath((new PathElementInterface[0]), operationName,Id.toString(),cartID.toString());
+	}
+
 	URL buildPath(String searchQuery){
 		return this.buildPath((new PathElementInterface[0]), searchQuery);
 	}
@@ -45,6 +55,63 @@ abstract class BaseRemoteService {
 
 		if (!StringUtils.isBlank(parameterValue)) {
 			completePath.append(parameterValue);
+		}
+
+		URL connectionUrl;
+		try {
+			connectionUrl = new URL(completePath.toString());
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+			connectionUrl = null;
+		}
+
+		return connectionUrl;
+	}
+
+	URL buildPath(PathElementInterface[] pathElements, String operationName,String parameterValue) {
+		StringBuilder completePath = (new StringBuilder(BASE_URL))
+				.append(operationName);
+
+		for (PathElementInterface pathElement : pathElements) {
+			String pathEntry = pathElement.getPathValue();
+
+			if (!StringUtils.isBlank(pathEntry)) {
+				completePath.append(pathEntry).append(URL_JOIN);
+			}
+		}
+
+		if (!StringUtils.isBlank(parameterValue)) {
+			completePath.append(parameterValue);
+		}
+
+		URL connectionUrl;
+		try {
+			connectionUrl = new URL(completePath.toString());
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+			connectionUrl = null;
+		}
+
+		return connectionUrl;
+	}
+
+	URL buildPath(PathElementInterface[] pathElements, String operationName,String parameterValue, String parameterValue2) {
+		StringBuilder completePath = (new StringBuilder(BASE_URL))
+				.append(operationName);
+
+		for (PathElementInterface pathElement : pathElements) {
+			String pathEntry = pathElement.getPathValue();
+
+			if (!StringUtils.isBlank(pathEntry)) {
+				completePath.append(pathEntry).append(URL_JOIN);
+			}
+		}
+
+		if (!StringUtils.isBlank(parameterValue)) {
+			completePath.append(parameterValue);
+		}
+		if (!StringUtils.isBlank(parameterValue2)) {
+			completePath.append('/').append(parameterValue2);
 		}
 
 		URL connectionUrl;

@@ -26,7 +26,6 @@ public class CartService extends BaseRemoteService {
 		);
 	}
 
-
 	public ApiResponse<Product> getProductByLookupCode(String productLookupCode) {
 		return this.readProductDetailsFromResponse(
 			this.<Product>performGetRequest(
@@ -86,7 +85,7 @@ public class CartService extends BaseRemoteService {
 		return apiResponse;
 	}
 
-	public ApiResponse<Product> updateProduct(Product product) {
+	public ApiResponse<Product> updateProductByID(Product product) {
 		return this.readProductDetailsFromResponse(
 			this.<Product>performPutRequest(
 				this.buildPath(product.getId())
@@ -104,9 +103,15 @@ public class CartService extends BaseRemoteService {
 		);
 	}
 
-	public ApiResponse<String> deleteProduct(UUID productId) {
+	public ApiResponse<String> deleteProductByCartId(UUID productId) {
 		return this.<String>performDeleteRequest(
-			this.buildPath(productId)
+			this.buildPath(productId, "bycartid")
+		);
+	}
+
+	public ApiResponse<String> deleteProductByCartIdAndProductId(UUID productId, UUID cartId) {
+		return this.<String>performDeleteRequest(
+				this.buildPath(productId,cartId,"byproductid")
 		);
 	}
 

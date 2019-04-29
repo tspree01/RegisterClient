@@ -25,23 +25,6 @@
         tools:layout_editor_absoluteY="12dp">
         <!--tools:showIn="@layout/content_cart">-->
 
-        <android.support.design.button.MaterialButton
-            android:id="@+id/material_icon_button_remove"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-            android:layout_width="25dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="203dp"
-            android:insetLeft="3dp"
-            android:paddingLeft="0dp"
-            android:paddingRight="0dp"
-            android:textAlignment="viewStart"
-            android:textAppearance="@style/TextAppearance.Design.Counter"
-            android:visibility="gone"
-            app:icon="@drawable/baseline_remove_black_24"
-            app:iconSize="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
 
         <TextView
             android:id="@+id/product_title"
@@ -66,40 +49,63 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <android.support.design.button.MaterialButton
-            android:id="@+id/material_icon_button_add"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-            android:layout_width="25dp"
-            android:layout_height="wrap_content"
-
-            android:layout_marginStart="165dp"
-            android:insetLeft="3dp"
-            android:paddingLeft="0dp"
-            android:paddingRight="0dp"
-            android:textAppearance="@style/TextAppearance.Design.Counter"
-            android:visibility="gone"
-            app:icon="@drawable/baseline_add_black_24"
-            app:iconSize="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
+        <TextView
             android:id="@+id/product_quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="240dp"
-            android:breakStrategy="simple"
+            android:layout_marginTop="11dp"
+            android:layout_marginBottom="11dp"
+            android:breakStrategy="high_quality"
             android:clickable="true"
             android:importantForAutofill="no"
             android:inputType="number"
             android:text="@string/_0"
+            android:textSize="24sp"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/material_icon_button_minus"
+            app:layout_constraintStart_toEndOf="@+id/material_icon_button_add"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.design.button.MaterialButton
+            android:id="@+id/material_icon_button_add"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="176dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginBottom="11dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:textAlignment="viewStart"
+            android:textAppearance="@style/TextAppearance.Design.Counter"
+            android:visibility="visible"
+            app:icon="@drawable/baseline_add_black_24"
+            app:iconSize="20dp"
+            app:iconTint="@color/material_dark"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            tools:text="@string/_0"
-            tools:visibility="visible" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.design.button.MaterialButton
+            android:id="@+id/material_icon_button_minus"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="216dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginBottom="11dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:textAlignment="viewStart"
+            android:textAppearance="@style/TextAppearance.Design.Counter"
+            android:visibility="visible"
+            app:icon="@drawable/baseline_remove_black_24"
+            app:iconSize="20dp"
+            app:iconTint="@color/material_dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 

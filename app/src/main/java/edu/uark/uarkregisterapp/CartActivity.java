@@ -55,7 +55,6 @@ public class CartActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         RecyclerView recyclerView = getProductsListView();
         View cartView = findViewById(R.id.shopping_cart_activity);
-        EditText productQuantity = findViewById(R.id.product_quantity);
 
         ActionBar actionBar = this.getSupportActionBar();
         if (actionBar != null) {
@@ -69,6 +68,7 @@ public class CartActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         productCardAdapter = new CartRecyclerViewAdapter(this, products, cartView);
+        //productCardAdapter.productCardViewHolder.productQuantity.setText(0);
         recyclerView.setAdapter(productCardAdapter);
         recyclerView.addItemDecoration((new ProductCardHeaderViewDecoration(recyclerView.getContext(), recyclerView, R.layout.product_card_header)));
 
@@ -221,7 +221,7 @@ public class CartActivity extends AppCompatActivity {
             if (successfulSave) {
                 Toast.makeText(CartActivity.this, "Transaction Completed!", Toast.LENGTH_SHORT)
                         .show();
-                (new DeleteProductInCartTask()).execute();
+                (new DeleteProductsInCartTask()).execute();
             } else {
                 Toast.makeText(CartActivity.this, "Transaction Failed!", Toast.LENGTH_SHORT)
                         .show();
@@ -229,7 +229,7 @@ public class CartActivity extends AppCompatActivity {
         }
     }
 
-    private class DeleteProductInCartTask extends AsyncTask<Void, Void, Boolean> {
+    private class DeleteProductsInCartTask extends AsyncTask<Void, Void, Boolean> {
 
         @Override
         protected void onPreExecute() {
@@ -241,7 +241,7 @@ public class CartActivity extends AppCompatActivity {
 
             for (Product productInCart : products) {
                 isValidResponse = (new CartService())
-                        .deleteProduct(employeeTransition.getId())
+                        .deleteProductByCartId(employeeTransition.getId())
                         .isValidResponse();
             }
             return isValidResponse;

@@ -46,7 +46,7 @@ public  class ProductsListingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_products_listing);
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
-        recyclerView = getProductsRecyclerView();
+        RecyclerView recyclerView = getProductsRecyclerView();
         productListView = findViewById(R.id.product_listing);
 
         ActionBar productListActionBar = this.getSupportActionBar();
@@ -56,11 +56,11 @@ public  class ProductsListingActivity extends AppCompatActivity {
         this.employeeTransition = this.getIntent().getParcelableExtra(this.getString(R.string.intent_extra_employee));
 
         this.products = new ArrayList<>();
-        layoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-        dividerItemDecoration.setDrawable(Objects.requireNonNull(getDrawable(R.drawable.product_list_divider)));
+        dividerItemDecoration.setDrawable(getDrawable(R.drawable.product_list_divider));
         recyclerView.addItemDecoration(dividerItemDecoration);
 
         productRecyclerViewAdapter = new ProductRecyclerViewAdapter(this, products, productListView, employeeTransition);
@@ -284,7 +284,6 @@ public  class ProductsListingActivity extends AppCompatActivity {
 
     private boolean searchButtonPushed = false;
     private View productListView;
-    private RecyclerView recyclerView;
     private FloatingActionButton cartFloatingActionButton;
     private ProductTransition productTransition;
     private BottomSheetBehavior bottomSheetBehavior;
@@ -292,7 +291,6 @@ public  class ProductsListingActivity extends AppCompatActivity {
     private List<Product> products;
     private ProductListAdapter productListAdapter;
     private ProductRecyclerViewAdapter productRecyclerViewAdapter;
-    private RecyclerView.LayoutManager layoutManager;
     private EmployeeTransition employeeTransition;
 
 }
