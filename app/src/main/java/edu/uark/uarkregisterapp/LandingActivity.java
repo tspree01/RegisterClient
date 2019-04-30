@@ -272,6 +272,17 @@ public class LandingActivity extends AppCompatActivity {
         this.startActivity(intent);
     }
 
+    public void ProductSearchButtonOnClick(View view) {
+        Intent intent = new Intent(getApplicationContext(), ProductViewSearch.class);
+
+        intent.putExtra(
+                getString(R.string.intent_extra_product),
+                new ProductTransition()
+        );
+
+        this.startActivity(intent);
+    }
+
     public void SignOut(View view) {
         //* Attempt to get a account and remove their cookies from cache *//*
         List<IAccount> accounts = null;

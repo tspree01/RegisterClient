@@ -83,6 +83,14 @@
             android:label="@string/Best_Selling_Cashier"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+
+        <activity
+            android:name=".ProductViewSearch"
+            android:label="@string/title_activity_products_listing"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <!--Intent filter to capture System Browser calling back to our app after Sign In-->
         <activity
             android:name=".BestSellingProductActivity"
             android:label="@string/Best_Selling_Product"
