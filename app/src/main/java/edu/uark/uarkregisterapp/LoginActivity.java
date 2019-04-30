@@ -3,7 +3,10 @@ package edu.uark.uarkregisterapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +24,7 @@ import com.microsoft.identity.client.exception.MsalServiceException;
 import com.microsoft.identity.client.exception.MsalUiRequiredException;
 
 import java.util.List;
+import java.util.UUID;
 
 import edu.uark.uarkregisterapp.models.transition.EmployeeTransition;
 
@@ -28,8 +32,7 @@ import edu.uark.uarkregisterapp.models.transition.EmployeeTransition;
 public class LoginActivity extends AppCompatActivity {
 
     /* Azure AD v2 Configs */
-    final static String SCOPES [] = {"https://uarkregisterapp.onmicrosoft.com/api/read"};
-    final static String API_URL = "https://uarkregisterapp.azurewebsites.net/hello";
+    final static String SCOPES[] = {"https://uarkregisterapp.onmicrosoft.com/api/read"};
 
     /* UI & Debugging Variables */
     private static final String TAG = LoginActivity.class.getSimpleName();
@@ -37,23 +40,21 @@ public class LoginActivity extends AppCompatActivity {
     Button signOutButton;
 
     /* Azure AD Variables */
-    private PublicClientApplication sampleApp;
+    public PublicClientApplication sampleApp;
     private AuthenticationResult authResult;
+    public EmployeeTransition loginActivityCliams = new EmployeeTransition();
+    private StringBuilder mLogs;
+    public static List<IAccount> userAccounts;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        loginButton = (Button) findViewById(R.id.Login);
         signOutButton = (Button) findViewById(R.id.clearCache);
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                onLoginClicked();
-            }
-        });
+        loginButton = (Button) findViewById(R.id.Login);
 
         signOutButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -61,33 +62,44 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-
         /* Configure your sample app and save state for this activity */
         sampleApp = null;
         if (sampleApp == null) {
             sampleApp = new PublicClientApplication(
-                    this.getApplicationContext(), "e2266648-f2aa-444a-9767-a0a40ae3105a", "https://uarkregisterapp.b2clogin.com/tfp/uarkregisterapp.onmicrosoft.com/B2C_1_uarkregisterapp_SignIn");
+                    this.getApplicationContext(), R.raw.b2c_config);
         }
+
+        //Enable logging
+/*        mLogs = new StringBuilder();
+        Logger.getInstance().setLogLevel(Logger.LogLevel.VERBOSE);
+        Logger.getInstance().setEnablePII(true);
+        Logger.getInstance().setEnableLogcatLog(true);
+        Logger.getInstance().setExternalLogger(new ILoggerCallback() {
+            @Override
+            public void log(String tag, Logger.LogLevel logLevel, String message, boolean containsPII) {
+                mLogs.append(message).append('\n');
+            }
+        });*/
 
 
         /* Attempt to get a user and acquireTokenSilent
          * If this fails we do an interactive request
-         */
-        List<IAccount> accounts = null;
-
-        try {
-            accounts = sampleApp.getAccounts();
-
-            if (accounts != null && accounts.size() == 1) {
-                //* We have 1 account *//*
-
-                sampleApp.acquireTokenSilentAsync(SCOPES, accounts.get(0), getAuthSilentCallback());
-            } else {
-                //* We have no account or >1 account *//*
-            }
-        } catch (IndexOutOfBoundsException e) {
-            Log.d(TAG, "Account at this position does not exist: " + e.toString());
-        }
+//         */
+//        List<IAccount> accounts = null;
+//
+//        try {
+//            accounts = sampleApp.getAccounts();
+//
+//            if (accounts != null && accounts.size() == 1) {
+//                //* We have 1 account *//*
+//
+//                sampleApp.acquireTokenSilentAsync(SCOPES, accounts.get(0), getAuthSilentCallback());
+//            } else {
+//                //* We have no account or >1 account *//*
+//            }
+//        } catch (IndexOutOfBoundsException e) {
+//            Log.d(TAG, "Account at this position does not exist: " + e.toString());
+//        }
 
     }
 
@@ -103,12 +115,23 @@ public class LoginActivity extends AppCompatActivity {
     /* Handles the redirect from the System Browser */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         sampleApp.handleInteractiveRequestRedirect(requestCode, resultCode, data);
     }
 
     /* Use MSAL to acquireToken for the end-user
-     * Callback will call Graph api w/ access token & update UI
+     * Callback will have a access token & update UI
      */
+    public void Login(View view) {
+        //Navigation.findNavController(view).navigate(R.id.fragment);
+        //NavController navController = Navigation.findNavController(getActivity(), view.getId());
+        sampleApp.acquireToken(getActivity(), SCOPES, getAuthInteractiveCallback());
+/*        findViewById(R.id.welcome).setVisibility(View.INVISIBLE);
+        findViewById(R.id.Login).setVisibility(View.INVISIBLE);
+        findViewById(R.id.clearCache).setVisibility(View.VISIBLE);*/
+
+    }
+
     private void onLoginClicked() {
         sampleApp.acquireToken(getActivity(), SCOPES, getAuthInteractiveCallback());
     }
@@ -118,24 +141,24 @@ public class LoginActivity extends AppCompatActivity {
      */
     public void onSignOutClicked() {
 
-        //* Attempt to get a account and remove their cookies from cache *//*
+        /* Attempt to get a account and remove their cookies from cache */
         List<IAccount> accounts = null;
 
         try {
             accounts = sampleApp.getAccounts();
 
             if (accounts == null) {
-                //* We have no accounts *//*
+                /* We have no accounts */
 
             } else if (accounts.size() == 1) {
-                //* We have 1 account *//*
-                //* Remove from token cache *//*
+                /* We have 1 account */
+                /* Remove from token cache */
                 sampleApp.removeAccount(accounts.get(0));
                 updateSignedOutUI();
 
             }
             else {
-                //* We have multiple accounts *//*
+                /* We have multiple accounts */
                 for (int i = 0; i < accounts.size(); i++) {
                     sampleApp.removeAccount(accounts.get(i));
                 }
@@ -148,8 +171,6 @@ public class LoginActivity extends AppCompatActivity {
             Log.d(TAG, "User at this position does not exist: " + e.toString());
         }
     }
-
-
     //
     // Helper methods manage UI updates
     // ================================
@@ -160,23 +181,11 @@ public class LoginActivity extends AppCompatActivity {
 
     /* Set the UI for successful token acquisition data */
     private void updateSuccessUI() {
-        loginButton.setVisibility(View.INVISIBLE);
-        //signOutButton.setVisibility(View.VISIBLE);
-        //findViewById(R.id.welcome).setVisibility(View.VISIBLE);
-/*        ((TextView) findViewById(R.id.welcome)).setText("Welcome, " +
-                authResult.getAccount().getUsername());*/
-        //setContentView(R.layout.activity_landing);
-        this.startActivity(new Intent(getApplicationContext(), LandingActivity.class));
-//        findViewById(R.id.graphData).setVisibility(View.VISIBLE);
-    }
+        Intent intent = new Intent(getApplicationContext(), LandingActivity.class);
 
-    /* Set the UI for signed out account */
-    private void updateSignedOutUI() {
-        loginButton.setVisibility(View.VISIBLE);
-        signOutButton.setVisibility(View.INVISIBLE);
-        //findViewById(R.id.welcome).setVisibility(View.INVISIBLE);
-        //findViewById(R.id.graphData).setVisibility(View.INVISIBLE);
-       // ((TextView) findViewById(R.id.graphData)).setText("No Data");
+        intent.putExtra("loginActivityClaim", loginActivityCliams);
+
+        this.startActivity(intent);
     }
 
     //
@@ -235,7 +244,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /* Callback used for interactive request.  If succeeds we use the access
-     * token to call the Microsoft Graph. Does not check cache
+     * token. Does not check cache
      */
     private AuthenticationCallback getAuthInteractiveCallback() {
         return new AuthenticationCallback() {
@@ -247,11 +256,18 @@ public class LoginActivity extends AppCompatActivity {
 
                 /* Store the auth result */
                 authResult = authenticationResult;
-                JWT ID_token = new JWT(authResult.getIdToken());
-                Claim job_Title_Claim = ID_token.getClaim("jobTitle");
+                JWT ID_token = new JWT(authResult.getAccessToken());
+                userAccounts = sampleApp.getAccounts();
                 Claim first_Name_Claim = ID_token.getClaim("given_name");
-                loginActivityCliams.setRole(job_Title_Claim.asString());
+                Claim last_Name_Claim = ID_token.getClaim("family_name");
+                Claim job_Title_Claim = ID_token.getClaim("jobTitle");
+                Claim object_ID_Claim = ID_token.getClaim("oid");
+                UUID object_ID = UUID.fromString(object_ID_Claim.asString());
+                loginActivityCliams.setId(object_ID);
                 loginActivityCliams.setFirst_Name(first_Name_Claim.asString());
+                loginActivityCliams.setLast_Name(last_Name_Claim.asString());
+                loginActivityCliams.setRole(job_Title_Claim.asString());
+                //loginActivityCliams.setuserAccounts(authResult.getAccount());
 
 
                 /* call graph */
@@ -280,5 +296,42 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
     }
-    public static EmployeeTransition loginActivityCliams = new EmployeeTransition();
+
+    /* Set the UI for signed out account */
+    private void updateSignedOutUI() {
+        //this.startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        //logged_In = false;
+    }
+
+    public void SignOut(View view) {
+        //* Attempt to get a account and remove their cookies from cache *//*
+        List<IAccount> accounts = null;
+
+        try {
+            accounts = LoginActivity.userAccounts;
+
+            if (accounts == null) {
+                //* We have no accounts *//*
+
+            } else if (accounts.size() == 1) {
+                //* We have 1 account *//*
+                //* Remove from token cache *//*
+                sampleApp.removeAccount(accounts.get(0));
+                updateSignedOutUI();
+
+            } else {
+                //* We have multiple accounts *//*
+                for (int i = 0; i < accounts.size(); i++) {
+                    sampleApp.removeAccount(accounts.get(i));
+                }
+                updateSignedOutUI();
+            }
+
+            Toast.makeText(getBaseContext(), "Signed Out!", Toast.LENGTH_SHORT)
+                    .show();
+
+        } catch (IndexOutOfBoundsException e) {
+            Log.d(TAG, "User at this position does not exist: " + e.toString());
+        }
+    }
 }

@@ -1,32 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:id="@+id/employee_landing"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/employee_landing"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="edu.uark.uarkregisterapp.LandingActivity">
 
     <TextView
         android:id="@+id/text_view_welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:text="@string/text_view_landing_welcome"
         android:textSize="15sp"
-        android:text="@string/text_view_landing_welcome"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_conversion_wrapHeight="71"
+        tools:layout_conversion_wrapWidth="1178" />
 
     <Button
         android:id="@+id/button_transaction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text_view_welcome"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
+        android:onClick="startTransactionButtonOnClick"
         android:text="@string/button_transaction"
-        android:onClick="displayTransactionButtonOnClick"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_welcome"
+        tools:layout_conversion_wrapHeight="168"
+        tools:layout_conversion_wrapWidth="585" />
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

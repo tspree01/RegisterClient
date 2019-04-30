@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/material_card"
+    style="@style/Widget.MaterialComponents.CardView"
+    android:layout_width="match_parent"
+    android:layout_height="65dp"
+    android:background="@color/backgroundOfApp"
+    app:cardElevation="5dp"
+    app:cardPreventCornerOverlap="true"
+    app:contentPadding="16dp"
+    app:contentPaddingBottom="12dp"
+    app:contentPaddingLeft="16dp"
+    app:contentPaddingRight="16dp"
+    app:contentPaddingTop="12dp"
+    tools:context="edu.uark.uarkregisterapp.CartActivity">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/product_card_constraint_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="12dp">
+        <!--tools:showIn="@layout/content_cart">-->
+
+
+        <TextView
+            android:id="@+id/product_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_0"
+            android:textAppearance="@style/Theme.Design.Light.BottomSheetDialog"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/product_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="@string/_0"
+            android:textAppearance="@style/Theme.Design.Light.BottomSheetDialog"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/product_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:layout_marginBottom="11dp"
+            android:breakStrategy="high_quality"
+            android:clickable="true"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:text="@string/_0"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/material_icon_button_minus"
+            app:layout_constraintHorizontal_bias="0.555"
+            app:layout_constraintStart_toEndOf="@+id/material_icon_button_add"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.538" />
+
+        <android.support.design.button.MaterialButton
+            android:id="@+id/material_icon_button_minus"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="236dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginBottom="11dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:textAlignment="viewStart"
+            android:textAppearance="@style/TextAppearance.Design.Counter"
+            android:visibility="visible"
+            app:icon="@drawable/baseline_remove_black_24"
+            app:iconSize="20dp"
+            app:iconTint="@color/material_dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <android.support.design.button.MaterialButton
+            android:id="@+id/material_icon_button_add"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="176dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginBottom="11dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:textAlignment="viewStart"
+            android:textAppearance="@style/TextAppearance.Design.Counter"
+            android:visibility="visible"
+            app:icon="@drawable/baseline_add_black_24"
+            app:iconSize="20dp"
+            app:iconTint="@color/material_dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.design.card.MaterialCardView>
