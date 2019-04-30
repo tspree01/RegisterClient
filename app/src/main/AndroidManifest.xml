@@ -59,9 +59,34 @@
 
         </activity>
         <activity
+            android:name=".SalesReportActivity"
+            android:label="@string/title_activity_Sales_Report_view"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".SalesReportListingActivity"
+            android:label="@string/title_activity_Sales_Report_employee_view"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".ProductSalesReportListingActivity"
+            android:label="@string/title_activity_product_Sales_Report_employee_view"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
             android:name=".SignUpActivity"
             android:label="@string/title_activity_sign_up"
             android:parentActivityName=".LandingActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".BestSellingCashierActivity"
+            android:label="@string/Best_Selling_Cashier"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".BestSellingProductActivity"
+            android:label="@string/Best_Selling_Product"
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity> <!-- Intent filter to capture System Browser calling back to our app after Sign In -->

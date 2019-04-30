@@ -1,6 +1,7 @@
 package edu.uark.uarkregisterapp;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -20,6 +21,7 @@ import edu.uark.uarkregisterapp.models.api.ApiResponse;
 import edu.uark.uarkregisterapp.models.api.Employee;
 import edu.uark.uarkregisterapp.models.api.services.EmployeeService;
 import edu.uark.uarkregisterapp.models.transition.EmployeeTransition;
+import edu.uark.uarkregisterapp.models.transition.ProductTransition;
 
 public class EmployeeViewActivity extends AppCompatActivity {
 	private ImageButton submitButton;
@@ -176,7 +178,14 @@ public class EmployeeViewActivity extends AppCompatActivity {
 
 			return apiResponse.isValidResponse();
 		}
+		public void EmployeeSalesOnClick(View view) {
+			Intent intent = new Intent(getApplicationContext(), SalesReportListingActivity.class);
 
+			intent.putExtra(
+					getString(R.string.intent_extra_product),
+					new ProductTransition()
+			);
+		}
 		@Override
 		protected void onPostExecute(Boolean successfulSave) {
 			String message;

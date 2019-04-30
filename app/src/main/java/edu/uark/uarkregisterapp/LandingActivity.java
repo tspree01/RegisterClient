@@ -263,9 +263,24 @@ public class LandingActivity extends AppCompatActivity {
                 this.getApplicationContext(), "e2266648-f2aa-444a-9767-a0a40ae3105a", "https://uarkregisterapp.b2clogin.com/tfp/uarkregisterapp.onmicrosoft.com/B2C_1_uarkregisterapp_signup");
         sampleApp.acquireToken(getActivity(), SCOPES, getAuthInteractiveCallback());
     }
+	public void displaySalesReportButtonOnClick(View view){
+        this.startActivity(new Intent(getApplicationContext(), SalesReportActivity.class));
+    }
+	public void displayCreateEmployeeButtonOnClick(View view) {
+		/* Configure your sample app and save state for this activity */
+		sampleApp = null;
+		if (sampleApp == null) {
+			sampleApp = new PublicClientApplication(
+					this.getApplicationContext(), "e2266648-f2aa-444a-9767-a0a40ae3105a", "https://uarkregisterapp.b2clogin.com/tfp/uarkregisterapp.onmicrosoft.com/B2C_1_uarkregisterapp_signup");
+		}
+
+		sampleApp.acquireToken(getActivity(), SCOPES, getAuthInteractiveCallback());
+	}
 
     public void SalesReportButtonOnClick(View view) {
         Intent intent = new Intent(getApplicationContext(), ProductViewActivity.class);
+	public void InventoryButtonOnClick(View view) {
+		Intent intent = new Intent(getApplicationContext(), ProductViewActivity.class);
 
         intent.putExtra(
                 getString(R.string.intent_extra_product),

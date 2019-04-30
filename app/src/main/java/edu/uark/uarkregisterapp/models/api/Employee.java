@@ -24,6 +24,14 @@ public class Employee implements ConvertToJsonInterface, LoadFromJsonInterface<E
 		this.id = id;
 		return this;
 	}
+	private int recordID;
+	public int getRecordID() {
+		return this.recordID;
+	}
+	public Employee setRecordID(int RecordID) {
+		this.recordID = RecordID;
+		return this;
+	}
 	private String first_name;
 	public String getFirst_Name(){return this.first_name;}
 	public Employee setFirst_Name(String first_name){
