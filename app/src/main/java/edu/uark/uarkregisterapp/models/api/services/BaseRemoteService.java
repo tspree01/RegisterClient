@@ -36,6 +36,9 @@ abstract class BaseRemoteService {
 	URL buildPath(UUID Id,UUID cartID, String operationName) {
 		return this.buildPath((new PathElementInterface[0]), operationName,Id.toString(),cartID.toString());
 	}
+	URL buildPath(UUID Id,UUID cartID) {
+		return this.buildPath((new PathElementInterface[0]), Id.toString(),cartID.toString());
+	}
 
 	URL buildPath(String searchQuery){
 		return this.buildPath((new PathElementInterface[0]), searchQuery);
@@ -70,7 +73,7 @@ abstract class BaseRemoteService {
 
 	URL buildPath(PathElementInterface[] pathElements, String operationName,String parameterValue) {
 		StringBuilder completePath = (new StringBuilder(BASE_URL))
-				.append(operationName);
+				.append(this.apiObject.getPathValue());
 
 		for (PathElementInterface pathElement : pathElements) {
 			String pathEntry = pathElement.getPathValue();
@@ -78,6 +81,10 @@ abstract class BaseRemoteService {
 			if (!StringUtils.isBlank(pathEntry)) {
 				completePath.append(pathEntry).append(URL_JOIN);
 			}
+		}
+
+		if (!StringUtils.isBlank(operationName)) {
+			completePath.append(operationName).append('/');
 		}
 
 		if (!StringUtils.isBlank(parameterValue)) {
@@ -97,7 +104,7 @@ abstract class BaseRemoteService {
 
 	URL buildPath(PathElementInterface[] pathElements, String operationName,String parameterValue, String parameterValue2) {
 		StringBuilder completePath = (new StringBuilder(BASE_URL))
-				.append(operationName);
+				.append(this.apiObject.getPathValue());
 
 		for (PathElementInterface pathElement : pathElements) {
 			String pathEntry = pathElement.getPathValue();
@@ -105,6 +112,10 @@ abstract class BaseRemoteService {
 			if (!StringUtils.isBlank(pathEntry)) {
 				completePath.append(pathEntry).append(URL_JOIN);
 			}
+		}
+
+		if (!StringUtils.isBlank(operationName)) {
+			completePath.append(operationName).append('/');
 		}
 
 		if (!StringUtils.isBlank(parameterValue)) {

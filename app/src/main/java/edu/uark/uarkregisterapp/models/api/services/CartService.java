@@ -94,6 +94,24 @@ public class CartService extends BaseRemoteService {
 		);
 	}
 
+	public ApiResponse<Product> updateProductByCartIdAndProductId(Product product) {
+		return this.readProductDetailsFromResponse(
+				this.<Product>performPutRequest(
+						this.buildPath(product.getId(),product.getCartId())
+						, product.convertToJson()
+				)
+		);
+	}
+
+	public ApiResponse<Product> updateProductByCartIdAndProductIdFromProductListing(Product product) {
+		return this.readProductDetailsFromResponse(
+				this.<Product>performPutRequest(
+						this.buildPath(product.getId(),product.getCartId(),"product")
+						, product.convertToJson()
+				)
+		);
+	}
+
 	public ApiResponse<Product> createProduct(Product product) {
 		return this.readProductDetailsFromResponse(
 			this.<Product>performPostRequest(

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.button.MaterialButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -96,7 +97,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<ProductCardVie
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            ApiResponse<Product> apiResponse = ((new CartService()).updateProductByID(product)
+            ApiResponse<Product> apiResponse = ((new CartService()).updateProductByCartIdAndProductId(product)
             );
             return apiResponse.isValidResponse();
         }
@@ -104,16 +105,10 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<ProductCardVie
         @Override
         protected void onPostExecute(Boolean successfulSave) {
             if(successfulSave) {
-                Toast.makeText(context, "Updated!", Toast.LENGTH_SHORT)
-                        .show();
                // ((TextView) cartView.findViewById(R.id.product_price)).setText(String.format(Locale.getDefault(), "$ %.2f", CartActivity.calculateSubtotal(productList)));
                 ((TextView) cartView.findViewById(R.id.bottom_sheet_subtotal_price)).setText(String.format(Locale.getDefault(), "$ %.2f", CartActivity.calculateSubtotal(productList)));
-                ((TextView) cartView.findViewById(R.id.bottom_sheet_taxes_price)).setText(String.format(Locale.getDefault(), "$ %.2f", CartActivity.calculateTaxes(productList)));
+                ((TextView) cartView.findViewById(R.id.bottom_sheet_taxes_price)).setText(String.format(Locale.getDefault(), "$   %.2f", CartActivity.calculateTaxes(productList)));
                 ((TextView) cartView.findViewById(R.id.bottom_sheet_total_price)).setText(String.format(Locale.getDefault(), "$ %.2f", CartActivity.calculateTotal(productList)));
-            }
-            else {
-                Toast.makeText(context, "Failed to updated!", Toast.LENGTH_SHORT)
-                        .show();
             }
         }
     }
@@ -138,15 +133,9 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<ProductCardVie
         @Override
         protected void onPostExecute(final Boolean successfulSave) {
             if(successfulSave) {
-                Toast.makeText(context, "Deleted!", Toast.LENGTH_SHORT)
-                        .show();
                 ((TextView) cartView.findViewById(R.id.bottom_sheet_subtotal_price)).setText(String.format(Locale.getDefault(), "$ %.2f", CartActivity.calculateSubtotal(productList)));
-                ((TextView) cartView.findViewById(R.id.bottom_sheet_taxes_price)).setText(String.format(Locale.getDefault(), "$ %.2f", CartActivity.calculateTaxes(productList)));
+                ((TextView) cartView.findViewById(R.id.bottom_sheet_taxes_price)).setText(String.format(Locale.getDefault(), "$   %.2f", CartActivity.calculateTaxes(productList)));
                 ((TextView) cartView.findViewById(R.id.bottom_sheet_total_price)).setText(String.format(Locale.getDefault(), "$ %.2f", CartActivity.calculateTotal(productList)));
-            }
-            else {
-                Toast.makeText(context, "Failed to delete!", Toast.LENGTH_SHORT)
-                        .show();
             }
         }
     }

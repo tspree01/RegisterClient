@@ -3,6 +3,7 @@ package edu.uark.uarkregisterapp.adapters;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -136,7 +137,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductList
 
             ApiResponse<Product> apiResponse = (
                     (isProductInCart(product))
-                            ? (new CartService()).updateProductByID(product)
+                            ? (new CartService()).updateProductByCartIdAndProductIdFromProductListing(product)
                             : (new CartService()).createProduct(product)
             );
             return apiResponse.isValidResponse();
@@ -145,10 +146,10 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductList
         @Override
         protected void onPostExecute(Boolean successfulSave) {
             if (successfulSave) {
-                Toast.makeText(context, "Added to cart!", Toast.LENGTH_SHORT)
+                Snackbar.make(productView, R.string.add_item_to_cart_message, Snackbar.LENGTH_SHORT)
                         .show();
             } else {
-                Toast.makeText(context, "Failed to add to cart!", Toast.LENGTH_SHORT)
+                Snackbar.make(productView, R.string.add_item_to_cart_error_message, Snackbar.LENGTH_SHORT)
                         .show();
             }
         }

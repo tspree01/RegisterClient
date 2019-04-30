@@ -84,8 +84,6 @@ public  class ProductsListingActivity extends AppCompatActivity {
             String searchQuery = intent.getStringExtra(SearchManager.QUERY);
             //use the query to search your data somehow
             (new RetrieveSearchedProductsTask(searchQuery)).execute();
-/*            ProductSearchResultsRecyclerViewAdapter = new ProductSearchResultsRecyclerViewAdapter(this, searchProducts, productListView, employeeTransition);
-            searchRecyclerView.setAdapter(ProductSearchResultsRecyclerViewAdapter);*/
         }
     }
 
@@ -138,7 +136,6 @@ public  class ProductsListingActivity extends AppCompatActivity {
                 (SearchView) searchItem.getActionView();
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
-        //searchView.setIconifiedByDefault(false);
         searchView.setQueryHint("Search Products");
         return super.onCreateOptionsMenu(menu);
     }
@@ -151,7 +148,6 @@ public  class ProductsListingActivity extends AppCompatActivity {
 
                 return true;
             case R.id.search_product_list:
-                //this.findViewById(R.id.includeSearchResults).setVisibility(View.VISIBLE);
                 searchButtonPushed = true;
                 return true;
 

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">UARKRegisterApp</string>
     <string name="title_activity_products_listing">Products</string>
+    <string name="title_activity_cart_products_listing">Cart</string>
     <string name="title_activity_search_results_listing">SearchResults</string>
     <string name="title_activity_sign_up">Sign up page</string>
     <string name="title_activity_product_view">ProductViewActivity</string>
@@ -68,9 +69,16 @@
     <string name="intent_extra_product">intent_extra_product</string>
     <string name="intent_extra_employee">intent_extra_employee</string>
     <string name="intent_extra_sampleapp">intent_extra_sampleapp</string>
+    <string name="item_removed_message">Item successfully removed</string>
+    <string name="item_removed_error_message">Failed to remove item</string>
+    <string name="add_item_to_cart_message">Added to cart</string>
+    <string name="add_item_to_cart_error_message">Failed to add to cart</string>
+    <string name="transaction_complete_message">Transaction complete</string>
+    <string name="transaction_complete_error_message">Failed to complete Transaction</string>
     <string name="welcome">Welcome,</string>
     <string name="login">Login</string>
     <string name="search_title">Search</string>
+    <string name="taxes_and_subtotal_formatting">$  %.2f</string>
     <string name="search_hint">Search Products</string>
     <string name="logging_in">Logging You In…</string>
     <string name="sign_out">Sign Out</string>

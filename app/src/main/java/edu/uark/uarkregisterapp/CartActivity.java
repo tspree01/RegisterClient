@@ -11,7 +11,9 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.transformation.FabTransformationBehavior;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -54,7 +56,7 @@ public class CartActivity extends AppCompatActivity {
         Toolbar myToolbar = findViewById(R.id.cart_toolbar);
         setSupportActionBar(myToolbar);
         RecyclerView recyclerView = getProductsListView();
-        View cartView = findViewById(R.id.shopping_cart_activity);
+        cartView = findViewById(R.id.shopping_cart_activity);
 
         ActionBar actionBar = this.getSupportActionBar();
         if (actionBar != null) {
@@ -68,7 +70,6 @@ public class CartActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         productCardAdapter = new CartRecyclerViewAdapter(this, products, cartView);
-        //productCardAdapter.productCardViewHolder.productQuantity.setText(0);
         recyclerView.setAdapter(productCardAdapter);
         recyclerView.addItemDecoration((new ProductCardHeaderViewDecoration(recyclerView.getContext(), recyclerView, R.layout.product_card_header)));
 
@@ -138,36 +139,8 @@ public class CartActivity extends AppCompatActivity {
         loggedInEmployee.setId(employeeTransition.getId());
         loggedInEmployee.setAmount_Of_Money_Made(total);
         (new TransactionTask(products,loggedInEmployee)).execute();
+
     }
-
-/*    public void productQuantityEditTextOnClick(View view) {
-        productCardAdapter.productCardViewHolder.productQuantity.addTextChangedListener(new TextWatcher() {
-            int newProductQuantity;
-            boolean _ignore = false;
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                newProductQuantity = Integer.parseInt(s.toString());
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-
-                String productTitle = findViewById(R.id.product_title).toString();
-                //String productQuantity = getProductCountTextInputEditText().toString();
-                Product foundProduct = getProductFromList(productTitle);
-                foundProduct.setCount(newProductQuantity);
-                updateDataBase(foundProduct);
-
-                ((TextView) findViewById(R.id.bottom_sheet_subtotal_price)).setText(String.format(Locale.getDefault(), "$ %.2f", calculateSubtotal(products)));
-                ((TextView) findViewById(R.id.bottom_sheet_taxes_price)).setText(String.format(Locale.getDefault(), "$ %.2f", calculateTaxes(products)));
-                ((TextView) findViewById(R.id.bottom_sheet_total_price)).setText(String.format(Locale.getDefault(), "$ %.2f", calculateTotal(products)));
-            }
-        });
-    }*/
 
     // create an action bar button
     @Override
@@ -219,11 +192,12 @@ public class CartActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean successfulSave) {
             if (successfulSave) {
-                Toast.makeText(CartActivity.this, "Transaction Completed!", Toast.LENGTH_SHORT)
+
+                Snackbar.make(cartView, R.string.transaction_complete_message, Snackbar.LENGTH_SHORT)
                         .show();
                 (new DeleteProductsInCartTask()).execute();
             } else {
-                Toast.makeText(CartActivity.this, "Transaction Failed!", Toast.LENGTH_SHORT)
+                Snackbar.make(cartView, R.string.transaction_complete_error_message, Snackbar.LENGTH_SHORT)
                         .show();
             }
         }
@@ -249,7 +223,12 @@ public class CartActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(final Boolean successfulSave) {
-            products.clear();
+            if(successfulSave) {
+                for (int i = 0; i <= productCardAdapter.getItemCount(); i++) {
+                    int itemCount = productCardAdapter.getItemCount();
+                    productCardAdapter.deleteItem(itemCount - 1);
+                }
+            }
         }
     }
 
@@ -293,7 +272,7 @@ public class CartActivity extends AppCompatActivity {
                         show();
             }
             ((TextView) findViewById(R.id.bottom_sheet_subtotal_price)).setText(String.format(Locale.getDefault(), "$ %.2f", calculateSubtotal(products)));
-            ((TextView) findViewById(R.id.bottom_sheet_taxes_price)).setText(String.format(Locale.getDefault(), "$ %.2f", calculateTaxes(products)));
+            ((TextView) findViewById(R.id.bottom_sheet_taxes_price)).setText(String.format(Locale.getDefault(), "$   %.2f", calculateTaxes(products)));
             ((TextView) findViewById(R.id.bottom_sheet_total_price)).setText(String.format(Locale.getDefault(), "$ %.2f", calculateTotal(products)));
         }
 
@@ -308,7 +287,9 @@ public class CartActivity extends AppCompatActivity {
 
     private List<Product> products;
     private Context context;
+    View cartView;
     static float total = 0.0f;
+    //private CoordinatorLayout layoutBottomSheet;
     private ConstraintLayout layoutBottomSheet;
     private ProductTransition productTransition;
     private BottomSheetBehavior bottomSheetBehavior;
