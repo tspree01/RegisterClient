@@ -86,12 +86,6 @@ public class LandingActivity extends AppCompatActivity {
 //            }
 //        });
     }
-    // create an action bar button
-/*    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_action_buttons, menu);
-        return super.onCreateOptionsMenu(menu);
-    }*/
     /* Handles the redirect from the System Browser */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -121,9 +115,6 @@ public class LandingActivity extends AppCompatActivity {
         }
         //this.startActivity(new Intent(getApplicationContext(), LandingActivity.class));
     }
-/*    private void updateSuccessSignUpUI() {
-        logged_In = true;
-    }*/
 
     /* Set the UI for signed out account */
     private void updateSignedOutUI() {
@@ -266,19 +257,10 @@ public class LandingActivity extends AppCompatActivity {
 	public void displaySalesReportButtonOnClick(View view){
         this.startActivity(new Intent(getApplicationContext(), SalesReportActivity.class));
     }
-	public void displayCreateEmployeeButtonOnClick(View view) {
-		/* Configure your sample app and save state for this activity */
-		sampleApp = null;
-		if (sampleApp == null) {
-			sampleApp = new PublicClientApplication(
-					this.getApplicationContext(), "e2266648-f2aa-444a-9767-a0a40ae3105a", "https://uarkregisterapp.b2clogin.com/tfp/uarkregisterapp.onmicrosoft.com/B2C_1_uarkregisterapp_signup");
-		}
-
-		sampleApp.acquireToken(getActivity(), SCOPES, getAuthInteractiveCallback());
-	}
 
     public void SalesReportButtonOnClick(View view) {
         Intent intent = new Intent(getApplicationContext(), ProductViewActivity.class);
+    }
 	public void InventoryButtonOnClick(View view) {
 		Intent intent = new Intent(getApplicationContext(), ProductViewActivity.class);
 

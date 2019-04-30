@@ -220,7 +220,7 @@ abstract class BaseRemoteService {
 			outputStream.flush();
 			int status = httpURLConnection.getResponseCode();
 
-			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getErrorStream()));
+			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
 
 			char[] buffer = new char[1024];
 			int readCharacters = bufferedReader.read(buffer, 0, buffer.length);

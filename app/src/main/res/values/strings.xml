@@ -7,7 +7,7 @@
     <string name="title_activity_product_view">ProductViewActivity</string>
     <string name="title_activity_employee_view">EmployeeViewActivity</string>
     <string name="title_activity_employee_listing">Employees</string>
-    <string name="title_activity_Sales_Report_view">Sales Report</string>
+    <string name="title_activity_Sales_Report_view">Sales Reports</string>
     <string name="title_activity_Sales_Report_employee_view">Employee Sales Report</string>
     <string name="title_activity_product_Sales_Report_employee_view">Product Sales Report</string>
     <string name="title_activity_best_selling_cashier_view">Best Selling Cashier</string>
@@ -18,9 +18,7 @@
     <string name="button_dismiss">Dismiss</string>
     <string name="button_transaction">Start transaction</string>
     <string name="button_create_employee">Create employee</string>
-    <string name="button_sales_report">Sales report</string>
     <string name="shopping_chart">shopping chart</string>
-    <string name="text_view_landing_welcome">Welcome {name}! What would you like to do?</string>
     <string name="button_inventory">Inventory</string>
     <string name="text_view_landing_welcome">Welcome {name}! What would you like to do next?</string>
     <string name="text_view_products_lookup_code">LookupCode</string>
@@ -107,9 +105,10 @@
     <string name="add">Add</string>
     <string name="action_settings">Settings</string>
     <string name="ADD">ADD</string>
-    <string name="button_sales_report">Sales Report</string>
+    <string name="button_sales_report">Sales Reports</string>
     <string name="cashier_sales">Cashier Sales</string>
     <string name="product_sales">Product Sales</string>
     <string name="Best_Selling_Product">Best Selling Product</string>
     <string name="Best_Selling_Cashier">Best Selling Cahier</string>
+    <string name="best_selling_product">Best Selling Product</string>
 </resources>

@@ -31,13 +31,13 @@ public class SalesReportActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sales_report_view);
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        //setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
 
-        ActionBar actionBar = this.getSupportActionBar();
+/*        ActionBar actionBar = this.getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+        }*/
 
         this.employeeTransition = this.getIntent().getParcelableExtra(this.getString(R.string.intent_sales_report));
 
@@ -66,23 +66,9 @@ public class SalesReportActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-/*		this.getEmployeeFirstNameEditText().setText(SignUpActivity.employeeTransition.getFirst_Name());
-		this.getEmployeeLastNameEditText().setText(SignUpActivity.employeeTransition.getLast_Name());
-		this.getEmployeeIDEditText().setText(SignUpActivity.employeeTransition.getId().toString());
-		this.getEmployeeRoleEditText().setText(SignUpActivity.employeeTransition.getRole());*/
-/*		this.getEmployeeCreatedOnEditText().setText(
-			(new SimpleDateFormat("MM/dd/yyyy", Locale.US)).format(this.employeeTransition.getCreatedOn())
-		);*/
-
-
     private boolean validateInput() {
         boolean inputIsValid = true;
         String validationMessage = StringUtils.EMPTY;
-
-/*		if (StringUtils.isBlank(this.getEmployeeRecordIDEditText().getText().toString())) {
-			validationMessage = this.getString(R.string.validation_employee_recordID);
-			inputIsValid = false;
-		}*/
 
         if (!inputIsValid) {
             new AlertDialog.Builder(this).

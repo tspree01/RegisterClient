@@ -44,13 +44,13 @@ public class EmployeeTransition implements Parcelable {
 		this.userAccounts = userAccounts;
 		return this;
 	}
-	}*/
-	private double total_sales;
+
+/*	private double total_sales;
 	public double getTotal_Sales(){return this.total_sales;}
 	public EmployeeTransition setTotal_Sales(double total_sales){
 		this.total_sales = total_sales;
 		return this;
-	}
+	}*/
 	private String first_name;
 	public String getFirst_Name() {
 		return this.first_name;

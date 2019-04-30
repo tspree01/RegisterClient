@@ -32,7 +32,7 @@ public class BestSellingCashierAdapter extends ArrayAdapter<Employee> {
 			}
 			TextView EmployeeSalesTextView = view.findViewById(R.id.list_view_employees_total_sales);
 			if (EmployeeSalesTextView != null) {
-				EmployeeSalesTextView.setText(String.format(Locale.getDefault(), "$ %.2f",employee.getTotal_gain()));
+				EmployeeSalesTextView.setText(String.format(Locale.getDefault(), "$ %.2f",employee.getAmount_Of_Money_Made()));
 			}
 		}
 

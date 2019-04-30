@@ -12,7 +12,8 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
+        android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -20,12 +21,15 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:background="@color/material_dark"
+            android:elevation="5dp"
+            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+            android:visibility="visible"
+            app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light" />
 
     </android.support.design.widget.AppBarLayout>
 
-    <Button
+    <android.support.design.button.MaterialButton
         android:id="@+id/button_sales_report"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,9 +40,8 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <android.support.design.button.MaterialButton
         android:id="@+id/product_sales"
-        style="@style/Widget.AppCompat.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -48,7 +51,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button_sales_report" />
 
-    <Button
+    <android.support.design.button.MaterialButton
         android:id="@+id/Best_Selling_Cashier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -59,7 +62,7 @@
         android:onClick="BestSellingCashierOnClick"
         app:layout_constraintRight_toRightOf="parent" />
 
-    <Button
+    <android.support.design.button.MaterialButton
         android:id="@+id/Best_Selling_Product"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -68,6 +71,6 @@
         android:layout_marginTop="32dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="Best Selling Product" />
+        android:text="@string/best_selling_product" />
 
 </android.support.constraint.ConstraintLayout>

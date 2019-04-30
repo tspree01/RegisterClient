@@ -16,7 +16,6 @@
 
     <ListView
         android:id="@+id/list_view_employees"
-        style="@android:style/Widget.Material.Light.ListView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:dividerHeight="0dp"

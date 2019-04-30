@@ -12,8 +12,6 @@ public enum ProductFieldName implements FieldNameInterface {
 	CREATED_ON("createdOn"),
 	PRICE("price"),
 	CARTID("cartid");
-	TOTAL_SOLD("total_sold"),
-	CREATED_ON("createdOn");
 
 	private String fieldName;
 	public String getFieldName() {

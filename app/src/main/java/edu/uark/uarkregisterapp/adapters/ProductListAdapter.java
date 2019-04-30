@@ -32,7 +32,7 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
         View view = convertView;
         if (view == null) {
             LayoutInflater inflater = LayoutInflater.from(this.getContext());
-            view = inflater.inflate(R.layout.list_view_item_product, parent, false);
+            view = inflater.inflate(R.layout.list_view_item_product_sales, parent, false);
         }
 
         final Product product = this.getItem(position);
@@ -43,12 +43,6 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
             if (lookupCodeTextView != null) {
                 lookupCodeTextView.setText(product.getLookupCode());
             }
-		Product product = this.getItem(position);
-		if (product != null) {
-			TextView lookupCodeTextView =  view.findViewById(R.id.list_view_item_product_lookup_code);
-			if (lookupCodeTextView != null) {
-				lookupCodeTextView.setText(product.getLookupCode());
-			}
 
             TextView countTextView = (TextView) view.findViewById(R.id.list_view_item_product_count);
             if (countTextView != null) {
@@ -71,13 +65,6 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
                 }
             }
         });
-			TextView countTextView = view.findViewById(R.id.list_view_item_product_count);
-			if (countTextView != null) {
-
-				countTextView.setText(String.format(Locale.getDefault(), "%d", product.getCount()));
-			}
-		}
-
         ImageButton downButton = view.findViewById(R.id.downArrow);
         downButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +77,6 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
             }
             }
         });
-
         Button addButton = view.findViewById(R.id.button_add);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override

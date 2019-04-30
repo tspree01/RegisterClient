@@ -12,14 +12,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <!--
-                <activity android:name=".LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        -->
+
         <activity
             android:name=".LandingActivity"
             android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar">
@@ -59,9 +52,15 @@
 
         </activity>
         <activity
+            android:name=".EmployeesListingActivity"
+            android:label="@string/title_activity_product_view"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity
             android:name=".SalesReportActivity"
             android:label="@string/title_activity_Sales_Report_view"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar">
         </activity>
         <activity
             android:name=".SalesReportListingActivity"

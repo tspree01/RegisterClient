@@ -94,9 +94,9 @@ public class BestSellingCashierActivity extends AppCompatActivity {
                 while(iterator.hasNext()){
 
                     Employee employeee = iterator.next();
-                        if (employeee.getTotal_gain() > bigger_number) {
+                        if (employeee.getAmount_Of_Money_Made() > bigger_number) {
                             employee = employeee;
-                            bigger_number = employee.getTotal_gain();
+                            bigger_number = employee.getAmount_Of_Money_Made();
                         }
 
                     }
