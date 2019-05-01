@@ -10,7 +10,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,7 +51,7 @@ public class LandingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         /* Configure your sample app and save state for this activity */
         sampleApp = new PublicClientApplication(
-                this.getApplicationContext(), R.raw.b2c_config);
+                this.getApplicationContext(), R.raw.b2c_config_login);
 
         if(!logged_In) {
             setContentView(R.layout.activity_main);
@@ -234,6 +233,7 @@ public class LandingActivity extends AppCompatActivity {
             public void onCancel() {
                 //User canceled the authentication
                 Log.d(TAG, "User cancelled login.");
+
             }
         };
     }
@@ -250,8 +250,8 @@ public class LandingActivity extends AppCompatActivity {
     public void displayCreateEmployeeButtonOnClick(View view) {
         /* Configure your sample app and save state for this activity */
 
-       sampleApp = new PublicClientApplication(
-                this.getApplicationContext(), "e2266648-f2aa-444a-9767-a0a40ae3105a", "https://uarkregisterapp.b2clogin.com/tfp/uarkregisterapp.onmicrosoft.com/B2C_1_uarkregisterapp_signup");
+        sampleApp = new PublicClientApplication(
+                this.getApplicationContext(), R.raw.b2c_config_signup);
         sampleApp.acquireToken(getActivity(), SCOPES, getAuthInteractiveCallback());
     }
 	public void displaySalesReportButtonOnClick(View view){

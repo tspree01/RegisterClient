@@ -3,10 +3,7 @@ package edu.uark.uarkregisterapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -66,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         sampleApp = null;
         if (sampleApp == null) {
             sampleApp = new PublicClientApplication(
-                    this.getApplicationContext(), R.raw.b2c_config);
+                    this.getApplicationContext(), R.raw.b2c_config_login);
         }
 
         //Enable logging

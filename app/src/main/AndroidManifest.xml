@@ -52,6 +52,15 @@
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
+
+        <activity
+            android:name=".EmployeeViewActivity"
+            android:label="@string/title_activity_product_view"
+            android:parentActivityName=".LandingActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+
         <activity
             android:name=".EmployeesListingActivity"
             android:label="@string/title_activity_product_view"
