@@ -89,22 +89,50 @@ public class BestSellingProductActivity extends AppCompatActivity {
             if (apiResponse.isValidResponse()) {
                 products.clear();
                 products.addAll(apiResponse.getData());
-
                 Iterator<Product> iterator = products.iterator();
-                Product product = products.get(0);
+                Product best_selling_product = products.get(0);
+                Product second_best_selling_product = products.get(1);
+                Product third_best_selling_product = products.get(2);
+                Product product_iterator;
+                Product temp_prod;
+
                 double bigger_number = 0;
                 while(iterator.hasNext()){
-
                     Product producte = iterator.next();
-                    if (producte.getQuantity_sold() > bigger_number) {
-                        product = producte;
-                        bigger_number = product.getQuantity_sold();
+                    if (producte.getTotal_Sales() > bigger_number) {
+                        product_iterator = producte;
+                        if(product_iterator.getTotal_Sales() > best_selling_product.getTotal_Sales()){
+                            temp_prod = best_selling_product;
+                            best_selling_product = product_iterator;
+                            product_iterator = temp_prod;
+                        }
+                        if(best_selling_product.getTotal_Sales() < second_best_selling_product.getTotal_Sales()) {
+                            temp_prod = best_selling_product;
+                            best_selling_product = second_best_selling_product;
+                            second_best_selling_product = temp_prod;
+                        }
+                        if(second_best_selling_product.getTotal_Sales() < third_best_selling_product.getTotal_Sales()){
+                            temp_prod = second_best_selling_product;
+                            second_best_selling_product = third_best_selling_product;
+                            third_best_selling_product = temp_prod;
+                        }
+                        if(third_best_selling_product.getTotal_Sales() > best_selling_product.getTotal_Sales())
+                        {
+                            temp_prod = third_best_selling_product;
+                            third_best_selling_product = best_selling_product;
+                            best_selling_product = temp_prod;
+                        }
+                        bigger_number = product_iterator.getTotal_Sales();
                     }
+
 
                 }
                 products.clear();
-                products.add(product);
+                products.add(best_selling_product);
+                products.add(second_best_selling_product);
+                products.add(third_best_selling_product);
             }
+
 
 
             return apiResponse;
