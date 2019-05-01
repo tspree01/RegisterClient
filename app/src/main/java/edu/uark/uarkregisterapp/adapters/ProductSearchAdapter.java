@@ -1,3 +1,4 @@
+
 package edu.uark.uarkregisterapp.adapters;
 
 import android.content.Context;
@@ -24,7 +25,6 @@ public class ProductSearchAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.list_view_search_product, parent, false);
         }
 
-        //Product product = this.getItem(position);
         if (searchList.get(position) != null) {
             TextView lookupCodeTextView = (TextView) view.findViewById(R.id.list_view_item_product_lookup_code);
             if (lookupCodeTextView != null) {
@@ -34,6 +34,11 @@ public class ProductSearchAdapter extends BaseAdapter {
             TextView countTextView = (TextView) view.findViewById(R.id.list_view_item_product_count);
             if (countTextView != null) {
                 countTextView.setText(String.format(Locale.getDefault(), "%d", searchList.get(position).getCount()));
+            }
+
+            TextView priceTextView = (TextView) view.findViewById (R.id.list_view_item_product_price);
+            if (countTextView != null) {
+                priceTextView.setText(String.format(Locale.getDefault(), "$ %.2f", searchList.get(position).getPrice()));
             }
         }
 
@@ -55,15 +60,15 @@ public class ProductSearchAdapter extends BaseAdapter {
         return position;
     }
 
-    public void filter(String charText){
-        charText = charText.toLowerCase(Locale.getDefault());
+    public void filter(String searchText){
+        searchText = searchText.toLowerCase(Locale.getDefault());
         searchList.clear();
-        if (charText.length() == 0) {
+        if (searchText.length() == 0) {
             searchList.addAll(product_list);
         }
         else {
             for (Product product : product_list) {
-                if (product.getLookupCode().toLowerCase(Locale.getDefault()).contains(charText)) {
+                if (product.getLookupCode().toLowerCase(Locale.getDefault()).contains(searchText)) {
                     searchList.add(product);
                 }
             }
@@ -72,12 +77,12 @@ public class ProductSearchAdapter extends BaseAdapter {
     }
 
     public void setProductList(List<Product> products_update){
+        this.product_list.clear();
         this.product_list.addAll(products_update);
     }
 
     public ProductSearchAdapter(Context context, List<Product> products) {
-        //super(context, R.layout.list_view_search_product, products);
-        searchContext = context;
+        this.searchContext = context;
         this.searchList = products;
         this.product_list = new ArrayList<Product>();
     }

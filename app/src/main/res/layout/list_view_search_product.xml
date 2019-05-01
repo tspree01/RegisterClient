@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,19 +9,41 @@
 
     <TextView
         android:id="@+id/list_view_item_product_lookup_code"
-        android:text="@string/text_view_products_lookup_code"
         android:layout_width="0dp"
         android:layout_height="fill_parent"
+        android:layout_gravity="start"
+        android:layout_marginTop="2dp"
         android:layout_weight="3"
-        android:layout_gravity="start"/>
+        android:text="@string/text_view_products_lookup_code"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/list_view_item_product_count"
-        android:text="@string/text_view_products_count"
-        android:layout_width="0dp"
-        android:layout_height="fill_parent"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="2dp"
         android:layout_weight="3"
         android:gravity="end"
-        android:layout_gravity="end"/>
+        android:text="@string/text_view_products_count"
+        android:textAlignment="textEnd"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/list_view_item_product_price"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/text_view_products_price"
+        android:textAlignment="textEnd"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/list_view_item_product_count" />
+
+</android.support.constraint.ConstraintLayout>
