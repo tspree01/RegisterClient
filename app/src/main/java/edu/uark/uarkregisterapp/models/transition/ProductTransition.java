@@ -93,7 +93,7 @@ public class ProductTransition implements Parcelable {
 	};
 
 	public ProductTransition() {
-		this.count = -1;
+		this.count = 0;
 		this.quantity_sold = 0;
 		this.id = new UUID(0, 0);
 		this.createdOn = new Date();

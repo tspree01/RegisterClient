@@ -21,7 +21,6 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/material_dark"
             android:elevation="5dp"
             android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
             android:visibility="visible"

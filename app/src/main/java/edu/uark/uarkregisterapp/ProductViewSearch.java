@@ -67,10 +67,15 @@ public class ProductViewSearch extends AppCompatActivity implements SearchView.O
     }
 
     public void shoppingCartFloatingActionOnClick(View view) {
-        final View shoppingCartView = findViewById(R.id.shopping_cart_activity);
+        final View productView = findViewById(R.id.product_view);
+        Intent intent = new Intent(getApplicationContext(), ProductViewActivity.class);
 
-        startActivity(new Intent(),
-                ActivityOptions.makeClipRevealAnimation(shoppingCartView, shoppingCartView.getWidth(), shoppingCartView.getHeight(), 50, 50).toBundle());
+        intent.putExtra(
+                getString(R.string.intent_extra_product),
+                new ProductTransition()
+        );
+        startActivity(intent,
+                ActivityOptions.makeClipRevealAnimation(productView, productView.getWidth(), productView.getHeight(), 50, 50).toBundle());
     }
 
     @Override

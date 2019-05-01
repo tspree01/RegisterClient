@@ -18,10 +18,7 @@
         android:id="@+id/search"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:iconifiedByDefault="false">
-
-        <requestFocus />
-    </SearchView>
+        android:iconifiedByDefault="false"/>
 
     <ListView
         android:id="@+id/list_view_products"
