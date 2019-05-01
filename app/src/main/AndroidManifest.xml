@@ -60,7 +60,7 @@
         <activity
             android:name=".SalesReportActivity"
             android:label="@string/title_activity_Sales_Report_view"
-            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar">
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".SalesReportListingActivity"

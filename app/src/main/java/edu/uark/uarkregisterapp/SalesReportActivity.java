@@ -31,13 +31,13 @@ public class SalesReportActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sales_report_view);
-        //setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
 
-/*        ActionBar actionBar = this.getSupportActionBar();
+        ActionBar actionBar = this.getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-        }*/
+        }
 
         this.employeeTransition = this.getIntent().getParcelableExtra(this.getString(R.string.intent_sales_report));
 

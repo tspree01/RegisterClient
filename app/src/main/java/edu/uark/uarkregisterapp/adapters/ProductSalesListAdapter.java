@@ -32,7 +32,7 @@ public class ProductSalesListAdapter extends ArrayAdapter<Product> {
 			}
 			TextView ProductSalesTextView = view.findViewById(R.id.list_view_product_total_sales);
 			if (ProductSalesTextView != null){
-			    ProductSalesTextView.setText(String.format(Locale.getDefault(), "%d",product.getQuantity_sold()));
+			    ProductSalesTextView.setText(String.format(Locale.getDefault(), "$ %.2f",product.getTotal_Sales()));
             }
 
 		}
