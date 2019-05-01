@@ -48,28 +48,33 @@
         <activity
             android:name=".ProductViewActivity"
             android:label="@string/title_activity_product_view"
+            android:parentActivityName=".LandingActivity"
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
         <activity
             android:name=".EmployeesListingActivity"
             android:label="@string/title_activity_product_view"
+            android:parentActivityName=".LandingActivity"
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
         <activity
             android:name=".SalesReportActivity"
             android:label="@string/title_activity_Sales_Report_view"
+            android:parentActivityName=".LandingActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".SalesReportListingActivity"
             android:label="@string/title_activity_Sales_Report_employee_view"
+            android:parentActivityName=".SalesReportActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".ProductSalesReportListingActivity"
             android:label="@string/title_activity_product_Sales_Report_employee_view"
+            android:parentActivityName=".SalesReportActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
@@ -81,19 +86,21 @@
         <activity
             android:name=".BestSellingCashierActivity"
             android:label="@string/Best_Selling_Cashier"
+            android:parentActivityName=".SalesReportActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
             android:name=".ProductViewSearch"
             android:label="@string/title_activity_products_listing"
+            android:parentActivityName=".LandingActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
-        <!--Intent filter to capture System Browser calling back to our app after Sign In-->
         <activity
             android:name=".BestSellingProductActivity"
             android:label="@string/Best_Selling_Product"
+            android:parentActivityName=".SalesReportActivity"
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity> <!-- Intent filter to capture System Browser calling back to our app after Sign In -->

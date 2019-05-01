@@ -1,6 +1,6 @@
 {
   "client_id" : "e2266648-f2aa-444a-9767-a0a40ae3105a",
-  "authorization_user_agent" : "DEFAULT",
+  "authorization_user_agent" : "WEBVIEW",
   "redirect_uri" : "msale2266648-f2aa-444a-9767-a0a40ae3105a://auth",
   "authorities" : [
     {

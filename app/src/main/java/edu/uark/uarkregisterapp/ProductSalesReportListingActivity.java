@@ -26,7 +26,7 @@ public class ProductSalesReportListingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_employees_listing);
+        setContentView(R.layout.activity_product_sales_report_listing);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         ActionBar actionBar = this.getSupportActionBar();
@@ -73,7 +73,7 @@ public class ProductSalesReportListingActivity extends AppCompatActivity {
     }
 
     private ListView getProductsListView() {
-        return (ListView) this.findViewById(R.id.list_view_employees);
+        return (ListView) this.findViewById(R.id.list_view_products);
     }
 
     private class RetrieveProductsTask extends AsyncTask<Void, Void, ApiResponse<List<Product>>> {

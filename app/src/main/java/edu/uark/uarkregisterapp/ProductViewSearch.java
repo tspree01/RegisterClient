@@ -1,5 +1,6 @@
 package edu.uark.uarkregisterapp;
 
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -8,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -64,6 +66,13 @@ public class ProductViewSearch extends AppCompatActivity implements SearchView.O
         (new RetrieveProductsTask()).execute();
     }
 
+    public void shoppingCartFloatingActionOnClick(View view) {
+        final View shoppingCartView = findViewById(R.id.shopping_cart_activity);
+
+        startActivity(new Intent(),
+                ActivityOptions.makeClipRevealAnimation(shoppingCartView, shoppingCartView.getWidth(), shoppingCartView.getHeight(), 50, 50).toBundle());
+    }
+
     @Override
     public boolean onQueryTextSubmit(String query) {
         return false;
@@ -75,6 +84,18 @@ public class ProductViewSearch extends AppCompatActivity implements SearchView.O
         productSearchAdapter.filter(text);
         return false;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:// Respond to the action bar's Up/Home button
+                this.finish();
+
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     private ListView getProductSearchView() {
         return (ListView) this.findViewById(R.id.list_view_products);

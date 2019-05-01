@@ -6,40 +6,63 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import edu.uark.uarkregisterapp.R;
 import edu.uark.uarkregisterapp.models.api.Employee;
+import edu.uark.uarkregisterapp.models.api.Product;
 
-public class EmployeeSalesListAdapter extends ArrayAdapter<Employee> {
+public class EmployeeSalesListAdapter extends BaseAdapter {
 	@NonNull
 	@Override
-	public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+	public View getView(int position, View convertView, ViewGroup parent) {
 		View view = convertView;
 		if (view == null) {
-			LayoutInflater inflater = LayoutInflater.from(this.getContext());
-			view = inflater.inflate(R.layout.list_view_item_employee_sales, parent, false);
+			LayoutInflater inflater = LayoutInflater.from(searchContext);
+			view = inflater.inflate(R.layout.list_view_employee_sales_listing_product, parent, false);
 		}
 
-		Employee employee = this.getItem(position);
-		if (employee != null) {
-			TextView EmployeeIDTextView = view.findViewById(R.id.list_view_item_employee_id);
-			if (EmployeeIDTextView != null) {
-				EmployeeIDTextView.setText(employee.getFirst_Name());
+		if(employee_list != null && position < employee_list.size()){
+			final Employee employee = employee_list.get(position);
+			TextView lookupCodeTextView = (TextView) view.findViewById(R.id.list_view_item_product_lookup_code);
+			if (lookupCodeTextView != null) {
+				lookupCodeTextView.setText(employee.getFirst_Name());
 			}
-			TextView EmployeeSalesTextView = view.findViewById(R.id.list_view_employees_total_sales);
-			if (EmployeeSalesTextView != null) {
-				EmployeeSalesTextView.setText(String.format(Locale.getDefault(), "$ %.2f",employee.getAmount_Of_Money_Made()));
+
+			TextView priceTextView = (TextView) view.findViewById (R.id.list_view_item_product_price);
+			if (priceTextView != null) {
+				priceTextView.setText(String.format(Locale.getDefault(), "$ %.2f", employee.getAmount_Of_Money_Made()));
 			}
 		}
-
 		return view;
 	}
 
-	public EmployeeSalesListAdapter(Context context, List<Employee> employee) {
-		super(context, R.layout.list_view_item_employee_sales, employee);
+
+	@Override
+	public int getCount() {
+		return employee_list.size();
 	}
+
+	@Override
+	public Employee getItem(int position) {
+		return employee_list.get(position);
+	}
+
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
+
+	public EmployeeSalesListAdapter(Context context, List<Employee> employees) {
+		this.searchContext = context;
+		this.employee_list = employees;
+	}
+
+	Context searchContext;
+	private List<Employee> employee_list;
 }

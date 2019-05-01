@@ -32,7 +32,7 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
         View view = convertView;
         if (view == null) {
             LayoutInflater inflater = LayoutInflater.from(this.getContext());
-            view = inflater.inflate(R.layout.list_view_item_product_sales, parent, false);
+            //view = inflater.inflate(R.layout.list_view_item_product_sales, parent, false);
         }
 
         final Product product = this.getItem(position);

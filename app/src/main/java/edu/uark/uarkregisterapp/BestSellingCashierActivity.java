@@ -27,7 +27,7 @@ public class BestSellingCashierActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_employees_listing);
+        setContentView(R.layout.activity_employee_sales_report_listing);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         ActionBar actionBar = this.getSupportActionBar();
@@ -71,7 +71,7 @@ public class BestSellingCashierActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     private ListView getEmployeesListView() {
-        return (ListView) this.findViewById(R.id.list_view_employees);
+        return (ListView) this.findViewById(R.id.list_view_products);
     }
 
     private class RetrieveEmployeesTask extends AsyncTask<Void, Void, ApiResponse<List<Employee>>> {

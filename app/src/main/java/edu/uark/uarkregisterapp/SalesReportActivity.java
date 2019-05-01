@@ -57,12 +57,11 @@ public class SalesReportActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:  // Respond to the action bar's Up/Home button
+            case android.R.id.home:// Respond to the action bar's Up/Home button
                 this.finish();
 
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

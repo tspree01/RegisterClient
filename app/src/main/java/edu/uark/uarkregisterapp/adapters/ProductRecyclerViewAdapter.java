@@ -124,7 +124,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductList
 
         private boolean isProductInCart(Product product) {
             for (Product productInCart : productsInCart) {
-                if (productInCart.getCartId().equals(product.getCartId()) && productInCart.getLookupCode().equals(product.getLookupCode())) {
+                if (productInCart.getCartId().equals(product.getCartId()) && productInCart.getId().equals(product.getId())) {
                     return true;
                 }
             }
@@ -133,10 +133,10 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductList
 
         @Override
         protected Boolean doInBackground(Void... params) {
-
+            boolean test = isProductInCart(product);
 
             ApiResponse<Product> apiResponse = (
-                    (isProductInCart(product))
+                    (test)
                             ? (new CartService()).updateProductByCartIdAndProductIdFromProductListing(product)
                             : (new CartService()).createProduct(product)
             );

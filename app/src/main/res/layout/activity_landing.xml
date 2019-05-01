@@ -89,19 +89,6 @@
             tools:layout_conversion_wrapHeight="168"
             tools:layout_conversion_wrapWidth="1328" />
 
-        <!--
-            <Button
-                android:id="@+id/Login"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="200dp"
-                android:onClick="Login"
-                android:background="#00a1f1"
-                android:text="@string/login"
-                android:textAllCaps="false"
-                android:textColor="#FFFFFF"
-                android:visibility="invisible"/>-->
-
         <android.support.design.button.MaterialButton
             android:id="@+id/button_product_search"
             android:layout_width="wrap_content"
@@ -121,7 +108,7 @@
             android:layout_below="@id/button_inventory"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            android:onClick="displaySalesReportButtonOnClick"
+            android:onClick="SalesReportButtonOnClick"
             android:text="@string/button_sales_report"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

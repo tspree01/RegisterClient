@@ -20,12 +20,12 @@ public class EmployeeListAdapter extends ArrayAdapter<Employee> {
 		View view = convertView;
 		if (view == null) {
 			LayoutInflater inflater = LayoutInflater.from(this.getContext());
-			view = inflater.inflate(R.layout.list_view_item_employee, parent, false);
+			view = inflater.inflate(R.layout.list_view_employee_sales_listing_product, parent, false);
 		}
 
 		Employee employee = this.getItem(position);
 		if (employee != null) {
-			TextView EmployeeIDTextView = (TextView) view.findViewById(R.id.list_view_item_employee_id);
+			TextView EmployeeIDTextView = (TextView) view.findViewById(R.id.list_view_item_product_lookup_code);
 			if (EmployeeIDTextView != null) {
 				EmployeeIDTextView.setText(employee.getFirst_Name());
 			}
@@ -36,6 +36,6 @@ public class EmployeeListAdapter extends ArrayAdapter<Employee> {
 	}
 
 	public EmployeeListAdapter(Context context, List<Employee> employee) {
-		super(context, R.layout.list_view_item_employee, employee);
+		super(context, R.layout.list_view_employee_sales_listing_product, employee);
 	}
 }
