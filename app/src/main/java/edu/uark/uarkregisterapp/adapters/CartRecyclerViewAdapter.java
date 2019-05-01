@@ -150,4 +150,13 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<ProductCardVie
         productList.remove(position);
         notifyDataSetChanged();
     }
+
+    public void deleteAll(){
+        for (Product product : productList) {
+            (new DeleteProductFromCartTask(product)).execute();
+        }
+        productList.clear();
+        notifyDataSetChanged();
+
+    }
 }

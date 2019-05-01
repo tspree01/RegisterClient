@@ -32,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -224,10 +225,7 @@ public class CartActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Boolean successfulSave) {
             if(successfulSave) {
-                for (int i = 0; i <= productCardAdapter.getItemCount(); i++) {
-                    int itemCount = productCardAdapter.getItemCount();
-                    productCardAdapter.deleteItem(itemCount - 1);
-                }
+                productCardAdapter.deleteAll();
             }
         }
     }
