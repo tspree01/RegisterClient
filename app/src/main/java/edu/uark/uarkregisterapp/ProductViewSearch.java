@@ -134,7 +134,7 @@ public class ProductViewSearch extends AppCompatActivity implements SearchView.O
             this.loadingProductsAlert.dismiss();
 
             if (!apiResponse.isValidResponse()) {
-                new AlertDialog.Builder(ProductViewSearch.this).
+                new AlertDialog.Builder(ProductViewSearch.this,R.style.Theme_MaterialComponents_Dialog_Alert).
                         setMessage(R.string.alert_dialog_products_load_failure).
                         setPositiveButton(
                                 R.string.button_dismiss,
@@ -152,7 +152,7 @@ public class ProductViewSearch extends AppCompatActivity implements SearchView.O
         private AlertDialog loadingProductsAlert;
 
         private RetrieveProductsTask() {
-            this.loadingProductsAlert = new AlertDialog.Builder(ProductViewSearch.this).
+            this.loadingProductsAlert = new AlertDialog.Builder(ProductViewSearch.this,R.style.Theme_MaterialComponents_Dialog_Alert).
                     setMessage(R.string.alert_dialog_products_loading).
                     create();
         }

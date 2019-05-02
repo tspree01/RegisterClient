@@ -55,6 +55,7 @@
     <string name="alert_dialog_employees_loading">Loading Employees</string>
     <string name="alert_dialog_product_save">Saving Product…</string>
     <string name="alert_dialog_employee_save">Saving Employee…</string>
+    <string name="alert_dialog_logging_employee_in">Logging in…</string>
     <string name="alert_dialog_product_delete">Deleting Product…</string>
     <string name="alert_dialog_employee_delete">Deleting Employee…</string>
     <string name="alert_dialog_product_save_success">The product was successfully saved.</string>

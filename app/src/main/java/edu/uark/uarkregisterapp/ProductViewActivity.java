@@ -210,7 +210,7 @@ public class ProductViewActivity extends AppCompatActivity {
 				message = getString(R.string.alert_dialog_product_save_failure);
 			}
 
-			new AlertDialog.Builder(ProductViewActivity.this).
+			new AlertDialog.Builder(ProductViewActivity.this,R.style.Theme_MaterialComponents_Dialog_Alert).
 				setMessage(message).
 				setPositiveButton(
 					R.string.button_dismiss,
@@ -227,7 +227,7 @@ public class ProductViewActivity extends AppCompatActivity {
 		private AlertDialog savingProductAlert;
 
 		private SaveProductTask() {
-			this.savingProductAlert = new AlertDialog.Builder(ProductViewActivity.this).
+			this.savingProductAlert = new AlertDialog.Builder(ProductViewActivity.this,R.style.Theme_MaterialComponents_Dialog_Alert).
 				setMessage(R.string.alert_dialog_product_save).
 				create();
 		}

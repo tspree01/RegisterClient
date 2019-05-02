@@ -37,9 +37,7 @@ public class EmployeeViewActivity extends AppCompatActivity {
 		if (actionBar != null) {
 			actionBar.setDisplayHomeAsUpEnabled(true);
 		}
-
 		this.employeeTransition = this.getIntent().getParcelableExtra(this.getString(R.string.intent_extra_employee));
-
 	}
 
 	@Override
@@ -50,7 +48,6 @@ public class EmployeeViewActivity extends AppCompatActivity {
 
 				return true;
 		}
-
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -76,7 +73,6 @@ public class EmployeeViewActivity extends AppCompatActivity {
 		if (!this.validateInput()) {
 			return;
 		}
-
 		(new SaveEmployeeTask()).execute();
 	}
 
@@ -198,7 +194,7 @@ public class EmployeeViewActivity extends AppCompatActivity {
 				message = getString(R.string.alert_dialog_employee_save_failure);
 			}
 
-			new AlertDialog.Builder(EmployeeViewActivity.this).
+			new AlertDialog.Builder(EmployeeViewActivity.this,R.style.Theme_MaterialComponents_Dialog_Alert).
 				setMessage(message).
 				setPositiveButton(
 					R.string.button_dismiss,
@@ -215,7 +211,7 @@ public class EmployeeViewActivity extends AppCompatActivity {
 		private AlertDialog savingEmployeeAlert;
 
 		SaveEmployeeTask() {
-			this.savingEmployeeAlert = new AlertDialog.Builder(EmployeeViewActivity.this).
+			this.savingEmployeeAlert = new AlertDialog.Builder(EmployeeViewActivity.this,R.style.Theme_MaterialComponents_Dialog_Alert).
 				setMessage(R.string.alert_dialog_employee_save).
 				create();
 		}
@@ -246,7 +242,7 @@ public class EmployeeViewActivity extends AppCompatActivity {
 				message = getString(R.string.alert_dialog_employee_delete_failure);
 			}
 
-			new AlertDialog.Builder(EmployeeViewActivity.this).
+			new AlertDialog.Builder(EmployeeViewActivity.this,R.style.Theme_MaterialComponents_Dialog_Alert).
 				setMessage(message).
 				setPositiveButton(
 					R.string.button_dismiss,
@@ -266,7 +262,7 @@ public class EmployeeViewActivity extends AppCompatActivity {
 		private AlertDialog deletingEmployeeAlert;
 
 		private DeleteEmployeeTask() {
-			this.deletingEmployeeAlert = new AlertDialog.Builder(EmployeeViewActivity.this).
+			this.deletingEmployeeAlert = new AlertDialog.Builder(EmployeeViewActivity.this,R.style.Theme_MaterialComponents_Dialog_Alert).
 				setMessage(R.string.alert_dialog_employee_delete).
 				create();
 		}

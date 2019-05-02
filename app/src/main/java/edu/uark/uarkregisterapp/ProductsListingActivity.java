@@ -18,6 +18,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +26,10 @@ import android.widget.EditText;
 import android.support.v7.widget.SearchView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.microsoft.identity.common.internal.util.StringUtil;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,8 +53,8 @@ public  class ProductsListingActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         RecyclerView recyclerView = getProductsRecyclerView();
         productListView = findViewById(R.id.product_listing);
-
         ActionBar productListActionBar = this.getSupportActionBar();
+
         if (productListActionBar != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -58,20 +63,13 @@ public  class ProductsListingActivity extends AppCompatActivity {
         this.products = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(getDrawable(R.drawable.product_list_divider));
         recyclerView.addItemDecoration(dividerItemDecoration);
-
         productRecyclerViewAdapter = new ProductRecyclerViewAdapter(this, products, productListView, employeeTransition);
         recyclerView.setAdapter(productRecyclerViewAdapter);
         handleIntent(getIntent());
-
-/*       this.products = new ArrayList<>();
-        this.productListAdapter = new ProductListAdapter(this, this.products);
-		this.getProductsListView().setAdapter(this.productListAdapter);*/
     }
-
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -79,7 +77,6 @@ public  class ProductsListingActivity extends AppCompatActivity {
     }
 
     private void handleIntent(Intent intent) {
-
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String searchQuery = intent.getStringExtra(SearchManager.QUERY);
             //use the query to search your data somehow
@@ -91,20 +88,16 @@ public  class ProductsListingActivity extends AppCompatActivity {
         if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
             ImageView nav_arrows = (ImageView) findViewById(R.id.nav_arrows);
             nav_arrows.setImageResource(R.drawable.animatied_nav_arrows);
-
             // Get the background, which has been compiled to an AnimationDrawable object.
             AnimationDrawable frameAnimation = (AnimationDrawable) nav_arrows.getDrawable();
-
             // Start the animation (looped playback by default).
             frameAnimation.start();
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         } else {
             ImageView nav_arrows = (ImageView) findViewById(R.id.nav_arrows);
             nav_arrows.setImageResource(R.drawable.animatied_nav_arrows);
-
             // Get the background, which has been compiled to an AnimationDrawable object.
             AnimationDrawable frameAnimation = (AnimationDrawable) nav_arrows.getDrawable();
-
             // Start the animation (looped playback by default).
             frameAnimation.setOneShot(false);
             frameAnimation.setOneShot(true);
@@ -115,7 +108,6 @@ public  class ProductsListingActivity extends AppCompatActivity {
     public void shoppingCartFloatingActionOnClick(View view) {
         final View shoppingCartView = findViewById(R.id.shopping_cart_activity);
         Intent intent = new Intent(getApplicationContext(), CartActivity.class);
-
         intent.putExtra(
                 getString(R.string.intent_extra_employee),
                 employeeTransition
@@ -128,7 +120,6 @@ public  class ProductsListingActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_action_buttons, menu);
         MenuItem searchItem = menu.findItem(R.id.search_product_list);
-
         // Associate searchable configuration with the SearchView
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -145,12 +136,11 @@ public  class ProductsListingActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:// Respond to the action bar's Up/Home button
                 this.finish();
-
                 return true;
+
             case R.id.search_product_list:
                 searchButtonPushed = true;
                 return true;
-
         }
         return super.onOptionsItemSelected(item);
     }
@@ -168,7 +158,7 @@ public  class ProductsListingActivity extends AppCompatActivity {
 
         RetrieveSearchedProductsTask(String searchQuery) {
             this.searchQuery = searchQuery;
-            this.loadingProductsAlert = new AlertDialog.Builder(ProductsListingActivity.this).
+            this.loadingProductsAlert = new AlertDialog.Builder(ProductsListingActivity.this,R.style.Theme_MaterialComponents_Dialog_Alert).
                     setMessage(R.string.alert_dialog_products_loading).
                     create();
         }
@@ -197,7 +187,7 @@ public  class ProductsListingActivity extends AppCompatActivity {
             this.loadingProductsAlert.dismiss();
 
             if (!apiResponse.isValidResponse()) {
-                new AlertDialog.Builder(ProductsListingActivity.this).
+                new AlertDialog.Builder(ProductsListingActivity.this,R.style.Theme_MaterialComponents_Dialog_Alert).
                         setMessage(R.string.alert_dialog_products_load_failure).
                         setPositiveButton(
                                 R.string.button_dismiss,
@@ -213,21 +203,15 @@ public  class ProductsListingActivity extends AppCompatActivity {
         }
 
         private AlertDialog loadingProductsAlert;
+        private RetrieveSearchedProductsTask() {
+            this.loadingProductsAlert = new AlertDialog.Builder(ProductsListingActivity.this,R.style.Theme_MaterialComponents_Dialog_Alert).
+                    setMessage(R.string.alert_dialog_products_loading).
+                    create();
+        }
     }
 
-/*    private ListView getProductsListView() {
-        return (ListView) this.findViewById(R.id.list_view_products);
-    }*/
     private RecyclerView getProductsRecyclerView() {
         return (RecyclerView) this.findViewById(R.id.list_view_products);
-    }
-
-    private TextView getProductLookupCodeEditText() {
-        return (TextView) this.findViewById(R.id.edit_text_product_lookup_code);
-    }
-
-    private  EditText getProductCountEditText() {
-        return (EditText) this.findViewById(R.id.edit_text_product_count);
     }
 
     public class RetrieveProductsTask extends AsyncTask<Void, Void, ApiResponse<List<Product>>> {
@@ -255,7 +239,7 @@ public  class ProductsListingActivity extends AppCompatActivity {
             this.loadingProductsAlert.dismiss();
 
             if (!apiResponse.isValidResponse()) {
-                new AlertDialog.Builder(ProductsListingActivity.this).
+                new AlertDialog.Builder(ProductsListingActivity.this,R.style.Theme_MaterialComponents_Dialog_Alert).
                         setMessage(R.string.alert_dialog_products_load_failure).
                         setPositiveButton(
                                 R.string.button_dismiss,
@@ -272,7 +256,7 @@ public  class ProductsListingActivity extends AppCompatActivity {
 
         private AlertDialog loadingProductsAlert;
         private RetrieveProductsTask() {
-            this.loadingProductsAlert = new AlertDialog.Builder(ProductsListingActivity.this).
+            this.loadingProductsAlert = new AlertDialog.Builder(ProductsListingActivity.this,R.style.Theme_MaterialComponents_Dialog_Alert).
                     setMessage(R.string.alert_dialog_products_loading).
                     create();
         }
@@ -288,5 +272,4 @@ public  class ProductsListingActivity extends AppCompatActivity {
     private ProductListAdapter productListAdapter;
     private ProductRecyclerViewAdapter productRecyclerViewAdapter;
     private EmployeeTransition employeeTransition;
-
 }

@@ -146,7 +146,7 @@ public class BestSellingProductActivity extends AppCompatActivity {
             this.loadingProductsAlert.dismiss();
 
             if (!apiResponse.isValidResponse()) {
-                new AlertDialog.Builder(edu.uark.uarkregisterapp.BestSellingProductActivity.this).
+                new AlertDialog.Builder(edu.uark.uarkregisterapp.BestSellingProductActivity.this,R.style.Theme_MaterialComponents_Dialog_Alert).
                         setMessage(R.string.alert_dialog_products_load_failure).
                         setPositiveButton(
                                 R.string.button_dismiss,
@@ -163,7 +163,7 @@ public class BestSellingProductActivity extends AppCompatActivity {
         private AlertDialog loadingProductsAlert;
 
         private RetrieveProductsTask() {
-            this.loadingProductsAlert = new AlertDialog.Builder(edu.uark.uarkregisterapp.BestSellingProductActivity.this).
+            this.loadingProductsAlert = new AlertDialog.Builder(edu.uark.uarkregisterapp.BestSellingProductActivity.this,R.style.Theme_MaterialComponents_Dialog_Alert).
                     setMessage(R.string.alert_dialog_products_loading).
                     create();
         }

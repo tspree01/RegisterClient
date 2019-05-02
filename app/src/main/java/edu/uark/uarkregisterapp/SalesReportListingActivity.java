@@ -103,7 +103,7 @@ public class SalesReportListingActivity extends AppCompatActivity{
                 this.loadingEmployeesAlert.dismiss();
 
                 if (!apiResponse.isValidResponse()) {
-                    new AlertDialog.Builder(edu.uark.uarkregisterapp.SalesReportListingActivity.this).
+                    new AlertDialog.Builder(edu.uark.uarkregisterapp.SalesReportListingActivity.this,R.style.Theme_MaterialComponents_Dialog_Alert).
                             setMessage(R.string.alert_dialog_employees_load_failure).
                             setPositiveButton(
                                     R.string.button_dismiss,
@@ -121,7 +121,7 @@ public class SalesReportListingActivity extends AppCompatActivity{
             private AlertDialog loadingEmployeesAlert;
 
             private RetrieveEmployeesTask() {
-                this.loadingEmployeesAlert = new AlertDialog.Builder(edu.uark.uarkregisterapp.SalesReportListingActivity.this).
+                this.loadingEmployeesAlert = new AlertDialog.Builder(edu.uark.uarkregisterapp.SalesReportListingActivity.this,R.style.Theme_MaterialComponents_Dialog_Alert).
                         setMessage(R.string.alert_dialog_employees_loading).
                         create();
             }

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -38,6 +39,8 @@ public class LandingActivity extends AppCompatActivity {
     private static final String TAG = LandingActivity.class.getSimpleName();
     private boolean createEmployeeClicked = false;
     private boolean logged_In = false;
+    private View landingView;
+    private AlertDialog loggingInAlert;
     private EmployeeTransition employeeTransition;
     private EmployeeTransition employeeLoginTokenClaims = new EmployeeTransition();
 
@@ -55,6 +58,7 @@ public class LandingActivity extends AppCompatActivity {
 
         if(!logged_In) {
             setContentView(R.layout.activity_main);
+            landingView = findViewById(R.id.CoordinatorLayout);
             //setContentView(R.layout.activity_landing);
         }else{
             if (employeeLoginTokenClaims.getRole().equals("Manager")) {
@@ -66,7 +70,6 @@ public class LandingActivity extends AppCompatActivity {
                 if (actionBar != null) {
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 }
-
                 ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do?", employeeLoginTokenClaims.getFirst_Name()));
             } else {
                 setContentView(R.layout.employee_landing);
@@ -93,6 +96,10 @@ public class LandingActivity extends AppCompatActivity {
 
     public void Login(View view) {
         sampleApp.acquireToken(getActivity(), SCOPES, getAuthInteractiveCallback());
+        loggingInAlert = new AlertDialog.Builder(LandingActivity.this, R.style.Theme_MaterialComponents_Dialog).
+                setMessage(R.string.alert_dialog_logging_employee_in).
+                create();
+        loggingInAlert.show();
     }
     //
     // Helper methods manage UI updates
@@ -148,7 +155,6 @@ public class LandingActivity extends AppCompatActivity {
 			if (apiResponse.isValidResponse()) {
 				//employeeLoginTokenClaims.setRecordID(apiResponse.getData().getRecordID());
 			}
-
             return apiResponse.isValidResponse();
         }
 
@@ -163,7 +169,7 @@ public class LandingActivity extends AppCompatActivity {
                 message = getString(R.string.alert_dialog_employee_save_failure);
             }
 
-            new AlertDialog.Builder(LandingActivity.this).
+            new AlertDialog.Builder(LandingActivity.this,R.style.Theme_MaterialComponents_Dialog_Alert).
                     setMessage(message).
                     setPositiveButton(
                             R.string.button_dismiss,
@@ -176,11 +182,9 @@ public class LandingActivity extends AppCompatActivity {
                     create().
                     show();
         }
-
         private AlertDialog savingEmployeeAlert;
-
         SaveEmployeeTask() {
-            this.savingEmployeeAlert = new AlertDialog.Builder(LandingActivity.this).
+            this.savingEmployeeAlert = new AlertDialog.Builder(LandingActivity.this,R.style.Theme_MaterialComponents_Dialog_Alert).
                     setMessage(R.string.alert_dialog_employee_save).
                     create();
         }
@@ -191,6 +195,7 @@ public class LandingActivity extends AppCompatActivity {
      */
     private AuthenticationCallback getAuthInteractiveCallback() {
         return new AuthenticationCallback() {
+
             @Override
             public void onSuccess(AuthenticationResult authenticationResult) {
                 //Successfully got a token, call graph now
@@ -213,6 +218,7 @@ public class LandingActivity extends AppCompatActivity {
                 if (logged_In) {
                     (new SaveEmployeeTask()).execute();
                 } else {
+                    loggingInAlert.dismiss();
                     updateSuccessLoginUI();
 				}
 			}
@@ -308,7 +314,7 @@ public class LandingActivity extends AppCompatActivity {
                 updateSignedOutUI();
             }
 
-            Toast.makeText(getBaseContext(), "Signed Out!", Toast.LENGTH_SHORT)
+            Snackbar.make(landingView, R.string.transaction_complete_message, Snackbar.LENGTH_SHORT)
                     .show();
 
         } catch (IndexOutOfBoundsException e) {

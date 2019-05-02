@@ -66,7 +66,6 @@ public class CartActivity extends AppCompatActivity {
 
         layoutBottomSheet = findViewById(R.id.bottom_sheet);
         bottomSheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
-
         this.products = new ArrayList<>();
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -81,7 +80,6 @@ public class CartActivity extends AppCompatActivity {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(Objects.requireNonNull(getDrawable(R.drawable.product_list_divider)));
         recyclerView.addItemDecoration(dividerItemDecoration);
-
         this.employeeTransition = this.getIntent().getParcelableExtra(this.getString(R.string.intent_extra_employee));
     }
 
@@ -89,20 +87,16 @@ public class CartActivity extends AppCompatActivity {
         if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
             ImageView nav_arrows = (ImageView) findViewById(R.id.nav_arrows);
             nav_arrows.setImageResource(R.drawable.animatied_nav_arrows);
-
             // Get the background, which has been compiled to an AnimationDrawable object.
             AnimationDrawable frameAnimation = (AnimationDrawable) nav_arrows.getDrawable();
-
             // Start the animation (looped playback by default).
             frameAnimation.start();
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         } else {
             ImageView nav_arrows = (ImageView) findViewById(R.id.nav_arrows);
             nav_arrows.setImageResource(R.drawable.animatied_nav_arrows);
-
             // Get the background, which has been compiled to an AnimationDrawable object.
             AnimationDrawable frameAnimation = (AnimationDrawable) nav_arrows.getDrawable();
-
             // Start the animation (looped playback by default).
             frameAnimation.setOneShot(false);
             frameAnimation.setOneShot(true);
@@ -112,7 +106,6 @@ public class CartActivity extends AppCompatActivity {
 
     public void shoppingCartFloatingActionOnClick(View view) {
         final View shoppingCartView = findViewById(R.id.shopping_cart_activity);
-
         startActivity(new Intent(getApplicationContext(), CartActivity.class),
                 ActivityOptions.makeClipRevealAnimation(shoppingCartView, shoppingCartView.getWidth(), shoppingCartView.getHeight(), 50, 50).toBundle());
     }
@@ -140,7 +133,6 @@ public class CartActivity extends AppCompatActivity {
         loggedInEmployee.setId(employeeTransition.getId());
         loggedInEmployee.setAmount_Of_Money_Made(total);
         (new TransactionTask(products,loggedInEmployee)).execute();
-
     }
 
     // create an action bar button
@@ -193,7 +185,6 @@ public class CartActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean successfulSave) {
             if (successfulSave) {
-
                 Snackbar.make(cartView, R.string.transaction_complete_message, Snackbar.LENGTH_SHORT)
                         .show();
                 (new DeleteProductsInCartTask()).execute();
@@ -254,9 +245,8 @@ public class CartActivity extends AppCompatActivity {
                 productCardAdapter.notifyDataSetChanged();
             }
             this.loadingProductsAlert.dismiss();
-
             if (!apiResponse.isValidResponse()) {
-                new AlertDialog.Builder(CartActivity.this).
+                new AlertDialog.Builder(CartActivity.this,R.style.Theme_MaterialComponents_Dialog_Alert).
                         setMessage(R.string.alert_dialog_products_load_failure).
                         setPositiveButton(
                                 R.string.button_dismiss,
@@ -275,9 +265,8 @@ public class CartActivity extends AppCompatActivity {
         }
 
         private AlertDialog loadingProductsAlert;
-
         private RetrieveProductsTask() {
-            this.loadingProductsAlert = new AlertDialog.Builder(CartActivity.this).
+            this.loadingProductsAlert = new AlertDialog.Builder(CartActivity.this,R.style.Theme_MaterialComponents_Dialog_Alert).
                     setMessage(R.string.alert_dialog_products_loading).
                     create();
         }
@@ -287,7 +276,6 @@ public class CartActivity extends AppCompatActivity {
     private Context context;
     View cartView;
     static float total = 0.0f;
-    //private CoordinatorLayout layoutBottomSheet;
     private ConstraintLayout layoutBottomSheet;
     private ProductTransition productTransition;
     private BottomSheetBehavior bottomSheetBehavior;

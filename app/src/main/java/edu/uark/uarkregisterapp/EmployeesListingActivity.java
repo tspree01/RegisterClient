@@ -88,7 +88,7 @@ public class EmployeesListingActivity extends AppCompatActivity {
 			this.loadingEmployeesAlert.dismiss();
 
 			if (!apiResponse.isValidResponse()) {
-				new AlertDialog.Builder(EmployeesListingActivity.this).
+				new AlertDialog.Builder(EmployeesListingActivity.this,R.style.Theme_MaterialComponents_Dialog_Alert).
 					setMessage(R.string.alert_dialog_employees_load_failure).
 					setPositiveButton(
 						R.string.button_dismiss,
@@ -106,7 +106,7 @@ public class EmployeesListingActivity extends AppCompatActivity {
 		private AlertDialog loadingEmployeesAlert;
 
 		private RetrieveEmployeesTask() {
-			this.loadingEmployeesAlert = new AlertDialog.Builder(EmployeesListingActivity.this).
+			this.loadingEmployeesAlert = new AlertDialog.Builder(EmployeesListingActivity.this,R.style.Theme_MaterialComponents_Dialog_Alert).
 				setMessage(R.string.alert_dialog_employees_loading).
 				create();
 		}

@@ -103,7 +103,7 @@ public class ProductSalesReportListingActivity extends AppCompatActivity {
             this.loadingProductsAlert.dismiss();
 
             if (!apiResponse.isValidResponse()) {
-                new AlertDialog.Builder(ProductSalesReportListingActivity.this).
+                new AlertDialog.Builder(ProductSalesReportListingActivity.this,R.style.Theme_MaterialComponents_Dialog_Alert).
                         setMessage(R.string.alert_dialog_products_load_failure).
                         setPositiveButton(
                                 R.string.button_dismiss,
@@ -121,7 +121,7 @@ public class ProductSalesReportListingActivity extends AppCompatActivity {
         private AlertDialog loadingProductsAlert;
 
         private RetrieveProductsTask() {
-            this.loadingProductsAlert = new AlertDialog.Builder(ProductSalesReportListingActivity.this).
+            this.loadingProductsAlert = new AlertDialog.Builder(ProductSalesReportListingActivity.this,R.style.Theme_MaterialComponents_Dialog_Alert).
                     setMessage(R.string.alert_dialog_products_loading).
                     create();
         }

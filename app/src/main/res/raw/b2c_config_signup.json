@@ -7,16 +7,6 @@
       "type": "B2C",
       "authority_url": "https://uarkregisterapp.b2clogin.com/tfp/uarkregisterapp.onmicrosoft.com/B2C_1_uarkregisterapp_signup",
       "default": true
-    },
-    {
-      "type": "B2C",
-      "authority_url": "https://uarkregisterapp.b2clogin.com/tfp/uarkregisterapp.onmicrosoft.com/B2C_1_uarkregisterapp_signup",
-      "default": false
-    },
-    {
-      "type": "B2C",
-      "authority_url": "https://login.microsoftonline.com/tfp/fabrikamb2c.onmicrosoft.com/B2C_1_edit_profile",
-      "default": false
     }
   ]
 }
