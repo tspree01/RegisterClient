@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,13 +8,13 @@
     android:fitsSystemWindows="true"
     tools:context="edu.uark.uarkregisterapp.ProductViewSearch">
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
         app:liftOnScroll="true">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -22,7 +22,7 @@
             android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light" />
 
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <include
         android:id="@+id/include"
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:visibility="gone" />
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/shopingCartFloatingActionButton"
         style="@style/Widget.Design.FloatingActionButton"
         android:layout_width="wrap_content"
@@ -44,7 +44,7 @@
         android:clickable="true"
         android:onClick="shoppingCartFloatingActionOnClick"
         android:tint="@color/material_white"
-        app:backgroundTint="@color/material_dark"
+        app:backgroundTint="@color/material_white"
         app:elevation="6dp"
         app:fabSize="auto"
         app:layout_anchor="@+id/include"
@@ -53,4 +53,4 @@
         app:srcCompat="@drawable/baseline_add_black_48"
         app:useCompatPadding="false" />
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

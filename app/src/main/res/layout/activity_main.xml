@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/CoordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/activity_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#FFFFFF"
         android:orientation="vertical"
-        tools:context="edu.uark.uarkregisterapp.LoginActivity">
+        tools:context="edu.uark.uarkregisterapp.LandingActivity">
 
         <TextView
             android:id="@+id/welcome"
@@ -31,7 +31,7 @@
             tools:layout_conversion_wrapHeight="236"
             tools:layout_conversion_wrapWidth="762" />
 
-        <android.support.design.button.MaterialButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/Login"
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="370dp"
@@ -54,7 +54,7 @@
             tools:layout_conversion_wrapHeight="168"
             tools:layout_conversion_wrapWidth="1334" />
 
-        <android.support.design.button.MaterialButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/clearCache"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -72,6 +72,6 @@
             tools:layout_conversion_wrapHeight="168"
             tools:layout_conversion_wrapWidth="1230" />
 
-    </android.support.constraint.ConstraintLayout>
-</android.support.design.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 

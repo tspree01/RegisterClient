@@ -1,11 +1,12 @@
 {
   "client_id" : "e2266648-f2aa-444a-9767-a0a40ae3105a",
   "authorization_user_agent" : "WEBVIEW",
-  "redirect_uri" : "msale2266648-f2aa-444a-9767-a0a40ae3105a://auth",
+  "redirect_uri" : "msauth://edu.uark.uarkregisterapp/1F1ywY%2B%2Fd10mNSBih0W%2ByoEOPGs%3D",
+  "account_mode" : "SINGLE",
   "authorities" : [
     {
       "type": "B2C",
-      "authority_url": "https://uarkregisterapp.b2clogin.com/tfp/uarkregisterapp.onmicrosoft.com/B2C_1_uarkregisterapp_SignIn",
+      "authority_url": "https://uarkregisterapp.b2clogin.com/tfp/uarkregisterapp.onmicrosoft.com/B2C_1_LogIn/",
       "default": true
     }
   ]

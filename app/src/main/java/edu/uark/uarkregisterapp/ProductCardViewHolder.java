@@ -1,11 +1,10 @@
 package edu.uark.uarkregisterapp;
 
-import android.support.annotation.NonNull;
-import android.support.design.button.MaterialButton;
-import android.support.design.widget.TextInputEditText;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import com.google.android.material.button.MaterialButton;
+
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 public class ProductCardViewHolder extends RecyclerView.ViewHolder {

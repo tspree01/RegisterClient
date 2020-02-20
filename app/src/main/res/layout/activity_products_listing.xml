@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/product_listing"
@@ -9,7 +9,7 @@
     android:fitsSystemWindows="true"
     tools:context="edu.uark.uarkregisterapp.ProductsListingActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
         android:visibility="visible"
         app:liftOnScroll="true">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -26,7 +26,7 @@
             android:visibility="visible"
             app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light" />
 
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <include
         android:id="@+id/include"
@@ -39,22 +39,22 @@
         android:layout_height="match_parent"
         android:visibility="gone" />
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/shopingCartFloatingActionButton"
-        style="@style/Widget.Design.FloatingActionButton"
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        app:backgroundTint="@color/material_dark"
         android:clickable="true"
         android:onClick="shoppingCartFloatingActionOnClick"
+        app:backgroundTint="@color/material_white"
         app:elevation="6dp"
-        app:fabSize="auto"
-        app:layout_anchor="@+id/include"
+        app:fabSize="normal"
+        app:layout_anchor="@id/include"
         app:layout_anchorGravity="end|bottom"
         app:pressedTranslationZ="16dp"
-        app:srcCompat="@drawable/baseline_add_shopping_cart_white_48"
+        app:srcCompat="@drawable/baseline_add_shopping_cart_white_18"
         app:useCompatPadding="false" />
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

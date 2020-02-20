@@ -1,15 +1,25 @@
 package edu.uark.uarkregisterapp;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.snackbar.Snackbar;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -20,11 +30,16 @@ import com.auth0.android.jwt.JWT;
 import com.microsoft.identity.client.AuthenticationCallback;
 import com.microsoft.identity.client.AuthenticationResult;
 import com.microsoft.identity.client.IAccount;
+import com.microsoft.identity.client.IAuthenticationResult;
+import com.microsoft.identity.client.IPublicClientApplication;
+import com.microsoft.identity.client.ISingleAccountPublicClientApplication;
 import com.microsoft.identity.client.PublicClientApplication;
 import com.microsoft.identity.client.exception.MsalClientException;
 import com.microsoft.identity.client.exception.MsalException;
 import com.microsoft.identity.client.exception.MsalServiceException;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,27 +51,46 @@ import edu.uark.uarkregisterapp.models.transition.ProductTransition;
 
 public class LandingActivity extends AppCompatActivity {
     final static String SCOPES[] = {"https://uarkregisterapp.onmicrosoft.com/api/read"};
+    final static String AUTHORITY = "https://login.microsoftonline.com/common";
     private static final String TAG = LandingActivity.class.getSimpleName();
     private boolean createEmployeeClicked = false;
     private boolean logged_In = false;
     private View landingView;
     private AlertDialog loggingInAlert;
+    private AlertDialog errorAlert;
     private EmployeeTransition employeeTransition;
     private EmployeeTransition employeeLoginTokenClaims = new EmployeeTransition();
 
     /* Azure AD Variables */
-    private PublicClientApplication sampleApp;
-    private AuthenticationResult authResult;
+    private ISingleAccountPublicClientApplication mSingleAccountApp;
+    private IAuthenticationResult authResult;
     private StringBuilder mLogs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /* Configure your sample app and save state for this activity */
-        sampleApp = new PublicClientApplication(
-                this.getApplicationContext(), R.raw.b2c_config_login);
+        // Creates a PublicClientApplication object with res/raw/auth_config_single_account.json
+        PublicClientApplication.createSingleAccountPublicClientApplication(getApplicationContext(),
+                R.raw.b2c_config_login,
+                new IPublicClientApplication.ISingleAccountApplicationCreatedListener() {
+                    @Override
+                    public void onCreated(ISingleAccountPublicClientApplication application) {
+                        /**
+                         * This test app assumes that the app is only going to support one account.
+                         * This requires "account_mode" : "SINGLE" in the config json file.
+                         **/
+                        mSingleAccountApp = application;
+                        loadAccount();
 
-        if(!logged_In) {
+                    }
+
+                    @Override
+                    public void onError(MsalException exception) {
+                        displayError(exception);
+                    }
+                });
+
+/*        if(!logged_In) {
             setContentView(R.layout.activity_main);
             landingView = findViewById(R.id.CoordinatorLayout);
             //setContentView(R.layout.activity_landing);
@@ -75,7 +109,7 @@ public class LandingActivity extends AppCompatActivity {
                 setContentView(R.layout.employee_landing);
                 ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do?", employeeLoginTokenClaims.getFirst_Name()));
             }
-        }
+        }*/
 //        //* Enable logging *//*
 //       mLogs = new StringBuilder();
 //        Logger.getInstance().setLogLevel(Logger.LogLevel.VERBOSE);
@@ -88,14 +122,86 @@ public class LandingActivity extends AppCompatActivity {
 //            }
 //        });
     }
-    /* Handles the redirect from the System Browser */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        sampleApp.handleInteractiveRequestRedirect(requestCode, resultCode, data);
+
+
+    /**
+     * Load the currently signed-in account, if there's any.
+     */
+    private void loadAccount() {
+        if (mSingleAccountApp == null) {
+            return;
+        }
+
+        mSingleAccountApp.getCurrentAccountAsync(new ISingleAccountPublicClientApplication.CurrentAccountCallback() {
+            @Override
+            public void onAccountLoaded(@Nullable IAccount activeAccount) {
+                if(activeAccount == null){
+                    mSingleAccountApp.signIn(getActivity(), null,SCOPES, getAuthInteractiveCallback());
+                }
+                else {
+                    // You can use the account data to update your UI or your app database.
+                    if (activeAccount.getClaims().get("jobTitle").equals("Manager")) {
+                        setContentView(R.layout.activity_landing);
+                        landingView = findViewById(R.id.CoordinatorLayout);
+                        ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do?", activeAccount.getClaims().get("given_name")));
+                    } else {
+                        setContentView(R.layout.employee_landing);
+                        ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do?", activeAccount.getClaims().get("given_name")));
+                    }
+                }
+            }
+
+            @Override
+            public void onAccountChanged(@Nullable IAccount priorAccount, @Nullable IAccount currentAccount) {
+                if (currentAccount == null) {
+                    // Perform a cleanup task as the signed-in account changed.
+                   // performOperationOnSignOut();
+                }
+            }
+
+            @Override
+            public void onError(@NonNull MsalException exception) {
+                displayError(exception);
+            }
+        });
     }
 
+    /**
+     * Display the error message
+     */
+    private void displayError(@NonNull final Exception exception) {
+        errorAlert = new AlertDialog.Builder(LandingActivity.this, R.style.Theme_MaterialComponents_Dialog).
+                setMessage(exception.toString()).
+                create();
+        errorAlert.show();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        /**
+         * The account may have been removed from the device (if broker is in use).
+         *
+         * In shared device mode, the account might be signed in/out by other apps while this app is not in focus.
+         * Therefore, we want to update the account state by invoking loadAccount() here.
+         */
+        //loadAccount();
+    }
+
+    /* Handles the redirect from the System Browser */
+/*    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mSingleAccountApp.handleInteractiveRequestRedirect(requestCode, resultCode, data);
+    }*/
+
     public void Login(View view) {
-        sampleApp.acquireToken(getActivity(), SCOPES, getAuthInteractiveCallback());
+        if (mSingleAccountApp == null) {
+            return;
+        }
+
+        mSingleAccountApp.signIn(getActivity(), null,SCOPES, getAuthInteractiveCallback());
         loggingInAlert = new AlertDialog.Builder(LandingActivity.this, R.style.Theme_MaterialComponents_Dialog).
                 setMessage(R.string.alert_dialog_logging_employee_in).
                 create();
@@ -113,6 +219,8 @@ public class LandingActivity extends AppCompatActivity {
         logged_In = true;
         if (employeeLoginTokenClaims.getRole().equals("Manager")) {
             setContentView(R.layout.activity_landing);
+            landingView = findViewById(R.id.CoordinatorLayout);
+
             ((TextView) findViewById(R.id.text_view_welcome)).setText(String.format("Welcome %s! What would you like to do?", employeeLoginTokenClaims.getFirst_Name()));
             employeeLoginTokenClaims.setEmployeeLoggedIn(logged_In);
         } else {
@@ -193,7 +301,7 @@ public class LandingActivity extends AppCompatActivity {
     /* Callback used for interactive request.  If succeeds we use the access
      * token to call the Microsoft Graph. Does not check cache
      */
-    private AuthenticationCallback getAuthInteractiveCallback() {
+/*    private AuthenticationCallback getAuthInteractiveCallback() {
         return new AuthenticationCallback() {
 
             @Override
@@ -242,7 +350,68 @@ public class LandingActivity extends AppCompatActivity {
 
             }
         };
+    }*/
+    /**
+     * Callback used for interactive request.
+     * If succeeds we use the access token to call the Microsoft Graph.
+     * Does not check cache.
+     */
+    private AuthenticationCallback getAuthInteractiveCallback() {
+        return new AuthenticationCallback() {
+
+            @Override
+            public void onSuccess(IAuthenticationResult authenticationResult) {
+                /* Successfully got a token, use it to call a protected resource - MSGraph */
+                Log.d(TAG, "Successfully authenticated");
+                Log.d(TAG, "ID Token: " + authenticationResult.getAccount().getClaims().get("id_token"));
+
+                authResult = authenticationResult;
+                JWT access_Token = new JWT(authResult.getAccessToken());
+                Claim first_Name_Claim = access_Token.getClaim("given_name");
+                Claim last_Name_Claim = access_Token.getClaim("family_name");
+                Claim job_Title_Claim = access_Token.getClaim("jobTitle");
+                Claim new_User_Claim = access_Token.getClaim("newUser");
+                Claim object_ID_Claim = access_Token.getClaim("oid");
+                //UUID object_ID = UUID.fromString(object_ID_Claim.asString());
+                //employeeLoginTokenClaims.setId(object_ID);
+                employeeLoginTokenClaims.setFirst_Name(first_Name_Claim.asString());
+                employeeLoginTokenClaims.setLast_Name(last_Name_Claim.asString());
+                employeeLoginTokenClaims.setRole(job_Title_Claim.asString());
+                if (logged_In) {
+                    (new SaveEmployeeTask()).execute();
+                } else {
+                    if(loggingInAlert == null){
+                        updateSuccessLoginUI();
+                    }
+                    else{
+                        loggingInAlert.dismiss();
+                        updateSuccessLoginUI();
+                    }
+
+                }
+            }
+
+            @Override
+            public void onError(MsalException exception) {
+                /* Failed to acquireToken */
+                Log.d(TAG, "Authentication failed: " + exception.toString());
+                displayError(exception);
+
+                if (exception instanceof MsalClientException) {
+                    /* Exception inside MSAL, more info inside MsalError.java */
+                } else if (exception instanceof MsalServiceException) {
+                    /* Exception when communicating with the STS, likely config issue */
+                }
+            }
+
+            @Override
+            public void onCancel() {
+                /* User canceled the authentication */
+                Log.d(TAG, "User cancelled login.");
+            }
+        };
     }
+
 
     public void startTransactionButtonOnClick(View view) {
         Intent intent = new Intent(getApplicationContext(), ProductsListingActivity.class);
@@ -256,9 +425,9 @@ public class LandingActivity extends AppCompatActivity {
     public void displayCreateEmployeeButtonOnClick(View view) {
         /* Configure your sample app and save state for this activity */
 
-        sampleApp = new PublicClientApplication(
+/*        sampleApp = new PublicClientApplication(
                 this.getApplicationContext(), R.raw.b2c_config_signup);
-        sampleApp.acquireToken(getActivity(), SCOPES, getAuthInteractiveCallback());
+        sampleApp.acquireToken(getActivity(), SCOPES, getAuthInteractiveCallback());*/
     }
 	public void displaySalesReportButtonOnClick(View view){
         this.startActivity(new Intent(getApplicationContext(), SalesReportActivity.class));
@@ -291,34 +460,35 @@ public class LandingActivity extends AppCompatActivity {
     }
 
     public void SignOut(View view) {
-        //* Attempt to get a account and remove their cookies from cache *//*
-        List<IAccount> accounts = null;
+        if (mSingleAccountApp == null) {
+            return;
+        }
 
-        try {
-            accounts = sampleApp.getAccounts();
-
-            if (accounts == null) {
-                //* We have no accounts *//*
-
-            } else if (accounts.size() == 1) {
-                //* We have 1 account *//*
-                //* Remove from token cache *//*
-                sampleApp.removeAccount(accounts.get(0));
+        /**
+         * Removes the signed-in account and cached tokens from this app (or device, if the device is in shared mode).
+         */
+        mSingleAccountApp.signOut(new ISingleAccountPublicClientApplication.SignOutCallback() {
+            @Override
+            public void onSignOut() {
                 updateSignedOutUI();
-
-            } else {
-                //* We have multiple accounts *//*
-                for (int i = 0; i < accounts.size(); i++) {
-                    sampleApp.removeAccount(accounts.get(i));
-                }
-                updateSignedOutUI();
+                //performOperationOnSignOut();
             }
 
-            Snackbar.make(landingView, R.string.transaction_complete_message, Snackbar.LENGTH_SHORT)
-                    .show();
-
-        } catch (IndexOutOfBoundsException e) {
-            Log.d(TAG, "User at this position does not exist: " + e.toString());
-        }
+            @Override
+            public void onError(@NonNull MsalException exception) {
+                displayError(exception);
+            }
+        });
     }
+
+    /**
+     * Updates UI when app sign out succeeds
+     */
+/*    private void performOperationOnSignOut() {
+        final String signOutText = "Signed Out.";
+        Snackbar.make(landingView, signOutText, Snackbar.LENGTH_SHORT)
+                .show();
+    }*/
+
+
 }
